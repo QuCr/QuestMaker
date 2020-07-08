@@ -23,42 +23,14 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.toolStripProject = new System.Windows.Forms.ToolStripLabel();
-			this.toolStripDebug = new System.Windows.Forms.ToolStripLabel();
 			this.viewControl1 = new QuestmakerUI.ViewControl();
 			this.treeControl1 = new QuestmakerUI.TreeControl();
 			this.editControl1 = new QuestmakerUI.EditControl();
-			this.toolStrip1.SuspendLayout();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// toolStrip1
-			// 
-			this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProject,
-            this.toolStripDebug});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(800, 25);
-			this.toolStrip1.TabIndex = 3;
-			this.toolStrip1.Text = "toolStrip1";
-			// 
-			// toolStripProject
-			// 
-			this.toolStripProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripProject.Image = ((System.Drawing.Image)(resources.GetObject("toolStripProject.Image")));
-			this.toolStripProject.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripProject.Name = "toolStripProject";
-			this.toolStripProject.Size = new System.Drawing.Size(55, 22);
-			this.toolStripProject.Text = "Project";
-			// 
-			// toolStripDebug
-			// 
-			this.toolStripDebug.Name = "toolStripDebug";
-			this.toolStripDebug.Size = new System.Drawing.Size(54, 22);
-			this.toolStripDebug.Text = "Debug";
 			// 
 			// viewControl1
 			// 
@@ -90,19 +62,47 @@
 			this.editControl1.Size = new System.Drawing.Size(293, 410);
 			this.editControl1.TabIndex = 0;
 			// 
+			// menuStrip1
+			// 
+			this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.projectToolStripMenuItem});
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(800, 28);
+			this.menuStrip1.TabIndex = 3;
+			this.menuStrip1.Text = "menuStrip1";
+			// 
+			// projectToolStripMenuItem
+			// 
+			this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateToolStripMenuItem});
+			this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
+			this.projectToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
+			this.projectToolStripMenuItem.Text = "Project";
+			// 
+			// updateToolStripMenuItem
+			// 
+			this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+			this.updateToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+			this.updateToolStripMenuItem.Text = "Update";
+			this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Controls.Add(this.toolStrip1);
 			this.Controls.Add(this.viewControl1);
 			this.Controls.Add(this.treeControl1);
 			this.Controls.Add(this.editControl1);
+			this.Controls.Add(this.menuStrip1);
+			this.MainMenuStrip = this.menuStrip1;
 			this.Name = "MainForm";
 			this.Text = "Form1";
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -113,9 +113,9 @@
 		private EditControl editControl1;
 		private TreeControl treeControl1;
 		private ViewControl viewControl1;
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripLabel toolStripProject;
-		private System.Windows.Forms.ToolStripLabel toolStripDebug;
+		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
 	}
 }
 

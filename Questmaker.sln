@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.1169
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestmakerUI", "QuestmakerUI\QuestmakerUI.csproj", "{392B3583-3444-4676-A91C-1075BBA9B10F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestMakerConsole", "QuestMakerConsole\QuestMakerConsole.csproj", "{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Qutilities", "Qutilities\Qutilities.csproj", "{89AAB018-C678-4A9B-A538-D926B7BE2EB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{392B3583-3444-4676-A91C-1075BBA9B10F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{392B3583-3444-4676-A91C-1075BBA9B10F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{392B3583-3444-4676-A91C-1075BBA9B10F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89AAB018-C678-4A9B-A538-D926B7BE2EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89AAB018-C678-4A9B-A538-D926B7BE2EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89AAB018-C678-4A9B-A538-D926B7BE2EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89AAB018-C678-4A9B-A538-D926B7BE2EB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
