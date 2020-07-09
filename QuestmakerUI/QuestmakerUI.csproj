@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -105,6 +108,7 @@
     <EmbeddedResource Include="Forms\Controls\ViewerControl.resx">
       <DependentUpon>ViewerControl.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -122,6 +126,10 @@
     <ProjectReference Include="..\QuestMakerConsole\QuestMakerConsole.csproj">
       <Project>{bb4e0d60-65af-46c8-8861-acc76bd6ef95}</Project>
       <Name>QuestMakerConsole</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Qutilities\Qutilities.csproj">
+      <Project>{89aab018-c678-4a9b-a538-d926b7be2eb0}</Project>
+      <Name>Qutilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -37,6 +37,7 @@
 			this.tree.Name = "tree";
 			this.tree.Size = new System.Drawing.Size(350, 279);
 			this.tree.TabIndex = 0;
+			this.tree.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tree_Click);
 			// 
 			// groupBox1
 			// 

@@ -16,6 +16,8 @@ namespace QuestMakerConsole {
 				case "json":
 					dataAccess = new JsonDataAccess();		//import & export
 					break;
+
+				case "default":
 				default:
 					dataAccess = new DefaultDataAccess();	//import
 					break;

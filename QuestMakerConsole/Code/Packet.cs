@@ -8,14 +8,16 @@ namespace QuestMaker.Code {
 	public enum HandlerEnum {
 		flagList = 1,
 		flagDataObject = 2,
-		flagViewer = 4,
+		flagType = 4,
 		flagEditor = 8,
-		flagTree = 16,
-		
+		flagViewer = 16,
+		flagTree = 32,
+
 		Null = 0
 		, Single =			flagViewer |								flagDataObject
 		, DummyArray =		flagViewer |					flagList
 		, Array =			flagViewer |					flagList |	flagDataObject
+		, Type =			flagViewer |					flagList |	flagDataObject | flagType
 		, Update =							flagEditor |				flagDataObject
 		, SingleEditor =					flagEditor |				flagDataObject
 		, EditUpdate =		flagViewer |	flagEditor
@@ -34,6 +36,9 @@ namespace QuestMaker.Code {
 		public List<Entity> entities = new List<Entity>();
 		public HandlerEnum handlerEnum = HandlerEnum.Null;
 
+		public bool hasDataObjects => hasFlag(HandlerEnum.flagDataObject);
+		public bool isList => hasFlag(HandlerEnum.flagList);
+
 		protected Packet() { }
 
 		public bool hasFlag(HandlerEnum flag) {
@@ -42,7 +47,7 @@ namespace QuestMaker.Code {
 
 		public override string ToString() {
 			try {
-				if (handlerEnum == HandlerEnum.Array)
+				if (handlerEnum.HasFlag(HandlerEnum.Array))
 					return $"{this.handlerEnum}<{type.Name}>[{entities.Count}]";
 				else
 					return $"{this.handlerEnum}<{type?.Name}>({entities?.FirstOrDefault().id})";
@@ -61,7 +66,7 @@ namespace QuestMaker.Code {
 		/// <summary>
 		/// Returns DataObject(s) with corresponding IDs
 		/// </summary>
-		public static Packet createPacketByID(Type type, bool isArray, params string[] ids) {
+		public static Packet byString(Type type, bool isArray, params string[] ids) {
 			if (!isArray && ids.Count() != 1) {
 				throw new Exception("The packet hasn't exactly 1 dataObject, so the packet type must be that of an array");
 			}
@@ -89,7 +94,7 @@ namespace QuestMaker.Code {
 		/// <summary>
 		/// Creates a packet to use for later
 		/// </summary>
-		public static Packet getPacketWithDataObject(Type type, bool isArray, params Entity[] dataObjects) {
+		public static Packet byEntity(Type type, bool isArray, params Entity[] dataObjects) {
 			if (!isArray && dataObjects.Count() != 1)
 				throw new Exception("The packet hasn't exactly 1 dataObject, so the packet type must be that of an array");
 			if (dataObjects == null)
@@ -98,6 +103,7 @@ namespace QuestMaker.Code {
 				return new PacketArray(type, dataObjects.ToList());
 			return new PacketSingle(dataObjects[0]);
 		}
+
 	}
 
 	/// <summary>
@@ -148,7 +154,7 @@ namespace QuestMaker.Code {
 	public sealed class PacketType : Packet {
 		/// <param name="type">Packeted type of the DataObjects</param>
 		public PacketType(Type type) {
-			this.handlerEnum = HandlerEnum.Array;
+			this.handlerEnum = HandlerEnum.Type;
 			this.type = type;
 			this.entities = EntityCollection.getTypeArray(type); ;
 		}

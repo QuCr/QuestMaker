@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
+using QuestMaker.Code;
 using QuestMakerConsole;
 
 namespace QuestmakerUI {
-	static class UserInterface {
+	public static class UserInterface {
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		static void Main() {
-			Program.Main("default");
+			Program.Main("json");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
