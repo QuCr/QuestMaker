@@ -44,5 +44,11 @@
     <Compile Include="Qutilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\QuestMakerConsole\QuestMakerConsole.csproj">
+      <Project>{bb4e0d60-65af-46c8-8861-acc76bd6ef95}</Project>
+      <Name>QuestMakerConsole</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

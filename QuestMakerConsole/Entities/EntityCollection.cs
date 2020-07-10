@@ -13,48 +13,16 @@ namespace QuestMaker.Data {
 	/// Each dictionairy for the types contains the instances of that type.
 	/// </summary>
 	public class EntityCollection : Dictionary<string, Dictionary<string, Entity>> {
-		public static EntityCollection collection = new EntityCollection();
+		public static EntityCollection entityCollection = new EntityCollection();
 		public static List<Type> types {
 			get => getEntityTypes();
 		}
-
-		//Settings used for im- and exporting the data
-		public const Formatting formatting = Formatting.Indented;
-		public const PreserveReferencesHandling preserveReferencesHandling = PreserveReferencesHandling.Objects;
-		public const TypeNameHandling typeNameHandling = TypeNameHandling.All;
-
 		public EntityCollection() {
 			foreach (Type type in types) {
 				Add(type.Name, new Dictionary<string, Entity>());
 			}
 		}
 
-		/// <summary>
-		/// Reads the file's content and adds the deserialized Entitys to the collection 
-		/// </summary>
-		public static bool import(string json) {
-			EntityCollection e = JsonConvert.DeserializeObject<EntityCollection>(json, new JsonSerializerSettings {
-				PreserveReferencesHandling = preserveReferencesHandling,
-				TypeNameHandling = TypeNameHandling.All
-			});
-
-			if (e != null)
-				collection = e;
-			return e != null;
-		}
-
-		/// <summary>
-		/// Serializes all Entitys in the collection and returns the data in JSON format. 
-		/// </summary>
-		/// <returns>All Entitys in JSON</returns>
-		public static string export() {
-			return JsonConvert.SerializeObject(collection, formatting, new JsonSerializerSettings {
-				PreserveReferencesHandling = preserveReferencesHandling,
-				TypeNameHandling = typeNameHandling
-			});
-		}
-
-		/// <summary>
 		/// Gets all Entitys of type T that have the given IDs
 		/// </summary>
 		/// <remark>
@@ -75,11 +43,34 @@ namespace QuestMaker.Data {
 			return null; //returns null because it's not a Entity, which is what was asked.
 		}
 
+		/// <summary> Searches an entity by its ID. </summary>
+		public static Entity byID(Type type, string ID) {
+			Dictionary<string, Entity> types = entityCollection[type.Name];
+			for (int j = 0;j < types.Count;j++) {
+				KeyValuePair<string, Entity> entity = types.ElementAt(j);
+				if (entity.Key == ID)
+					return entity.Value;
+			}
+			return null;
+		}
+
+		/// <summary> Searches entities by their ID. </summary>
+		public static List<Entity> byIDs(Type type, params string[] ids) {
+			List<Entity> entities = new List<Entity>();
+
+			foreach (string id in ids) {
+				Entity entity = byID(type, id);
+				entities.Add(entity);
+			}
+
+			return entities;
+		}
+
 		/// <summary>
 		/// Gets a single Entity
 		/// </summary>
 		public static Entity getSingle(Type type, string id) {
-			return (from item in collection[type.Name] where id == item.Key select item.Value).FirstOrDefault();
+			return (from item in entityCollection[type.Name] where id == item.Key select item.Value).FirstOrDefault();
 		}
 
 		/// <summary>
@@ -87,7 +78,7 @@ namespace QuestMaker.Data {
 		/// </summary>
 		public static List<Entity> getArray(Type type, params string[] ids) {
 			List<Entity> entities = new List<Entity>();
-			var s = collection[type.Name];
+			var s = entityCollection[type.Name];
 			entities.AddRange(from item in s where ids.Contains(item.Key) select item.Value);
 			return entities;
 		}
@@ -97,7 +88,7 @@ namespace QuestMaker.Data {
 		/// </summary>
 		public static List<Entity> getTypeArray(Type type) {
 			List<Entity> entities = new List<Entity>();
-			entities.AddRange(from item in collection[type.Name] select item.Value);
+			entities.AddRange(from item in entityCollection[type.Name] select item.Value);
 			return entities;
 		}
 

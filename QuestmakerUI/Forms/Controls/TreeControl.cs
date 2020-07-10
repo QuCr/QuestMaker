@@ -25,9 +25,9 @@ namespace QuestmakerUI {
 					TreeNode node = tree.Nodes.Add(type.Name);
 					node.Tag = new PacketType(type);
 
-					foreach (KeyValuePair<string, Entity> pair in EntityCollection.collection[type.Name]) {
+					foreach (KeyValuePair<string, Entity> pair in EntityCollection.entityCollection[type.Name]) {
 						node.Nodes.Add(new TreeNode(pair.Value.ToMasterString()) {
-							Tag = Packet.byString(type, false, pair.Key)
+							Tag = Packet.byEntity(pair.Value)
 						});
 					}
 				}

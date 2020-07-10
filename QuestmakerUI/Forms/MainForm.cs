@@ -19,9 +19,9 @@ namespace QuestmakerUI {
 		}
 
 		private void Tree_sent(object sender, Packet packet) {
-			if (packet.hasFlag(HandlerEnum.flagTree))	tree.handle(packet);
-			if (packet.hasFlag(HandlerEnum.flagViewer))	viewer.handle(packet);
-			if (packet.hasFlag(HandlerEnum.flagEditor))	editor.handle(packet);
+			if (packet.handlerEnum.HasFlag(HandlerEnum.flagTree))	tree.handle(packet);
+			if (packet.handlerEnum.HasFlag(HandlerEnum.flagViewer))	viewer.handle(packet);
+			if (packet.handlerEnum.HasFlag(HandlerEnum.flagEditor))	editor.handle(packet);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e) {

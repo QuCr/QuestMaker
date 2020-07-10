@@ -40,6 +40,7 @@
 			this.view.TabIndex = 1;
 			this.view.UseCompatibleStateImageBehavior = false;
 			this.view.View = System.Windows.Forms.View.Details;
+			this.view.MouseDown += new System.Windows.Forms.MouseEventHandler(this.view_Click);
 			// 
 			// groupbox
 			// 

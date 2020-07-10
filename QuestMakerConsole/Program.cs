@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using QuestMaker.Code;
 using QuestMaker.Data;
 using QuestMakerConsole.Code.DataAccess;
@@ -9,7 +10,7 @@ namespace QuestMakerConsole {
 
 		public static void Main(params string[] args) {
 			Console.WriteLine("*********************************************");
-			Console.WriteLine("*           QuestMaker - v0.0.0.5           *");
+			Console.WriteLine("||          QuestMaker - v0.0.0.5          ||");
 			Console.WriteLine("*********************************************\n");
 
 			switch (args[0]) {
@@ -19,19 +20,19 @@ namespace QuestMakerConsole {
 
 				case "default":
 				default:
-					dataAccess = new DefaultDataAccess();	//import
+					dataAccess = new DefaultDataAccess();	//import & export
 					break;
 			}
 
 			if (dataAccess.isImportable()) 
 				dataAccess.import();
 
-			Console.WriteLine(dataAccess.GetType().Name);
+			
 		}
 
 		public static void export() {
 			if (dataAccess.isExportable())
-				dataAccess.export(EntityCollection.collection);
+				dataAccess.export(EntityCollection.entityCollection);
 		}
 	}
 }

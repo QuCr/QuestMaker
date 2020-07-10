@@ -31,7 +31,7 @@ namespace QuestMakerConsole.Code.DataAccess {
 				TypeNameHandling = TypeNameHandling.All
 			});
 
-			EntityCollection.collection = collection;
+			EntityCollection.entityCollection = collection;
 		}
 
 		public void export(EntityCollection collection) {

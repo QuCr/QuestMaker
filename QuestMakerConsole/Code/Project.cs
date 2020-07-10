@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using QuestMaker.Code.Attributes;
 using QuestMaker.Data;
+using QuestMakerConsole;
 
 namespace QuestMaker.Code {
 
@@ -59,11 +60,6 @@ namespace QuestMaker.Code {
 		[File("pack", "mcmeta")]
 		public static string pack() {
 			return "{\n\t\"pack\": {\n\t\t\"pack_format\":4,\n\t\t\"description\":\"Datapack for " + Name + "\"\n\t}\n}";
-		}
-
-		[File("questmaker", "json")]
-		public static string questmaker() {
-			return EntityCollection.export();
 		}
 
 		[File("data/questmaker/functions/load", "mcfunction")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using QuestMaker.Data;
 
-namespace QuestMaker.Code { 
+namespace QuestMaker.Code {
 	[Flags]
 	public enum HandlerEnum {
 		flagList = 1,
@@ -14,13 +14,14 @@ namespace QuestMaker.Code {
 		flagTree = 32,
 
 		Null = 0
-		, Single =			flagViewer |								flagDataObject
-		, DummyArray =		flagViewer |					flagList
-		, Array =			flagViewer |					flagList |	flagDataObject
-		, Type =			flagViewer |					flagList |	flagDataObject | flagType
-		, Update =							flagEditor |				flagDataObject
-		, SingleEditor =					flagEditor |				flagDataObject
-		, EditUpdate =		flagViewer |	flagEditor
+		, Single = flagViewer | flagDataObject
+		, DummyArray = flagViewer | flagList
+		, Array = flagViewer | flagList | flagDataObject
+		, Type = flagViewer | flagList | flagType | flagDataObject
+		, Update = flagEditor | flagDataObject
+		, Edit = flagViewer
+		, EditUpdate = flagViewer | flagEditor | flagTree
+		, SingleEditor = flagEditor | flagDataObject
 	}
 
 	/// <summary>
@@ -30,80 +31,60 @@ namespace QuestMaker.Code {
 	/// All these different cases must be handled differently by the UI.
 	/// </summary>
 	public abstract class Packet {
-		public static Packet previousPacket = null;
-
 		public Type type;
 		public List<Entity> entities = new List<Entity>();
 		public HandlerEnum handlerEnum = HandlerEnum.Null;
 
-		public bool hasDataObjects => hasFlag(HandlerEnum.flagDataObject);
-		public bool isList => hasFlag(HandlerEnum.flagList);
+		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagDataObject); </summary>
+		public bool hasDataObjects => handlerEnum.HasFlag(HandlerEnum.flagDataObject);
+		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagList); </summary>
+		public bool isList => handlerEnum.HasFlag(HandlerEnum.flagList);
 
 		protected Packet() { }
 
-		public bool hasFlag(HandlerEnum flag) {
-			return handlerEnum.HasFlag(flag);
-		}
+		public override string ToString() => throw new NotImplementedException();
 
-		public override string ToString() {
-			try {
-				if (handlerEnum.HasFlag(HandlerEnum.Array))
-					return $"{this.handlerEnum}<{type.Name}>[{entities.Count}]";
-				else
-					return $"{this.handlerEnum}<{type?.Name}>({entities?.FirstOrDefault().id})";
-			} catch (Exception) {
-				if (this is PacketEditUpdate) {
-					PacketEditUpdate REU = this as PacketEditUpdate;
-					PacketEdit RE = (this as PacketEditUpdate).packetEdit as PacketEdit;
-
-					return $"{this.handlerEnum}<{REU.type.Name}>({RE.entities.First().id})<{RE.type.Name}>[{REU.value.id}] {(REU.isSelected ? "+" : "-")}";
-				}
-
-				return "error";
-			}
-		}
-
-		/// <summary>
-		/// Returns DataObject(s) with corresponding IDs
-		/// </summary>
-		public static Packet byString(Type type, bool isArray, params string[] ids) {
-			if (!isArray && ids.Count() != 1) {
-				throw new Exception("The packet hasn't exactly 1 dataObject, so the packet type must be that of an array");
-			}
-
+		/// <summary> Creates a packet (Single, Type or DummyArray) for the given values. </summary>
+		public static Packet byString(Type type, params string[] values) {
 			if (typeof(Entity).IsAssignableFrom(type)) {
-				List<Entity> dataObjects = new List<Entity>();
-				for (int i = 0;i < ids.Length;i++) {
-					dataObjects.Add(EntityCollection.getSingle(type, ids[i]));
-				}
-				if (dataObjects.FirstOrDefault() != null)
-					if (isArray)
-						return new PacketArray(type, dataObjects);
-					else
-						return new PacketSingle(dataObjects[0]);
-				if (ids == null)
-					return new PacketType(type);
+				List<Entity> entities = EntityCollection.byIDs(type, values);
+
+				if (entities.FirstOrDefault() != null)
+					return new PacketSingle(entities[0]);
+				if (values == null)
+					return new PacketType(entities[0].GetType());
 			}
-			if (isArray)
-				return new PacketDummyArray(type, ids);
-
-			throw new Exception("DEBUG, zet hier een vinkje als deze ooit optreed"); //-> 
-																					 //return new PacketDummySingle( type, ids[0] ); //TODO: kijken of deze gebruikt wordt
+			return new PacketDummyArray(values[0].GetType(), values);                                                          //return new PacketDummySingle( type, ids[0] ); //TODO: kijken of deze gebruikt wordt
 		}
 
-		/// <summary>
-		/// Creates a packet to use for later
-		/// </summary>
-		public static Packet byEntity(Type type, bool isArray, params Entity[] dataObjects) {
-			if (!isArray && dataObjects.Count() != 1)
-				throw new Exception("The packet hasn't exactly 1 dataObject, so the packet type must be that of an array");
-			if (dataObjects == null)
-				return new PacketType(type);
-			if (isArray)
-				return new PacketArray(type, dataObjects.ToList());
-			return new PacketSingle(dataObjects[0]);
+		/// <summary> Creates packet (Single) for the given ID. </summary>
+		public static PacketSingle byString(Type type, string value) {
+			Entity entity = EntityCollection.byID(type, value);
+
+			if (entity != null)
+				return new PacketSingle(
+					EntityCollection.getSingle(entity.GetType(), value)
+				);
+			throw new Exception("You gave a single string and the type is not an DataObject! " +
+				"This means you want to make an entity for a single string, int, etc." +
+				"Best practices are to not use an entity or packets, and to directly use the string." +
+				"	If this is entirely not possible, go ahead!");
 		}
 
+		/// <summary> Creates a packet (Array) for the given entities </summary>
+		public static PacketArray byEntity(params Entity[] dataObjects) {
+			return new PacketArray(dataObjects);
+		}
+
+		/// <summary> Creates a packet (Single) for the given entity </summary>
+		public static PacketSingle byEntity(Entity dataObject) {
+			return new PacketSingle(dataObject);
+		}
+
+		/// <summary> Creates a packet (Type) for the given type </summary>
+		public static PacketType byType(Type type) {
+			return new PacketType(type);
+		}
 	}
 
 	/// <summary>
@@ -115,37 +96,37 @@ namespace QuestMaker.Code {
 			this.type = dataObject.GetType();
 			this.entities.Add(dataObject);
 		}
+
+		public override string ToString() => $"Single<{type.Name}>({entities[0].id})";
 	}
 
 	/// <summary>
 	/// Packet for an 0, 1 or many Dummy DataObjects. Each dummy has one value.
 	/// </summary>
 	public sealed class PacketDummyArray : Packet {
-		public PacketDummyArray(Type type, string[] data) {
+		public PacketDummyArray(Type type, params string[] data) {
 			this.handlerEnum = HandlerEnum.DummyArray;
 			this.type = type;
 
 			for (int i = 0;i < data.Length;i++) {
 				this.entities.Add(new Dummy(i, data[i]));
 			}
-
-
 		}
 
-		public override string ToString() {
-			return $"{this.handlerEnum}<{type.Name}>[{entities.Count}]";
-		}
+		public override string ToString() => $"DummyArray<{type.Name}>[{entities.Count}]";
 	}
 
 	/// <summary>
 	/// Packet for an 0, 1 or many DataObjects.
 	/// </summary>
 	public sealed class PacketArray : Packet {
-		public PacketArray(Type type, List<Entity> dataObjects) {
+		public PacketArray(Entity[] dataObjects) {
 			this.handlerEnum = HandlerEnum.Array;
-			this.type = type;
-			this.entities = dataObjects;
+			this.type = dataObjects.FirstOrDefault().GetType();
+			this.entities = dataObjects.ToList();
 		}
+
+		public override string ToString() => $"Array<{type.Name}>[{entities.Count}]";
 	}
 
 	/// <summary>
@@ -158,6 +139,8 @@ namespace QuestMaker.Code {
 			this.type = type;
 			this.entities = EntityCollection.getTypeArray(type); ;
 		}
+
+		public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
 	}
 
 	/// <summary>
@@ -177,12 +160,11 @@ namespace QuestMaker.Code {
 			this.entities.Add(dataObject);
 			this.type = type.IsGenericType ? type.GetGenericArguments()[0] : type;
 			this.field = field;
-			this.handlerEnum = HandlerEnum.flagViewer;
+			this.handlerEnum = HandlerEnum.Edit;
 		}
 
-		public override string ToString() {
-			return $"Edit{packet.handlerEnum}<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
-		}
+		public override string ToString() => 
+			$"Edit{packet.handlerEnum}<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
 	}
 
 	/// <summary>
@@ -202,6 +184,13 @@ namespace QuestMaker.Code {
 			this.isSelected = isSelected;
 			this.handlerEnum = HandlerEnum.EditUpdate;
 		}
+
+		public override string ToString() {
+			PacketEdit PE = packetEdit as PacketEdit;
+
+			return $"EditUpdate<{type.Name}>({PE.entities.First().id})<{PE.type.Name}>[{value.id}] " +
+				$"{(isSelected ? "+" : "-")}";
+		}
 	}
 
 	/// <summary>
@@ -213,5 +202,7 @@ namespace QuestMaker.Code {
 			this.type = dataObject.GetType();
 			this.entities.Add(dataObject);
 		}
+
+		public override string ToString() => $"SingleEdit<{type.Name}>({entities[0].id})";
 	}
 }

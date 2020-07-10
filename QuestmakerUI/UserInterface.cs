@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Windows.Forms;
 using QuestMaker.Code;
+using QuestMaker.Data;
 using QuestMakerConsole;
 
 namespace QuestmakerUI {

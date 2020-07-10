@@ -15,10 +15,16 @@ using System.Collections;
 namespace QuestmakerUI {
 	public partial class ViewControl : UserControl {
 
+		/// <summary> Underlined text </summary>
 		static Font fontReference = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Underline);
+		/// <summary> Regular text </summary>
 		static Font fontDefault = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Regular);
+		/// <summary> Bold text </summary>
 		static Font fontSelected = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Bold);
-		public static Font fontNull = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Italic);
+		/// <summary> Italic text </summary>
+		static Font fontNull = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Italic);
+
+		public static bool SINGLE_ENTITY_HAS_PACKETS = true;
 
 		public ViewControl() {
 			InitializeComponent();
@@ -35,26 +41,22 @@ namespace QuestmakerUI {
 
 			updateItems(packet);
 			updateColumns(packet);
-
-
-
+			
 			groupbox.Text = "Address: " + packet.ToString();
 
 			view.EndUpdate();
 		}
 
-		private void updateColumns(Packet requestItem) {
+		private void updateColumns(Packet packetItem) {
 			view.Columns.Clear();
 			view.Columns.Add("", 20);
-
-
-			var fields = from FieldInfo field in requestItem.type.GetFields()
+			
+			var fields = from FieldInfo field in packetItem.type.GetFields()
 						 where field.Name != "type"
 						 orderby ((JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)))?.Order
 						 select field;
-
-
-			if (requestItem.hasFlag(HandlerEnum.flagDataObject)) {
+			
+			if (packetItem.hasDataObjects) {
 				foreach (FieldInfo field in fields) {
 					view.Columns.Add(field.Name);
 				}
@@ -86,7 +88,8 @@ namespace QuestmakerUI {
 			if (packet.hasDataObjects) {
 				foreach (Entity entity in EntityCollection.get(packet)) {
 					ListViewItem listViewItem = new ListViewItem {
-						UseItemStyleForSubItems = false
+						UseItemStyleForSubItems = false,
+						Tag = new PacketType(typeof(Waypoint))
 					};
 
 					var fields = from FieldInfo field in packet.type.GetFields()
@@ -95,50 +98,78 @@ namespace QuestmakerUI {
 								 select field;
 
 					foreach (FieldInfo field in fields) {
-						object reference = field.GetValue(entity);
+						object value = field.GetValue(entity);
 
-						if (reference == null) {
+						if (value == null) {
 							listViewItem.SubItems.Add(new ListViewSubItem(listViewItem, "NULL") {
 								Font = fontNull,
 								ForeColor = Color.Gray
 							});
 						} else {
-							Packet request = null;
-							string text = "error";
+							Packet packetItem = null;
+							string textItem = "error";
+							Font fontItem = fontDefault;
+							Color foreColor = Color.Black;
 
-							//O-
-							if (isSubOf<Entity>(reference) == false && !isList(reference)) {
-								request = null;
-								text = reference.ToString();
+							//O- (Null)
+							if (isList(value) == false && isSubOf<Entity>(value) == false) {
+								packetItem = null;
+								textItem = value.ToString();
+							}
+
+							//E- (Single)
+							else if (isList(value) == false && isSubOf<Entity>(value) == true) {
+								if (SINGLE_ENTITY_HAS_PACKETS)
+									packetItem = (PacketSingle)Packet.byEntity((Entity)value);
+								textItem = ((Entity)value).displayName.ToString();
+								fontItem = fontReference;
+								foreColor = Color.Blue;
 							}
 
 							//O+ (DummyArray)
-							if (isListOf<Entity>(reference)) {
-								request = (PacketDummyArray)Packet.byString(packet.type, true, ((List<string>)reference).ToArray());
-								text = packet.type.Name + $"[{packet.entities.Count}]";
+							else if (isList(value) == true && isListOf<Entity>(value) == false) {
+								packetItem = (PacketDummyArray)Packet.byString(typeof(object), ((List<string>)value).ToArray());
+								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
+								fontItem = fontReference;
+								foreColor = Color.Blue;
 							}
 
-							//DO- (Single)
-							if (isSubOf<Entity>(reference) == true && !isList(reference)) {
-								request = (PacketSingle)Packet.byEntity(reference.GetType(), false, (Entity)reference);
-								text = ((Entity)reference).displayName.ToString();
+							//E+ (Array)
+							else if (isList(value) == true && isListOf<Entity>(value) == true) {
+								packetItem = (PacketArray)Packet.byEntity(((IList)value).Cast<Entity>().ToArray());
+								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
+								fontItem = fontReference;
+								foreColor = Color.Blue;
 							}
 
-							//DO+ (Array)
-							if (isListOf<Entity>(reference)) {
-								request = (PacketArray)Packet.byEntity(packet.type, true, ((IList)reference).Cast<Entity>().ToArray());
-								text = packet.type.Name + $"[{packet.entities.Count}]";
-							}
-
-							listViewItem.SubItems.Add(new ListViewSubItem(listViewItem, text) {
-								Tag = request,
-								Font = fontDefault
+							listViewItem.SubItems.Add(new ListViewSubItem() {
+								Text = textItem,
+								Tag = packetItem,
+								Font = fontItem,
+								ForeColor = foreColor
 							});
 						}
 					}
 
 					view.Items.Add(listViewItem);
 				}
+			}
+		}
+
+		private void view_Click(object sender, MouseEventArgs e) {
+			Point mousePos = view.PointToClient(MousePosition);
+			ListViewHitTestInfo hitTest = view.HitTest(mousePos);
+
+			if (hitTest.Item != null) {
+				int rowIndex = hitTest.Item.Index;
+				int columnIndex = hitTest.Item.SubItems.IndexOf(hitTest.SubItem);
+
+				bool wasSelected = view.Items[rowIndex].Checked;
+				Packet packetItem = (Packet)view.Items[rowIndex].Tag;
+				Packet packetSubItem = (Packet)view.Items[rowIndex].SubItems[columnIndex].Tag;
+				string stringSubItem = view.Items[rowIndex].SubItems[columnIndex].Text;
+
+				Console.WriteLine("Packet: " + packetSubItem?.ToString());
 			}
 		}
 	}

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
-using QuestMaker.Code;
 using QuestMaker.Code.Attributes;
 
 namespace QuestMaker.Data {
@@ -13,8 +11,8 @@ namespace QuestMaker.Data {
 		[JsonProperty(Order = ORDER_ID)] public string id;
 		[JsonProperty(Order = ORDER_NAME)] public string displayName;
 
-		public void activate() => EntityCollection.collection.activate(this);
-		public void deactivate(string oldID = "") => EntityCollection.collection.deactivate(this, oldID);
+		public void activate() => EntityCollection.entityCollection.activate(this);
+		public void deactivate(string oldID = "") => EntityCollection.entityCollection.deactivate(this, oldID);
 
 		public Entity() {
 			this.id = Guid.NewGuid().ToString();
