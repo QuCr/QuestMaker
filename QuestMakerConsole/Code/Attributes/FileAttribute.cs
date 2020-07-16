@@ -21,9 +21,9 @@ namespace QuestMaker.Code.Attributes {
 				Directory.CreateDirectory(directoryPath);
 			}
 
-			this.directoryPath = Path.Combine(splittedDirectoryPath.ToArray());
-			this.filename = splittedPath[splittedPath.Length - 1] + "." + extension;
-			this.fullPath = Path.Combine(directoryPath, filename);
+			directoryPath = Path.Combine(splittedDirectoryPath.ToArray());
+			filename = splittedPath[splittedPath.Length - 1] + "." + extension;
+			fullPath = Path.Combine(directoryPath, filename);
 		}
 	}
 }

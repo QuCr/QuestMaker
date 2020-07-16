@@ -7,13 +7,14 @@ using QuestMaker.Code;
 using QuestMaker.Data;
 using System.Reflection;
 using Newtonsoft.Json;
-using static Qutilities.Qutilities;
+using static Qutilities.Helper;
 using static System.Windows.Forms.ListViewItem;
 using System.Collections.Generic;
 using System.Collections;
 
 namespace QuestmakerUI {
 	public partial class ViewControl : UserControl {
+		public event EventHandler<Packet> sent;
 
 		/// <summary> Underlined text </summary>
 		static Font fontReference = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Underline);
@@ -23,8 +24,6 @@ namespace QuestmakerUI {
 		static Font fontSelected = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Bold);
 		/// <summary> Italic text </summary>
 		static Font fontNull = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Italic);
-
-		public static bool SINGLE_ENTITY_HAS_PACKETS = true;
 
 		public ViewControl() {
 			InitializeComponent();
@@ -113,14 +112,13 @@ namespace QuestmakerUI {
 
 							//O- (Null)
 							if (isList(value) == false && isSubOf<Entity>(value) == false) {
-								packetItem = null;
+								packetItem = new PacketSingleEditor(packet);
 								textItem = value.ToString();
 							}
 
 							//E- (Single)
 							else if (isList(value) == false && isSubOf<Entity>(value) == true) {
-								if (SINGLE_ENTITY_HAS_PACKETS)
-									packetItem = (PacketSingle)Packet.byEntity((Entity)value);
+								packetItem = Packet.byEntity((Entity)value);
 								textItem = ((Entity)value).displayName.ToString();
 								fontItem = fontReference;
 								foreColor = Color.Blue;
@@ -156,7 +154,7 @@ namespace QuestmakerUI {
 			}
 		}
 
-		private void view_Click(object sender, MouseEventArgs e) {
+		public void view_Click(object sender, MouseEventArgs e) {
 			Point mousePos = view.PointToClient(MousePosition);
 			ListViewHitTestInfo hitTest = view.HitTest(mousePos);
 
@@ -169,7 +167,10 @@ namespace QuestmakerUI {
 				Packet packetSubItem = (Packet)view.Items[rowIndex].SubItems[columnIndex].Tag;
 				string stringSubItem = view.Items[rowIndex].SubItems[columnIndex].Text;
 
-				Console.WriteLine("Packet: " + packetSubItem?.ToString());
+				if (packetSubItem is PacketSingleEditor) {
+					sent(this, (PacketSingleEditor)packetSubItem);
+					Console.WriteLine("Packet: " + packetSubItem?.ToString());
+				}
 			}
 		}
 	}

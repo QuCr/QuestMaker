@@ -24,27 +24,26 @@ namespace QuestmakerUI {
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.groupbox = new System.Windows.Forms.GroupBox();
 			this.SuspendLayout();
 			// 
 			// groupBox1
 			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			this.groupbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Location = new System.Drawing.Point(3, 3);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(319, 282);
-			this.groupBox1.TabIndex = 1;
-			this.groupBox1.TabStop = false;
-			this.groupBox1.Text = "Editor";
-			this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+			this.groupbox.Location = new System.Drawing.Point(3, 3);
+			this.groupbox.Name = "groupBox1";
+			this.groupbox.Size = new System.Drawing.Size(319, 282);
+			this.groupbox.TabIndex = 1;
+			this.groupbox.TabStop = false;
+			this.groupbox.Text = "Editor";
 			// 
 			// EditControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Controls.Add(this.groupBox1);
+			this.Controls.Add(this.groupbox);
 			this.Name = "EditControl";
 			this.Size = new System.Drawing.Size(325, 288);
 			this.ResumeLayout(false);
@@ -53,6 +52,6 @@ namespace QuestmakerUI {
 
 		#endregion
 
-		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.GroupBox groupbox;
 	}
 }

@@ -14,14 +14,29 @@ namespace QuestMaker.Code {
 		flagTree = 32,
 
 		Null = 0
-		, Single = flagViewer | flagDataObject
-		, DummyArray = flagViewer | flagList
-		, Array = flagViewer | flagList | flagDataObject
-		, Type = flagViewer | flagList | flagType | flagDataObject
-		, Update = flagEditor | flagDataObject
-		, Edit = flagViewer
-		, EditUpdate = flagViewer | flagEditor | flagTree
-		, SingleEditor = flagEditor | flagDataObject
+		, Single =			flagViewer									|	flagDataObject					//18
+		, DummyArray =		flagViewer	|	flagList														//17
+		, Array =			flagViewer	|	flagList	|					flagDataObject					//19
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagDataObject	//31
+		, Update =			flagViewer	|	flagEditor	|					flagDataObject					//26
+		, Edit =			flagViewer									|   flagDataObject					//18
+		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
+		, SingleEditor =					flagEditor	|					flagDataObject                  //10
+
+		/*FOR SUDDEN UNINTENDED REFORMATS.
+		TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
+
+		Null = 0
+		, Single =			flagViewer									|	flagDataObject					//18
+		, DummyArray =		flagViewer	|	flagList														//17
+		, Array =			flagViewer	|	flagList	|					flagDataObject					//19
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagDataObject	//31
+		, Update =			flagViewer	|	flagEditor	|					flagDataObject					//26
+		, Edit =			flagViewer									|   flagDataObject					//18
+		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
+		, SingleEditor =					flagEditor	|					flagDataObject					//10
+
+		*/
 	}
 
 	/// <summary>
@@ -39,6 +54,8 @@ namespace QuestMaker.Code {
 		public bool hasDataObjects => handlerEnum.HasFlag(HandlerEnum.flagDataObject);
 		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagList); </summary>
 		public bool isList => handlerEnum.HasFlag(HandlerEnum.flagList);
+
+		public Entity getEntity() => entities[0];
 
 		protected Packet() { }
 
@@ -92,12 +109,12 @@ namespace QuestMaker.Code {
 	/// </summary>
 	public sealed class PacketSingle : Packet {
 		public PacketSingle(Entity dataObject) {
-			this.handlerEnum = HandlerEnum.Single;
-			this.type = dataObject.GetType();
-			this.entities.Add(dataObject);
+			handlerEnum = HandlerEnum.Single;
+			type = dataObject.GetType();
+			entities.Add(dataObject);
 		}
 
-		public override string ToString() => $"Single<{type.Name}>({entities[0].id})";
+		public override string ToString() => $"Single<{type.Name}>({getEntity().id})";
 	}
 
 	/// <summary>
@@ -105,11 +122,11 @@ namespace QuestMaker.Code {
 	/// </summary>
 	public sealed class PacketDummyArray : Packet {
 		public PacketDummyArray(Type type, params string[] data) {
-			this.handlerEnum = HandlerEnum.DummyArray;
+			handlerEnum = HandlerEnum.DummyArray;
 			this.type = type;
 
 			for (int i = 0;i < data.Length;i++) {
-				this.entities.Add(new Dummy(i, data[i]));
+				entities.Add(new Dummy(i, data[i]));
 			}
 		}
 
@@ -121,9 +138,9 @@ namespace QuestMaker.Code {
 	/// </summary>
 	public sealed class PacketArray : Packet {
 		public PacketArray(Entity[] dataObjects) {
-			this.handlerEnum = HandlerEnum.Array;
-			this.type = dataObjects.FirstOrDefault().GetType();
-			this.entities = dataObjects.ToList();
+			handlerEnum = HandlerEnum.Array;
+			type = dataObjects.FirstOrDefault().GetType();
+			entities = dataObjects.ToList();
 		}
 
 		public override string ToString() => $"Array<{type.Name}>[{entities.Count}]";
@@ -135,9 +152,9 @@ namespace QuestMaker.Code {
 	public sealed class PacketType : Packet {
 		/// <param name="type">Packeted type of the DataObjects</param>
 		public PacketType(Type type) {
-			this.handlerEnum = HandlerEnum.Type;
+			handlerEnum = HandlerEnum.Type;
 			this.type = type;
-			this.entities = EntityCollection.getTypeArray(type); ;
+			entities = EntityCollection.getTypeArray(type); ;
 		}
 
 		public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
@@ -155,12 +172,12 @@ namespace QuestMaker.Code {
 		/// <param name="dataObject">DataObject that is being edited</param>
 		/// <param name="type">Type of the edited field</param>
 		/// <param name="field">Name of the edited field</param>
-		public PacketEdit(Packet packet, Entity dataObject, Type type, string field) {
+		public PacketEdit(Packet packet, string field) {
 			this.packet = packet;
-			this.entities.Add(dataObject);
-			this.type = type.IsGenericType ? type.GetGenericArguments()[0] : type;
+			entities.AddRange(EntityCollection.get(packet));
+			type = type.IsGenericType ? type.GetGenericArguments()[0] : type;
 			this.field = field;
-			this.handlerEnum = HandlerEnum.Edit;
+			handlerEnum = HandlerEnum.Edit;
 		}
 
 		public override string ToString() => 
@@ -177,17 +194,16 @@ namespace QuestMaker.Code {
 		public bool isSelected;
 
 		public PacketEditUpdate(PacketEdit packetEdit, Entity value, bool isSelected) {
-			this.type = packetEdit.entities[0].GetType();
+			type = packetEdit.getEntity().GetType();
 			this.packetEdit = packetEdit;
 			this.value = value;
-			this.entities = packetEdit.entities;
+			entities = packetEdit.entities;
 			this.isSelected = isSelected;
-			this.handlerEnum = HandlerEnum.EditUpdate;
+			handlerEnum = HandlerEnum.EditUpdate;
 		}
 
 		public override string ToString() {
 			PacketEdit PE = packetEdit as PacketEdit;
-
 			return $"EditUpdate<{type.Name}>({PE.entities.First().id})<{PE.type.Name}>[{value.id}] " +
 				$"{(isSelected ? "+" : "-")}";
 		}
@@ -197,12 +213,13 @@ namespace QuestMaker.Code {
 	/// Updates only the editor
 	/// </summary>
 	public sealed class PacketSingleEditor : Packet {
-		public PacketSingleEditor(Entity dataObject) {
-			this.handlerEnum = HandlerEnum.SingleEditor;
-			this.type = dataObject.GetType();
-			this.entities.Add(dataObject);
+		public PacketSingleEditor(Packet packet) {
+			handlerEnum = HandlerEnum.SingleEditor;
+			entities = EntityCollection.get(packet);
+			type = getEntity().GetType(); 
 		}
 
-		public override string ToString() => $"SingleEdit<{type.Name}>({entities[0].id})";
+		public override string ToString() => $"SingleEdit<{type.Name}>({getEntity().id})";
 	}
 }
+ 

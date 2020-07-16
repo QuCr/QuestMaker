@@ -15,10 +15,11 @@ namespace QuestmakerUI {
 		public MainForm() {
 			InitializeComponent();
 
-			tree.sent += this.Tree_sent;
+			tree.sent += this.handle;
+			viewer.sent += this.handle;
 		}
 
-		private void Tree_sent(object sender, Packet packet) {
+		private void handle(object sender, Packet packet) {
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagTree))	tree.handle(packet);
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagViewer))	viewer.handle(packet);
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagEditor))	editor.handle(packet);

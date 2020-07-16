@@ -15,8 +15,8 @@ namespace QuestMaker.Data {
 		public void deactivate(string oldID = "") => EntityCollection.entityCollection.deactivate(this, oldID);
 
 		public Entity() {
-			this.id = Guid.NewGuid().ToString();
-			this.displayName = id;
+			id = Guid.NewGuid().ToString();
+			displayName = id;
 		}
 
 		public Entity(string id, bool activate = true) {
@@ -24,7 +24,7 @@ namespace QuestMaker.Data {
 				throw new ArgumentNullException("id is null");
 
 			this.id = id;
-			this.displayName = id;
+			displayName = id;
 
 			if (!activate)
 				return;

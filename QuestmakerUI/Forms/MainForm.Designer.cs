@@ -57,9 +57,9 @@
 			this.editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.editor.Location = new System.Drawing.Point(495, 28);
+			this.editor.Location = new System.Drawing.Point(1089, 28);
 			this.editor.Name = "editor";
-			this.editor.Size = new System.Drawing.Size(887, 610);
+			this.editor.Size = new System.Drawing.Size(293, 610);
 			this.editor.TabIndex = 0;
 			// 
 			// menuStrip1
