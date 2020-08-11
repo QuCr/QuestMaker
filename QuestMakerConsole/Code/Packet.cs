@@ -26,7 +26,7 @@ namespace QuestMaker.Code {
 		/*FOR SUDDEN UNINTENDED REFORMATS.
 		TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
 
-		Null = 0
+		Null = 0																							
 		, Single =			flagViewer									|	flagDataObject					//18
 		, DummyArray =		flagViewer	|	flagList														//17
 		, Array =			flagViewer	|	flagList	|					flagDataObject					//19
@@ -175,7 +175,7 @@ namespace QuestMaker.Code {
 		public PacketEdit(Packet packet, string field) {
 			this.packet = packet;
 			entities.AddRange(EntityCollection.get(packet));
-			type = type.IsGenericType ? type.GetGenericArguments()[0] : type;
+			type = packet.type.IsGenericType ? packet.type.GetGenericArguments()[0] : packet.type;
 			this.field = field;
 			handlerEnum = HandlerEnum.Edit;
 		}
@@ -191,7 +191,7 @@ namespace QuestMaker.Code {
 	public sealed class PacketEditUpdate : Packet {
 		public PacketEdit packetEdit;
 		public Entity value;
-		public bool isSelected;
+		public bool? isSelected;
 
 		public PacketEditUpdate(PacketEdit packetEdit, Entity value, bool isSelected) {
 			type = packetEdit.getEntity().GetType();
@@ -202,10 +202,22 @@ namespace QuestMaker.Code {
 			handlerEnum = HandlerEnum.EditUpdate;
 		}
 
+		public PacketEditUpdate(PacketEdit packetEdit, Entity value) {
+			type = packetEdit.getEntity().GetType();
+			this.packetEdit = packetEdit;
+			this.value = value;
+			entities = packetEdit.entities;
+			handlerEnum = HandlerEnum.EditUpdate;
+		}
+
 		public override string ToString() {
 			PacketEdit PE = packetEdit as PacketEdit;
-			return $"EditUpdate<{type.Name}>({PE.entities.First().id})<{PE.type.Name}>[{value.id}] " +
-				$"{(isSelected ? "+" : "-")}";
+			char isSelectedChar = ' ';
+			
+			if (isSelected.HasValue)
+				isSelectedChar = isSelected.Value ? '+' : '-';
+
+			return $"EditUpdate<{type.Name}>({PE.entities.First().id})<{PE.type.Name}>[{value.id}] {isSelectedChar}";
 		}
 	}
 
@@ -219,7 +231,7 @@ namespace QuestMaker.Code {
 			type = getEntity().GetType(); 
 		}
 
-		public override string ToString() => $"SingleEdit<{type.Name}>({getEntity().id})";
+		public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";
 	}
 }
  

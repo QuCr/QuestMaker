@@ -32,7 +32,7 @@ namespace QuestMaker.Data {
 		/// higher up with convertions.
 		/// </remark>
 		public static List<Entity> get(Packet packet) {
-			if (packet is PacketSingle)
+			if (packet is PacketSingle || packet is PacketSingleEditor)
 				return new List<Entity>() {
 					getSingle(packet.type, packet.entities[0].id)
 				};

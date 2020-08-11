@@ -14,48 +14,53 @@ using System.Reflection;
 
 namespace QuestmakerUI {
 	public partial class EditControl : UserControl {
+
 		public EditControl() {
 			InitializeComponent();
 		}
 
 		public void handle(Packet packet) {
-			addControls(packet);
+			if (packet is PacketSingleEditor)
+				addControls(packet as PacketSingleEditor);
 		}
 
-		private void addControls(Packet packet) {
-			var fields = from		field 
-						 in			packet.type.GetFields()
-						 orderby	((JsonPropertyAttribute)Attribute.GetCustomAttribute(
+		private void addControls(PacketSingleEditor packet) {
+			groupbox.Controls.Clear();
+
+			var fields = from field
+						 in packet.type.GetFields()
+						 orderby ((JsonPropertyAttribute)Attribute.GetCustomAttribute(
 										field, typeof(JsonPropertyAttribute))
 									)?.Order
-						 select		field;
+						 select field;
 
-			int X_OFFSET = 10;
-			int Y_OFFSET = 20;
+			int X_OFFSET_START = 10;
+			int Y_OFFSET_START = 20;
+			int Y_OFFSET = 27;
 
 			Button btnClear = new Button() {
 				Text = "New",
-				Location = new Point(X_OFFSET + 0, Y_OFFSET+ 0),
+				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
 				Width = 50
 			};
 
 			Button btnCreate = new Button() {
 				Text = "Create",
-				Location = new Point(X_OFFSET + 50, Y_OFFSET + 0),
+				Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
 				Width = 50,
 				Tag = packet.type
 			};
 
 			Button btnDelete = new Button() {
 				Text = "Delete",
-				Location = new Point(X_OFFSET +100, Y_OFFSET + 0),
+				Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
 				Width = 50,
 				Tag = packet
 			};
 
 			Button btnUpdate = new Button() {
 				Text = "Update",
-				Location = new Point(X_OFFSET + 150, Y_OFFSET + 0),
+				Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
 				Width = 50,
 				Tag = packet
 			};
@@ -71,8 +76,8 @@ namespace QuestmakerUI {
 			groupbox.Controls.Add(btnUpdate);
 
 			for (int i = 0;i < fields.Count();i++) {
-				var ctr = new EditorFieldControl(i, fields.ElementAt(i));
-				ctr.Location = new Point(X_OFFSET, Y_OFFSET + 20 * i + 40);
+				var ctr = new EditorFieldControl(i, packet, fields.ElementAt(i));
+				ctr.Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * i + 40);
 				groupbox.Controls.Add(ctr);
 			}
 		}

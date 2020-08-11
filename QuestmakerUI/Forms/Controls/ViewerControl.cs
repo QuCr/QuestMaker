@@ -15,6 +15,7 @@ using System.Collections;
 namespace QuestmakerUI {
 	public partial class ViewControl : UserControl {
 		public event EventHandler<Packet> sent;
+		public Packet previousPacket = null;
 
 		/// <summary> Underlined text </summary>
 		static Font fontReference = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Underline);
@@ -29,8 +30,14 @@ namespace QuestmakerUI {
 			InitializeComponent();
 		}
 
-		internal void handle(Packet packet) {
+		public void handle(Packet packet) {
+			previousPacket = packet;
+
 			generateViewer(packet);
+		}
+
+		void refresh(Packet packet) {
+			generateViewer(previousPacket);
 		}
 
 		private void generateViewer(Packet packet) {

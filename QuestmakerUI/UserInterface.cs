@@ -12,7 +12,7 @@ namespace QuestmakerUI {
 		/// </summary>
 		[STAThread]
 		static void Main() {
-			Program.Main("json");
+			Program.Main("default");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

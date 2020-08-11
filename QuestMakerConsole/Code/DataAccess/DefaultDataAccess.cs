@@ -99,6 +99,12 @@ namespace QuestMakerConsole.Code.DataAccess {
 			new Dialog("third_dialog") {
 				sentences = new List<Sentence>() { sentence, sentence2 }
 			};
+
+			new Variable("var_first") {
+				displayName = "My variable",
+				value = "69420",
+				used = true
+			};
 		}
 
 		public void export(EntityCollection collection) {
