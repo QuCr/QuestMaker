@@ -226,7 +226,7 @@ namespace QuestMaker.Code {
 		public PacketSingleEditor(Packet packet) {
 			handlerEnum = HandlerEnum.SingleEditor;
 			entities = EntityCollection.get(packet);
-			type = getEntity().GetType(); 
+			type = getEntity().GetType();
 		}
 
 		public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";

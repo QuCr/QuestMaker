@@ -18,7 +18,7 @@ namespace Qutilities {
 
 		/// <summary> typeof(T).IsAssignableFrom(obj.GetType()); </summary>
 		public static bool isSubOf<T>(object obj) {
-			bool returnValue = typeof(Entity).IsAssignableFrom(obj.GetType());
+			bool returnValue = typeof(T).IsAssignableFrom(obj.GetType());
 			return returnValue;
 		}
 
@@ -30,7 +30,11 @@ namespace Qutilities {
 
 		/// <summary> obj.GetType().GetGenericArguments()[0]; </summary>
 		public static Type getListType(object obj) {
-			Type returnValue = obj.GetType().GetGenericArguments()[0];
+			Type returnValue = null;
+
+			if (isList(obj))
+				returnValue = obj.GetType().GetGenericArguments()[0];
+
 			return returnValue;
 		}
 

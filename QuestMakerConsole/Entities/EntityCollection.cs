@@ -23,6 +23,7 @@ namespace QuestMaker.Data {
 			}
 		}
 
+		/// <summary>
 		/// Gets all Entitys of type T that have the given IDs
 		/// </summary>
 		/// <remark>

@@ -41,28 +41,32 @@ namespace QuestmakerUI {
 			Button btnClear = new Button() {
 				Text = "New",
 				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
-				Width = 50
+				Width = 50,
+				Enabled = false
 			};
 
 			Button btnCreate = new Button() {
 				Text = "Create",
 				Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
 				Width = 50,
-				Tag = packet.type
+				Tag = packet.type,
+				Enabled = false
 			};
 
 			Button btnDelete = new Button() {
 				Text = "Delete",
 				Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
 				Width = 50,
-				Tag = packet
+				Tag = packet,
+				Enabled = false
 			};
 
 			Button btnUpdate = new Button() {
 				Text = "Update",
 				Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
 				Width = 50,
-				Tag = packet
+				Tag = packet,
+				Enabled = false
 			};
 
 			btnClear.MouseClick += this.clear;
