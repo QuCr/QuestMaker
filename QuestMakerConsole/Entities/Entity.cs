@@ -36,7 +36,7 @@ namespace QuestMaker.Data {
 		public string ToDetailedString() => displayName;
 
 		public override string ToString() {
-			return $"DataObject<{GetType().Name}>[{id}]";
+			return $"Entity<{GetType().Name}>[{id}]";
 		}
 	}
 

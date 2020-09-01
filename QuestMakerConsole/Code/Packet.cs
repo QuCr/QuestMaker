@@ -7,42 +7,42 @@ namespace QuestMaker.Code {
 	[Flags]
 	public enum HandlerEnum {
 		flagList = 1,
-		flagDataObject = 2,
+		flagEntity = 2,
 		flagType = 4,
 		flagEditor = 8,
 		flagViewer = 16,
 		flagTree = 32,
 
 		Null = 0
-		, Single =			flagViewer									|	flagDataObject					//18
+		, Single =			flagViewer									|	flagEntity					//18
 		, DummyArray =		flagViewer	|	flagList														//17
-		, Array =			flagViewer	|	flagList	|					flagDataObject					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagDataObject	//31
-		, Update =			flagViewer	|	flagEditor	|					flagDataObject					//26
-		, Edit =			flagViewer									|   flagDataObject					//18
+		, Array =			flagViewer	|	flagList	|					flagEntity					//19
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
+		, Update =			flagViewer	|	flagEditor	|					flagEntity					//26
+		, Edit =			flagViewer									|   flagEntity					//18
 		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
-		, SingleEditor =					flagEditor	|					flagDataObject                  //10
+		, SingleEditor =					flagEditor	|					flagEntity                  //10
 
 		/*FOR SUDDEN UNINTENDED REFORMATS.
 		TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
 
-		Null = 0																							
-		, Single =			flagViewer									|	flagDataObject					//18
+		Null = 0
+		, Single =			flagViewer									|	flagEntity					//18
 		, DummyArray =		flagViewer	|	flagList														//17
-		, Array =			flagViewer	|	flagList	|					flagDataObject					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagDataObject	//31
-		, Update =			flagViewer	|	flagEditor	|					flagDataObject					//26
-		, Edit =			flagViewer									|   flagDataObject					//18
+		, Array =			flagViewer	|	flagList	|					flagEntity					//19
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
+		, Update =			flagViewer	|	flagEditor	|					flagEntity					//26
+		, Edit =			flagViewer									|   flagEntity					//18
 		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
-		, SingleEditor =					flagEditor	|					flagDataObject					//10
+		, SingleEditor =					flagEditor	|					flagEntity                  //10
 
 		*/
 	}
 
 	/// <summary>
 	/// Packets are used for detemining how data should be presented.
-	/// Packets say if it is a list or not; if it refernces 0, 1 or many DataObjects;
-	/// if it references all instances of a DataObject type; if it's just a string or integer.
+	/// Packets say if it is a list or not; if it references 0, 1 or many Entities;
+	/// if it references all instances of a Entity type; if it's just a string or integer.
 	/// All these different cases must be handled differently by the UI.
 	/// </summary>
 	public abstract class Packet {
@@ -50,8 +50,8 @@ namespace QuestMaker.Code {
 		public List<Entity> entities = new List<Entity>();
 		public HandlerEnum handlerEnum = HandlerEnum.Null;
 
-		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagDataObject); </summary>
-		public bool hasDataObjects => handlerEnum.HasFlag(HandlerEnum.flagDataObject);
+		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagEntity); </summary>
+		public bool hasEntities => handlerEnum.HasFlag(HandlerEnum.flagEntity);
 		/// <summary> handlerEnum.HasFlag(HandlerEnum.flagList); </summary>
 		public bool isList => handlerEnum.HasFlag(HandlerEnum.flagList);
 
@@ -82,20 +82,20 @@ namespace QuestMaker.Code {
 				return new PacketSingle(
 					EntityCollection.getSingle(entity.GetType(), value)
 				);
-			throw new Exception("You gave a single string and the type is not an DataObject! " +
+			throw new Exception("You gave a single string and the type is not an entity! " +
 				"This means you want to make an entity for a single string, int, etc." +
 				"Best practices are to not use an entity or packets, and to directly use the string." +
 				"	If this is entirely not possible, go ahead!");
 		}
 
 		/// <summary> Creates a packet (Array) for the given entities </summary>
-		public static PacketArray byEntity(params Entity[] dataObjects) {
-			return new PacketArray(dataObjects);
+		public static PacketArray byEntity(params Entity[] entities) {
+			return new PacketArray(entities);
 		}
 
 		/// <summary> Creates a packet (Single) for the given entity </summary>
-		public static PacketSingle byEntity(Entity dataObject) {
-			return new PacketSingle(dataObject);
+		public static PacketSingle byEntity(Entity entities) {
+			return new PacketSingle(entities);
 		}
 
 		/// <summary> Creates a packet (Type) for the given type </summary>
@@ -105,20 +105,20 @@ namespace QuestMaker.Code {
 	}
 
 	/// <summary>
-	/// Packet for a single DataObject
+	/// Packet for a single entity
 	/// </summary>
 	public sealed class PacketSingle : Packet {
-		public PacketSingle(Entity dataObject) {
+		public PacketSingle(Entity entity) {
 			handlerEnum = HandlerEnum.Single;
-			type = dataObject.GetType();
-			entities.Add(dataObject);
+			type = entity.GetType();
+			entities.Add(entity);
 		}
 
 		public override string ToString() => $"Single<{type.Name}>({getEntity().id})";
 	}
 
 	/// <summary>
-	/// Packet for an 0, 1 or many Dummy DataObjects. Each dummy has one value.
+	/// Packet for an 0, 1 or many Dummy entities. Each dummy has one value.
 	/// </summary>
 	public sealed class PacketDummyArray : Packet {
 		public PacketDummyArray(Type type, params string[] data) {
@@ -134,23 +134,23 @@ namespace QuestMaker.Code {
 	}
 
 	/// <summary>
-	/// Packet for an 0, 1 or many DataObjects.
+	/// Packet for an 0, 1 or many entities.
 	/// </summary>
 	public sealed class PacketArray : Packet {
-		public PacketArray(Entity[] dataObjects) {
+		public PacketArray(Entity[] entities) {
 			handlerEnum = HandlerEnum.Array;
-			type = dataObjects.FirstOrDefault().GetType();
-			entities = dataObjects.ToList();
+			type = entities.FirstOrDefault().GetType();
+			base.entities = entities.ToList();
 		}
 
 		public override string ToString() => $"Array<{type.Name}>[{entities.Count}]";
 	}
 
 	/// <summary>
-	/// Packet for all DataObjects of given type.
+	/// Packet for all entities of given type.
 	/// </summary>
 	public sealed class PacketType : Packet {
-		/// <param name="type">Packeted type of the DataObjects</param>
+		/// <param name="type">Packeted type of the entities</param>
 		public PacketType(Type type) {
 			handlerEnum = HandlerEnum.Type;
 			this.type = type;
@@ -161,16 +161,14 @@ namespace QuestMaker.Code {
 	}
 
 	/// <summary>
-	/// Packet a value of DataObject that is going to be edited, referencing a packet for the edited value.
-	/// Used when editing the value by selecting the dataobjects from the underlying reuqest.
+	/// Packet a value of entities that is going to be edited, referencing a packet for the edited value.
+	/// Used when editing the value by selecting the entities from the underlying request.
 	/// </summary>
 	public sealed class PacketEdit : Packet {
 		public Packet packet = null;
 		public string field = null;
 
 		/// <param name="packet">Underlying packet</param>
-		/// <param name="dataObject">DataObject that is being edited</param>
-		/// <param name="type">Type of the edited field</param>
 		/// <param name="field">Name of the edited field</param>
 		public PacketEdit(Packet packet, string field) {
 			this.packet = packet;
@@ -185,7 +183,7 @@ namespace QuestMaker.Code {
 	}
 
 	/// <summary>
-	/// Packet an update for the edit of the DataObject, referening the underlying packet for the edit.
+	/// Packet an update for the edit of the entities, referening the underlying packet for the edit.
 	/// Used when (de)selecting an item when editing
 	/// </summary>
 	public sealed class PacketEditUpdate : Packet {

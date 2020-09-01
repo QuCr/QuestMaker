@@ -42,13 +42,13 @@ namespace QuestMaker.Code {
 					}
 				} else {
 					if (type.IsSubclassOf(typeof(Entity))) {
-						foreach (Entity dataObject in EntityCollection.get(new PacketType(type))) {
+						foreach (Entity entity in EntityCollection.get(new PacketType(type))) {
 							string currentFilepath = filepath
-														.Replace("{id}", dataObject.id)
-														.Replace("{ID}", dataObject.id);
+														.Replace("{id}", entity.id)
+														.Replace("{ID}", entity.id);
 
 							using (StreamWriter file = new StreamWriter(currentFilepath)) {
-								file.Write(method.Invoke(dataObject, new object[0]));
+								file.Write(method.Invoke(entity, new object[0]));
 							}
 						}
 					} else

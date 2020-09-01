@@ -62,7 +62,7 @@ namespace QuestmakerUI {
 						 orderby ((JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)))?.Order
 						 select field;
 			
-			if (packetItem.hasDataObjects) {
+			if (packetItem.hasEntities) {
 				foreach (FieldInfo field in fields) {
 					view.Columns.Add(field.Name);
 				}
@@ -91,7 +91,7 @@ namespace QuestmakerUI {
 			view.Items.Clear();
 
 			//VIEW
-			if (packet.hasDataObjects) {
+			if (packet.hasEntities) {
 				foreach (Entity entity in EntityCollection.get(packet)) {
 					ListViewItem listViewItem = new ListViewItem {
 						UseItemStyleForSubItems = false,
@@ -158,6 +158,25 @@ namespace QuestmakerUI {
 
 					view.Items.Add(listViewItem);
 				}
+			} else {
+				foreach (Dummy item in packet.entities) {
+
+					ListViewItem listViewItem = new ListViewItem {
+						UseItemStyleForSubItems = false
+					};
+
+					listViewItem.SubItems.Add(new ListViewSubItem() {
+						Text = item.id
+					});
+					listViewItem.SubItems.Add(new ListViewSubItem() {
+						Text = item.value.ToString()
+					});
+
+
+					view.Items.Add(listViewItem);
+
+					Console.WriteLine(item.value);
+				}
 			}
 		}
 
@@ -173,11 +192,11 @@ namespace QuestmakerUI {
 				Packet packetItem = (Packet)view.Items[rowIndex].Tag;
 				Packet packetSubItem = (Packet)view.Items[rowIndex].SubItems[columnIndex].Tag;
 				string stringSubItem = view.Items[rowIndex].SubItems[columnIndex].Text;
+				
+				if (packetSubItem != null)
+					sent(this, packetSubItem);
 
-				if (packetSubItem is PacketSingleEditor) {
-					sent(this, (PacketSingleEditor)packetSubItem);
-					Console.WriteLine("Packet: " + packetSubItem?.ToString());
-				}
+				Console.WriteLine("Packet: " + packetSubItem?.ToString());
 			}
 		}
 	}
