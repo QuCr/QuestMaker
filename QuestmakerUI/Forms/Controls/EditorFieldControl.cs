@@ -46,7 +46,7 @@ namespace QuestmakerUI.Forms.Controls {
 		}
 
 		void addField() {
-			Console.WriteLine("-" + name + ", " + value + ", " + type.Name);
+			Console.WriteLine($"\t{type.Name,10} {name,-20} {value}");
 
 			if (type == typeof(double) || type == typeof(int)) {
 				if (value == null) value = 0;

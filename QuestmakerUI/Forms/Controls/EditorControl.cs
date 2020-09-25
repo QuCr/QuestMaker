@@ -39,7 +39,7 @@ namespace QuestmakerUI {
 			int Y_OFFSET = 27;
 
 			Button btnClear = new Button() {
-				Text = "New",
+				Text = "Clear",
 				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
 				Width = 50,
 				Enabled = false
@@ -53,16 +53,16 @@ namespace QuestmakerUI {
 				Enabled = false
 			};
 
-			Button btnDelete = new Button() {
-				Text = "Delete",
+			Button btnUpdate = new Button() {
+				Text = "Update",
 				Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
 				Width = 50,
 				Tag = packet,
 				Enabled = false
 			};
 
-			Button btnUpdate = new Button() {
-				Text = "Update",
+			Button btnDelete = new Button() {
+				Text = "Delete",
 				Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
 				Width = 50,
 				Tag = packet,
@@ -86,7 +86,8 @@ namespace QuestmakerUI {
 			}
 		}
 
-		private void delete(object sender, MouseEventArgs e) {
+
+		private void clear(object sender, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 
@@ -94,11 +95,11 @@ namespace QuestmakerUI {
 			throw new NotImplementedException();
 		}
 
-		private void clear(object sender, MouseEventArgs e) {
+		private void update(object sender, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 
-		private void update(object sender, MouseEventArgs e) {
+		private void delete(object sender, MouseEventArgs e) {
 			throw new NotImplementedException();
 		}
 	}
