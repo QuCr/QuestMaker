@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Newtonsoft.Json;
 using QuestMaker.Code.Attributes;
 
@@ -38,7 +39,19 @@ namespace QuestMaker.Data {
 		public override string ToString() {
 			return $"Entity<{GetType().Name}>[{id}]";
 		}
-	}
+
+        public static Entity createType(Type type = null, bool activate = true) {
+			if (type == null) 
+				type = MethodBase.GetCurrentMethod().DeclaringType;
+			
+			var entity =  Activator.CreateInstance(type, false) as Entity;
+			
+			if (activate) 
+				entity.activate();
+			
+			return entity;
+		}
+    }
 
 	[DataViewer(mock = true)]
 	public class Dummy : Entity {

@@ -18,10 +18,8 @@ namespace QuestMakerConsole.Code.DataAccess {
 		public const PreserveReferencesHandling preserveReferencesHandling = PreserveReferencesHandling.Objects;
 		public const TypeNameHandling typeNameHandling = TypeNameHandling.All;
 
-
 		public void import() {
-			string json = null;
-
+			string json;
 			using (StreamReader reader = new StreamReader(Project.Path + "/questmaker.json")) {
 				json = reader.ReadToEnd();
 			}

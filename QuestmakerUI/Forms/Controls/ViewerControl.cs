@@ -31,16 +31,15 @@ namespace QuestmakerUI {
 		}
 
 		public void handle(Packet packet) {
-			previousPacket = packet;
+			if (packet is PacketUpdate) {
+				generateViewer(previousPacket);
+			} else {
+				generateViewer(packet);
+				previousPacket = packet;
+			}
+        }
 
-			generateViewer(packet);
-		}
-
-		void refresh(Packet packet) {
-			generateViewer(previousPacket);
-		}
-
-		private void generateViewer(Packet packet) {
+        private void generateViewer(Packet packet) {
 			view.CheckBoxes = false;
 
 			view.BeginUpdate();

@@ -144,24 +144,36 @@ namespace QuestMaker.Code {
 		}
 
 		public override string ToString() => $"Array<{type.Name}>[{entities.Count}]";
-	}
+    }
+
+    /// <summary>
+    /// Packet for all entities of given type.
+    /// </summary>
+    public sealed class PacketType : Packet {
+        /// <param name="type">Packeted type of the entities</param>
+        public PacketType(Type type) {
+            handlerEnum = HandlerEnum.Type;
+            this.type = type;
+            entities = EntityCollection.getTypeArray(type); ;
+        }
+
+        public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
+    }
+
+    /// <summary>
+    /// Packet for updating the controls
+    /// </summary>
+    public sealed class PacketUpdate : Packet {
+        public PacketUpdate() {
+            handlerEnum = HandlerEnum.Update;
+        }
+
+        public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
+    }
+
 
 	/// <summary>
-	/// Packet for all entities of given type.
-	/// </summary>
-	public sealed class PacketType : Packet {
-		/// <param name="type">Packeted type of the entities</param>
-		public PacketType(Type type) {
-			handlerEnum = HandlerEnum.Type;
-			this.type = type;
-			entities = EntityCollection.getTypeArray(type); ;
-		}
-
-		public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
-	}
-
-	/// <summary>
-	/// Packet a value of entities that is going to be edited, referencing a packet for the edited value.
+	/// Packet with a value of entities that is going to be edited, referencing a packet for the edited value.
 	/// Used when editing the value by selecting the entities from the underlying request.
 	/// </summary>
 	public sealed class PacketEdit : Packet {
@@ -183,7 +195,7 @@ namespace QuestMaker.Code {
 	}
 
 	/// <summary>
-	/// Packet an update for the edit of the entities, referening the underlying packet for the edit.
+	/// Packet with an update for the edit of the entities, referening the underlying packet for the edit.
 	/// Used when (de)selecting an item when editing
 	/// </summary>
 	public sealed class PacketEditUpdate : Packet {
@@ -223,13 +235,19 @@ namespace QuestMaker.Code {
 	/// Updates only the editor
 	/// </summary>
 	public sealed class PacketSingleEditor : Packet {
-		public PacketSingleEditor(Packet packet) {
-			handlerEnum = HandlerEnum.SingleEditor;
-			entities = EntityCollection.get(packet);
-			type = getEntity().GetType();
-		}
+        public PacketSingleEditor(Packet packet) {
+            handlerEnum = HandlerEnum.SingleEditor;
+            entities = EntityCollection.get(packet);
+            type = getEntity().GetType();
+        }
 
-		public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";
+        public PacketSingleEditor(Entity entity) {
+            handlerEnum = HandlerEnum.SingleEditor;
+            entities.Add(entity);
+            type = entity.GetType();
+        }
+
+        public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";
 	}
 }
  

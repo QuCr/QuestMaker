@@ -11,96 +11,113 @@ using QuestMaker.Code;
 using Newtonsoft.Json;
 using QuestmakerUI.Forms.Controls;
 using System.Reflection;
+using QuestmakerUI.Forms;
+using QuestMaker.Data;
 
 namespace QuestmakerUI {
 	public partial class EditControl : UserControl {
+        public event EventHandler<Packet> sent;
 
-		public EditControl() {
+        const int X_OFFSET_START = 10;
+		const int Y_OFFSET_START = 20;
+		const int Y_OFFSET = 27;
+
+        public EditControl() {
 			InitializeComponent();
 		}
 
 		public void handle(Packet packet) {
-			if (packet is PacketSingleEditor)
-				addControls(packet as PacketSingleEditor);
+			if (packet is PacketSingleEditor) 
+				updateForm(packet.type, packet as PacketSingleEditor);
 		}
 
-		private void addControls(PacketSingleEditor packet) {
-			groupbox.Controls.Clear();
+        private void updateForm(Type type, PacketSingleEditor packet) {
+            generateButtons(type, packet);
 
-			var fields = from field
-						 in packet.type.GetFields()
-						 orderby ((JsonPropertyAttribute)Attribute.GetCustomAttribute(
-										field, typeof(JsonPropertyAttribute))
-									)?.Order
-						 select field;
+            var fields =
+                 from field in type.GetFields()
+                 orderby ((JsonPropertyAttribute)Attribute.GetCustomAttribute(
+                     field, typeof(JsonPropertyAttribute))
+                 )?.Order
+                 select field;
 
-			int X_OFFSET_START = 10;
-			int Y_OFFSET_START = 20;
-			int Y_OFFSET = 27;
+            for (int fieldIndex = 0; fieldIndex < fields.Count(); fieldIndex++) {
+                var ctr = new EditorFieldControl(packet, fields.ElementAt(fieldIndex));
+                ctr.Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * fieldIndex + 40);
+                groupbox.Controls.Add(ctr);
+            }
+        }
 
-			Button btnClear = new Button() {
-				Text = "Clear",
-				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
-				Width = 50,
-				Enabled = false
-			};
+        private void generateButtons(Type type, Packet packet) {
+            if (type == null) type = packet.type;
 
-			Button btnCreate = new Button() {
-				Text = "Create",
-				Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
-				Width = 50,
-				Tag = packet.type,
-				Enabled = false
-			};
+            groupbox.Controls.Clear();
 
-			Button btnUpdate = new Button() {
-				Text = "Update",
-				Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
-				Width = 50,
-				Tag = packet,
-				Enabled = false
-			};
+            Button btnClear = new Button() {
+                Text = "Clear",
+                Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
+                Width = 50,
+                Tag = type,
+                Enabled = true
+            };
 
-			Button btnDelete = new Button() {
-				Text = "Delete",
-				Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
-				Width = 50,
-				Tag = packet,
-				Enabled = false
-			};
+            Button btnCreate = new Button() {
+                Text = "Create",
+                Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
+                Width = 50,
+                Tag = type,
+                Enabled = true
+            };
 
-			btnClear.MouseClick += this.clear;
-			btnCreate.MouseClick += this.create;
-			btnDelete.MouseClick += this.delete;
-			btnUpdate.MouseClick += this.update;
+            Button btnUpdate = new Button() {
+                Text = "Update",
+                Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
+                Width = 50,
+                Tag = packet,
+                Enabled = packet != null
+            };
 
-			groupbox.Controls.Add(btnClear);
-			groupbox.Controls.Add(btnCreate);
-			groupbox.Controls.Add(btnDelete);
-			groupbox.Controls.Add(btnUpdate);
+            Button btnDestroy = new Button() {
+                Text = "Destroy",
+                Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
+                Width = 55,
+                Tag = packet,
+                Enabled = packet != null
+            };
 
-			for (int i = 0;i < fields.Count();i++) {
-				var ctr = new EditorFieldControl(i, packet, fields.ElementAt(i));
-				ctr.Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * i + 40);
-				groupbox.Controls.Add(ctr);
-			}
-		}
+            btnClear.MouseClick += clear;
+            btnCreate.MouseClick += create;
+            btnDestroy.MouseClick += destroy;
+            btnUpdate.MouseClick += update;
 
+            groupbox.Controls.Add(btnClear);
+            groupbox.Controls.Add(btnCreate);
+            groupbox.Controls.Add(btnDestroy);
+            groupbox.Controls.Add(btnUpdate);
+        }
 
-		private void clear(object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
+        private void clear(object sender, MouseEventArgs e) {
+            Button button = sender as Button;
+			Type type = button.Tag as Type;
 
-		private void create(object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
+			updateForm(type, null);
+        }
 
-		private void update(object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
+        private void create(object sender, MouseEventArgs e) {
+            refresh();
+        }
 
-		private void delete(object sender, MouseEventArgs e) {
-			throw new NotImplementedException();
-		}
-	}
+        private void update(object sender, MouseEventArgs e) {
+            refresh();
+        }
+
+        private void destroy(object sender, MouseEventArgs e) {
+            refresh();
+        }
+
+        private void refresh() {
+			//updateForm(currentPacket);
+            sent(this, new PacketUpdate());
+        }
+    }
 }

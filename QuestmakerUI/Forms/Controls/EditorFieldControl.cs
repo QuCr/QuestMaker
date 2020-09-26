@@ -19,10 +19,7 @@ namespace QuestmakerUI.Forms.Controls {
 		object value;
 		Type type;
 		PacketSingleEditor singleEditorPacket;
-		Packet packet;
-
-		//int fieldIndex;
-		FieldInfo field;
+        FieldInfo field;
 
 		bool isEntity => Helper.isSubOf<Entity>(value);
 
@@ -30,14 +27,14 @@ namespace QuestmakerUI.Forms.Controls {
 			InitializeComponent();
 		}
 
-		public EditorFieldControl(int fieldIndex, PacketSingleEditor singleEditorPacket, FieldInfo field) {
+		public EditorFieldControl(PacketSingleEditor singleEditorPacket = null, FieldInfo field = null) {
 			InitializeComponent();
 			
 			this.field = field;
 
-			this.name = field.Name;
-			this.value = field.GetValue(singleEditorPacket.getEntity());
-			this.type = field.FieldType;
+			name = field.Name;
+			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
+			type = field.FieldType;
 			this.singleEditorPacket = singleEditorPacket;
 
 			label.Text = name;
@@ -57,24 +54,16 @@ namespace QuestmakerUI.Forms.Controls {
 					Width = 100,
 					Minimum = int.MinValue,
 					Maximum = int.MaxValue,
-					Value = Convert.ToDecimal(value),
-					Tag = new PacketEdit(singleEditorPacket as Packet, name),
+					Value = Convert.ToDecimal(value)
 				});
-				numericUpDown.KeyUp += this.newValue;
 				return;
 			}
 
 			if (type == typeof(bool)) {
-				if (value == null)
-					if (name == "id")
-						value = type.Name.ToLower() + EntityCollection.getTypeArray(type).Count;
-					else
-						value = "";
-
 				Controls.Add(new CheckBox() {
 					Location = new Point(75, 0),
 					Width = 100,
-					Checked = value.ToString() == true.ToString()
+					Checked = value?.ToString() == true.ToString() 
 				});
 				return;
 			}
@@ -82,7 +71,7 @@ namespace QuestmakerUI.Forms.Controls {
 			if (type == typeof(string)) {
 				if (value == null)
 					if (name == "id" || name == "displayName")
-						value = type.Name.ToLower() + EntityCollection.getTypeArray(type).Count;
+						value = "ID";
 					else
 						value = "";
 
@@ -93,28 +82,34 @@ namespace QuestmakerUI.Forms.Controls {
 				return;
 			}
 
-			if (Helper.isSubOf<Entity>(value)) {
-				Controls.Add(new Label() {
-					Text = "Entity",
-					Location = new Point(75, 0),
-				});
-			}
+            if (value != null) {
+				if (Helper.isSubOf<Entity>(value)) {
+					Controls.Add(new Button() {
+						Text = "Entity",
+						Location = new Point(75, 0),
+					});
+				}
 
-			if (Helper.isListOf<Entity>(value)) {
-				Controls.Add(new Label() {
-					Text = "List of entities",
-					Location = new Point(75, 0),
-				});
-			}
+				if (Helper.isListOf<Entity>(value)) {
+					Controls.Add(new Button() {
+						Text = "List of entities",
+						Location = new Point(75, 0),
+					});
+				}
 
-			if (Helper.isList(value)) {
-				Controls.Add(new Label() {
-					Text = "List of dummies",
-					Location = new Point(75, 0),
-				});
-			}
+				if (Helper.isList(value)) {
+					Controls.Add(new Button() {
+						Text = "List of dummies",
+						Location = new Point(75, 0),
+					});
+				}
+			} else
+                Controls.Add(new Button() {
+                    Text = "NULL",
+                    Location = new Point(75, 0),
+                });
 
-			return;
+            return;
 		}
 
 		/// <summary>
