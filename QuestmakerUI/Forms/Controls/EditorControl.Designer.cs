@@ -1,6 +1,6 @@
 ﻿
 namespace QuestmakerUI {
-	partial class EditControl {
+	partial class EditorControl {
 		/// <summary> 
 		/// Required designer variable.
 		/// </summary>

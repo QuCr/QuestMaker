@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.Windows.Forms;
 using QuestMaker.Data;
@@ -12,43 +7,41 @@ using Qutilities;
 using QuestMaker.Code;
 
 namespace QuestmakerUI.Forms.Controls {
-	public partial class EditorFieldControl : UserControl {
-		//public event EventHandler<Packet> sent;
+    public partial class EditorFieldControl : UserControl {
+        public FieldInfo field;
+        private EditorControl parent;
 
-		string name;
-		object value;
-		Type type;
-		PacketSingleEditor singleEditorPacket;
-        FieldInfo field;
+        public string name;
+		public object value;
+		public Type type;
+		public Control control;
 
-		bool isEntity => Helper.isSubOf<Entity>(value);
+		public bool canCreate = true;
+		public bool canUpdate = true;
+		public bool canDestroy = true;
 
 		public EditorFieldControl() {
 			InitializeComponent();
 		}
 
-		public EditorFieldControl(PacketSingleEditor singleEditorPacket = null, FieldInfo field = null) {
+		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null) {
 			InitializeComponent();
 			
 			this.field = field;
-
+			this.parent = parent;
 			name = field.Name;
 			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
 			type = field.FieldType;
-			this.singleEditorPacket = singleEditorPacket;
 
 			label.Text = name;
 
-			addField();
+			addInputControls();
 		}
 
-		void addField() {
-			Console.WriteLine($"\t{type.Name,10} {name,-20} {value}");
-
+		void addInputControls() {
 			if (type == typeof(double) || type == typeof(int)) {
 				if (value == null) value = 0;
-				NumericUpDown numericUpDown;
-				Controls.Add(numericUpDown = new NumericUpDown() {
+				Controls.Add(control = new NumericUpDown() {
 					Text = value.ToString(),
 					Location = new Point(75, 0),
 					Width = 100,
@@ -56,16 +49,18 @@ namespace QuestmakerUI.Forms.Controls {
 					Maximum = int.MaxValue,
 					Value = Convert.ToDecimal(value)
 				});
-				return;
+                control.TextChanged += textChanged;
+                return;
 			}
 
 			if (type == typeof(bool)) {
-				Controls.Add(new CheckBox() {
+				Controls.Add(control = new CheckBox() {
 					Location = new Point(75, 0),
 					Width = 100,
-					Checked = value?.ToString() == true.ToString() 
+					Checked = value?.ToString() == true.ToString()
 				});
-				return;
+                control.TextChanged += textChanged;
+                return;
 			}
 
 			if (type == typeof(string)) {
@@ -75,36 +70,40 @@ namespace QuestmakerUI.Forms.Controls {
 					else
 						value = "";
 
-				Controls.Add(new TextBox() {
+				Controls.Add(control = new TextBox() {
 					Text = value.ToString(),
 					Location = new Point(75, 0),
+					Tag = name == "id" ? value : ""
 				});
-				return;
+                control.TextChanged += textChanged;
+				textChanged(control, null);
+
+                return;
 			}
 
             if (value != null) {
 				if (Helper.isSubOf<Entity>(value)) {
-					Controls.Add(new Button() {
+					Controls.Add(new Label() {
 						Text = "Entity",
 						Location = new Point(75, 0),
 					});
 				}
 
 				if (Helper.isListOf<Entity>(value)) {
-					Controls.Add(new Button() {
+					Controls.Add(new Label() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
 					});
 				}
 
 				if (Helper.isList(value)) {
-					Controls.Add(new Button() {
+					Controls.Add(new Label() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
 					});
 				}
 			} else
-                Controls.Add(new Button() {
+                Controls.Add(new Label() {
                     Text = "NULL",
                     Location = new Point(75, 0),
                 });
@@ -116,20 +115,48 @@ namespace QuestmakerUI.Forms.Controls {
 		/// This is an event, just because it can be called by KeyUp. 
 		/// The EventArgs aren't used, but the event handler expects it.
 		/// </summary>
-		private void newValue(object sender, EventArgs e) {
-			Control control = sender as Control;
-			Console.WriteLine("Name: " + control.GetType());
+		public void textChanged(object sender, EventArgs e) {
+			if (sender is TextBox) {
+				var textBox = sender as TextBox;
+				var tag = textBox.Tag.ToString();
+				string id;
+				var text = textBox.Text;
 
-			if (control is NumericUpDown) {
-				NumericUpDown numericUpDown = control as NumericUpDown;
-				Entity entity = EntityCollection.get(singleEditorPacket).First();
+				if (parent.packet == null) {
+					id = string.Empty;
+				} else {
+					id = parent.packet.getEntity().id;
+				}
 
-				Console.WriteLine("Value old: " + field.GetValue(entity).ToString());
-				field.SetValue(entity, Convert.ChangeType(numericUpDown.Value, field.FieldType));
-				Console.WriteLine("Value new: " + field.GetValue(entity).ToString());
+				if (tag != null) {
+					if (tag != string.Empty) {
+						if (EntityCollection.isExistingID(textBox.Text)) {
+							canCreate = false;
+							canUpdate = true;
+							canDestroy = true;
+						} else {
+							canCreate = true;
+							canUpdate = false;
+							canDestroy = false;
+						}
+
+						if (EntityCollection.isExistingID(textBox.Text) && id != text || text == string.Empty) {
+							canCreate = false; 
+							canUpdate = false;
+                            canDestroy = false;
+                            textBox.ForeColor = Color.Red;
+                        } else {
+                            textBox.ForeColor = Color.Black;
+                        }
+					}
+				}
 			}
 
-			
-		}
+			parent.validate();
+
+            if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
+            if (sender is TextBox) value = (sender as TextBox).Text;
+            if (sender is CheckBox) value = (sender as CheckBox).Checked;
+        }
 	}
 }

@@ -97,7 +97,7 @@ namespace QuestMaker.Data {
 		/// </summary>
 		/// <exception cref="ArgumentException"/>
 		public void activate(Entity entity) {
-			if (!getActiveIDs().Contains(entity.id)) {
+			if (!isExistingID(entity.id)) {
 				this[entity.GetType().Name].Add(entity.id, entity);
 			} else
 				throw new ArgumentException("An item with the same ID is already activated.");
@@ -114,7 +114,7 @@ namespace QuestMaker.Data {
 				data.Remove(oldID);
 
 			if (!deactivated)
-				throw new KeyNotFoundException("Could not remove the Entitys, probably because it wasn't in there");
+				throw new KeyNotFoundException("Could not remove the Entity, probably because it wasn't in there");
 		}
 
 		/// <summary>
@@ -123,14 +123,14 @@ namespace QuestMaker.Data {
 		/// <remark>
 		/// Called every time a user adds another Entity
 		/// </remark>
-		List<string> getActiveIDs() {
+		public static bool isExistingID(string id) {
 			List<string> allIDs = new List<string>();
 			foreach (Type type in types) {
-				foreach (var id in this[type.Name].Keys) {
-					allIDs.Add(id);
+				foreach (string item in entityCollection[type.Name].Keys) {
+					allIDs.Add(item);
 				}
 			}
-			return allIDs;
+			return allIDs.Contains(id);
 		}
 
 		/// <summary>

@@ -25,7 +25,7 @@
 		private void InitializeComponent() {
 			this.viewer = new QuestmakerUI.ViewControl();
 			this.tree = new QuestmakerUI.TreeControl();
-			this.editor = new QuestmakerUI.EditControl();
+			this.editor = new QuestmakerUI.EditorControl();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -110,7 +110,7 @@
 
 		#endregion
 
-		private EditControl editor;
+		private EditorControl editor;
 		private TreeControl tree;
 		private ViewControl viewer;
 		private System.Windows.Forms.MenuStrip menuStrip1;

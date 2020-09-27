@@ -91,7 +91,11 @@ namespace QuestmakerUI {
 
 			//VIEW
 			if (packet.hasEntities) {
-				foreach (Entity entity in EntityCollection.get(packet)) {
+                if (EntityCollection.get(packet)[0] == null) {
+                    packet = Packet.byType(packet.type);
+                }
+
+                foreach (Entity entity in EntityCollection.get(packet)) {
 					ListViewItem listViewItem = new ListViewItem {
 						UseItemStyleForSubItems = false,
 						Tag = new PacketType(typeof(Waypoint))
@@ -118,7 +122,7 @@ namespace QuestmakerUI {
 
 							//O- (Null)
 							if (isList(value) == false && isSubOf<Entity>(value) == false) {
-								packetItem = new PacketSingleEditor(packet);
+								packetItem = new PacketSingleEditor(Packet.byEntity(entity));
 								textItem = value.ToString();
 							}
 
@@ -189,13 +193,15 @@ namespace QuestmakerUI {
 
 				bool wasSelected = view.Items[rowIndex].Checked;
 				Packet packetItem = (Packet)view.Items[rowIndex].Tag;
-				Packet packetSubItem = (Packet)view.Items[rowIndex].SubItems[columnIndex].Tag;
+				var c = view.Items[rowIndex];
+				var b = c.SubItems[columnIndex];
+				var a = (Packet)b.Tag;
 				string stringSubItem = view.Items[rowIndex].SubItems[columnIndex].Text;
 				
-				if (packetSubItem != null)
-					sent(this, packetSubItem);
+				if (a != null)
+					sent(this, a);
 
-				Console.WriteLine("Packet: " + packetSubItem?.ToString());
+				Console.WriteLine("Packet: " + a?.ToString());
 			}
 		}
 	}

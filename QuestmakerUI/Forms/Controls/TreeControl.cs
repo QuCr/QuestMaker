@@ -43,7 +43,8 @@ namespace QuestmakerUI {
 		}
 
 		internal void handle(Packet packet) {
-			throw new NotImplementedException();
+			if (packet is PacketUpdate)
+				generateTree();
 		}
 
 		void tree_Click(object sender, TreeNodeMouseClickEventArgs e) => sent(this, (Packet)e.Node.Tag);

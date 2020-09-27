@@ -15,12 +15,12 @@ namespace QuestMaker.Code {
 
 		Null = 0
 		, Single =			flagViewer									|	flagEntity					//18
-		, DummyArray =		flagViewer	|	flagList														//17
+		, DummyArray =		flagViewer	|	flagList													//17
 		, Array =			flagViewer	|	flagList	|					flagEntity					//19
 		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
-		, Update =			flagViewer	|	flagEditor	|					flagEntity					//26
+		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
 		, Edit =			flagViewer									|   flagEntity					//18
-		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
+		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
 		, SingleEditor =					flagEditor	|					flagEntity                  //10
 
 		/*FOR SUDDEN UNINTENDED REFORMATS.
@@ -28,12 +28,12 @@ namespace QuestMaker.Code {
 
 		Null = 0
 		, Single =			flagViewer									|	flagEntity					//18
-		, DummyArray =		flagViewer	|	flagList														//17
+		, DummyArray =		flagViewer	|	flagList													//17
 		, Array =			flagViewer	|	flagList	|					flagEntity					//19
 		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
-		, Update =			flagViewer	|	flagEditor	|					flagEntity					//26
+		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
 		, Edit =			flagViewer									|   flagEntity					//18
-		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree										//56
+		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
 		, SingleEditor =					flagEditor	|					flagEntity                  //10
 
 		*/
@@ -168,7 +168,7 @@ namespace QuestMaker.Code {
             handlerEnum = HandlerEnum.Update;
         }
 
-        public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
+        public override string ToString() => $"Update";
     }
 
 
