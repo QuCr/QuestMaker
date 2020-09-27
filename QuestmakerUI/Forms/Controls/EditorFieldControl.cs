@@ -134,13 +134,13 @@ namespace QuestmakerUI.Forms.Controls {
 							canCreate = false;
 							canUpdate = true;
 							canDestroy = true;
-						} else {
+                        } else {
 							canCreate = true;
-							canUpdate = false;
-							canDestroy = false;
-						}
+							canUpdate = true;
+							canDestroy = true;
+                        }
 
-						if (EntityCollection.isExistingID(textBox.Text) && id != text || text == string.Empty) {
+						if (EntityCollection.isExistingID(textBox.Text) && id != text) {
 							canCreate = false; 
 							canUpdate = false;
                             canDestroy = false;
@@ -148,7 +148,16 @@ namespace QuestmakerUI.Forms.Controls {
                         } else {
                             textBox.ForeColor = Color.Black;
                         }
-					}
+
+                        if (!canCreate && !canUpdate && !canDestroy)	Console.WriteLine("Case: Other ID");
+                        if ( canCreate &&  canUpdate &&  canDestroy)	Console.WriteLine("Case: No existing ID");
+                        if (!canCreate &&  canUpdate &&  canDestroy)	Console.WriteLine("Case: Own ID");
+                        if ( canCreate && !canUpdate &&  canDestroy)	Console.WriteLine("Case: unhandled");
+                        if (!canCreate && !canUpdate &&  canDestroy)	Console.WriteLine("Case: unhandled");
+                        if ( canCreate &&  canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
+                        if (!canCreate &&  canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
+                        if ( canCreate && !canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
+                    }
 				}
 			}
 

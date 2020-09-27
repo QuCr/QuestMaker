@@ -135,9 +135,11 @@ namespace QuestmakerUI {
         private void update(object sender, MouseEventArgs e) {
             Entity entity = packet.getEntity();
 
+            entity.deactivate();
             foreach (EditorFieldControl control in list) {
                 control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
             }
+            entity.activate();
 
             refresh();
         }

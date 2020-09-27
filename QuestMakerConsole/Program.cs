@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using QuestMaker.Code;
 using QuestMaker.Data;
 using QuestMakerConsole.Code.DataAccess;
 
