@@ -116,6 +116,10 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
-	}
+
+        public EditorControl Editor { get => editor; private set => editor = value; }
+        public TreeControl Tree { get => tree; private set => tree = value; }
+        public ViewControl Viewer { get => viewer; private set => viewer = value; }
+    }
 }
 
