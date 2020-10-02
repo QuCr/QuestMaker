@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using QuestMaker.Data;
 using Qutilities;
 using QuestMaker.Code;
+using System.Collections;
+using System.Linq;
 
 namespace QuestmakerUI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
@@ -49,8 +51,8 @@ namespace QuestmakerUI.Forms.Controls {
 					Maximum = int.MaxValue,
 					Value = Convert.ToDecimal(value)
 				});
-                control.TextChanged += textChanged;
-                return;
+				control.TextChanged += textChanged;
+				return;
 			}
 
 			if (type == typeof(bool)) {
@@ -59,8 +61,8 @@ namespace QuestmakerUI.Forms.Controls {
 					Width = 100,
 					Checked = value?.ToString() == true.ToString()
 				});
-                control.TextChanged += textChanged;
-                return;
+				control.TextChanged += textChanged;
+				return;
 			}
 
 			if (type == typeof(string)) {
@@ -75,41 +77,49 @@ namespace QuestmakerUI.Forms.Controls {
 					Location = new Point(75, 0),
 					Tag = name == "id" ? value : ""
 				});
-                control.TextChanged += textChanged;
+				control.TextChanged += textChanged;
 				textChanged(control, null);
 
-                return;
+				return;
 			}
 
-            if (value != null) {
+			if (value != null) {
+				Button button = null;
 				if (Helper.isSubOf<Entity>(value)) {
-					Controls.Add(new Label() {
+					Controls.Add(control = button = new Button() {
 						Text = "Entity",
 						Location = new Point(75, 0),
+						Tag = new PacketEdit(Packet.byEntity((Entity)value), name)
 					});
-				}
-
-				if (Helper.isListOf<Entity>(value)) {
-					Controls.Add(new Label() {
+				} else if (Helper.isListOf<Entity>(value)) {
+					Controls.Add(control = button = new Button() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
+						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()), name)
 					});
-				}
-
-				if (Helper.isList(value)) {
-					Controls.Add(new Label() {
+				} /*else if (Helper.isList(value)) {
+                    Controls.Add(control = button = new Button() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
+						Enabled = false
 					});
-				}
+				}*/
+				button.Click += click;
 			} else
-                Controls.Add(new Label() {
-                    Text = "NULL",
-                    Location = new Point(75, 0),
-                });
+				Controls.Add(new Label() {
+					Text = "NULL",
+					Location = new Point(75, 0),
+				});
 
-            return;
+			return;
 		}
+
+        private void click(object sender, EventArgs e) {
+            var button = sender as Button;
+            var tag = (PacketEdit)button.Tag;
+
+			parent.clickReference(sender as Button, tag);
+        }
 
 		/// <summary>
 		/// This is an event, just because it can be called by KeyUp. 
@@ -117,48 +127,52 @@ namespace QuestmakerUI.Forms.Controls {
 		/// </summary>
 		public void textChanged(object sender, EventArgs e) {
 			if (sender is TextBox) {
-				var textBox = sender as TextBox;
-				var tag = textBox.Tag.ToString();
-				string id;
-				var text = textBox.Text;
+                /*TextBox textBox = sender as TextBox;
+				//tag is the original ID of the text box
+				string tag = textBox.Tag.ToString();
 
-				if (parent.packet == null) {
-					id = string.Empty;
-				} else {
-					id = parent.packet.getEntity().id;
+				//packetID is the ID of the entity
+				string packetID = "";
+				string text = textBox.Text;
+
+				if (packetID == tag)
+					Console.WriteLine($"same: {packetID}");
+				else 
+					Console.WriteLine($"diff: {packetID} - {tag}");
+
+				if (parent.packet != null) {
+					packetID = parent.packet.getEntity().id;
 				}
 
-				if (tag != null) {
-					if (tag != string.Empty) {
-						if (EntityCollection.isExistingID(textBox.Text)) {
-							canCreate = false;
-							canUpdate = true;
-							canDestroy = true;
-                        } else {
-							canCreate = true;
-							canUpdate = true;
-							canDestroy = true;
-                        }
+				if (tag != string.Empty) {
+					if (EntityCollection.isExistingID(textBox.Text)) {
+						canCreate = false;
+						canUpdate = true;
+						canDestroy = true;
+					} else {
+						canCreate = true;
+						canUpdate = true;
+						canDestroy = true;
+					}
 
-						if (EntityCollection.isExistingID(textBox.Text) && id != text) {
-							canCreate = false; 
-							canUpdate = false;
-                            canDestroy = false;
-                            textBox.ForeColor = Color.Red;
-                        } else {
-                            textBox.ForeColor = Color.Black;
-                        }
+					if (EntityCollection.isExistingID(textBox.Text) && packetID != text) {
+						canCreate = false;
+						canUpdate = false;
+						canDestroy = false;
+						textBox.ForeColor = Color.Red;
+					} else {
+						textBox.ForeColor = Color.Black;
+					}
 
-                        if (!canCreate && !canUpdate && !canDestroy)	Console.WriteLine("Case: Other ID");
-                        if ( canCreate &&  canUpdate &&  canDestroy)	Console.WriteLine("Case: No existing ID");
-                        if (!canCreate &&  canUpdate &&  canDestroy)	Console.WriteLine("Case: Own ID");
-                        if ( canCreate && !canUpdate &&  canDestroy)	Console.WriteLine("Case: unhandled");
-                        if (!canCreate && !canUpdate &&  canDestroy)	Console.WriteLine("Case: unhandled");
-                        if ( canCreate &&  canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
-                        if (!canCreate &&  canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
-                        if ( canCreate && !canUpdate && !canDestroy)	Console.WriteLine("Case: unhandled");
-                    }
-				}
+					if (!canCreate && !canUpdate && !canDestroy) Console.WriteLine("Case: Other ID");
+					if (canCreate && canUpdate && canDestroy) Console.WriteLine("Case: No existing ID");
+					if (!canCreate && canUpdate && canDestroy) Console.WriteLine("Case: Own ID");
+					if (canCreate && !canUpdate && canDestroy) Console.WriteLine("Case: unhandled");
+					if (!canCreate && !canUpdate && canDestroy) Console.WriteLine("Case: unhandled");
+					if (canCreate && canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
+					if (!canCreate && canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
+					if (canCreate && !canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
+				} */
 			}
 
 			parent.validate();

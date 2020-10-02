@@ -40,9 +40,7 @@ namespace QuestmakerUI {
         }
 
         private void generateViewer(Packet packet) {
-			view.CheckBoxes = false;
-
-			view.BeginUpdate();
+            view.BeginUpdate();
 
 			updateItems(packet);
 			updateColumns(packet);
@@ -88,9 +86,17 @@ namespace QuestmakerUI {
 
 		private void updateItems(Packet packet) {
 			view.Items.Clear();
+            view.CheckBoxes = false;
 
-			//VIEW
-			if (packet.hasEntities) {
+			List<Entity> selectedItems = new List<Entity>();
+            if (packet is PacketEdit) {
+                view.CheckBoxes = true;
+                selectedItems = EntityCollection.get( (packet as PacketEdit).packet );
+                packet = Packet.byType(packet.type);
+            }
+
+            //VIEW
+            if (packet.hasEntities) {
                 if (EntityCollection.get(packet)[0] == null) {
                     packet = Packet.byType(packet.type);
                 }
@@ -98,7 +104,8 @@ namespace QuestmakerUI {
                 foreach (Entity entity in EntityCollection.get(packet)) {
 					ListViewItem listViewItem = new ListViewItem {
 						UseItemStyleForSubItems = false,
-						Tag = new PacketType(typeof(Waypoint))
+						Tag = new PacketType(typeof(Waypoint)),
+						Checked = selectedItems.Contains(entity)
 					};
 
 					var fields = from FieldInfo field in packet.type.GetFields()
@@ -144,15 +151,15 @@ namespace QuestmakerUI {
 
 							//E+ (Array)
 							else if (isList(value) == true && isListOf<Entity>(value) == true) {
-								packetItem = (PacketArray)Packet.byEntity(((IList)value).Cast<Entity>().ToArray());
+								packetItem = Packet.byEntity(((IList)value).Cast<Entity>().ToArray());
 								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
 								fontItem = fontReference;
 								foreColor = Color.Blue;
 							}
 
 							listViewItem.SubItems.Add(new ListViewSubItem() {
-								Text = textItem,
 								Tag = packetItem,
+								Text = textItem,
 								Font = fontItem,
 								ForeColor = foreColor
 							});
@@ -201,7 +208,7 @@ namespace QuestmakerUI {
 				if (a != null)
 					sent(this, a);
 
-				Console.WriteLine("Packet: " + a?.ToString());
+				Console.WriteLine("Packet: " + a?.ToString() + wasSelected);
 			}
 		}
 	}

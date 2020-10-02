@@ -8,9 +8,9 @@ namespace QuestmakerUI {
 		public MainForm() {
 			InitializeComponent();
 
-			tree.sent += this.handle;
-			viewer.sent += this.handle;
-			editor.sent += this.handle;
+			tree.sent += handle;
+			viewer.sent += handle;
+			editor.sent += handle;
 		}
 
 		private void handle(object sender, Packet packet) {

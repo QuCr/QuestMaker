@@ -15,6 +15,7 @@ namespace QuestmakerUI {
         public event EventHandler<Packet> sent;
         List<EditorFieldControl> list;
         public PacketSingleEditor packet;
+        public bool isEditingReference = false;
 
         const int X_OFFSET_START = 10;
 		const int Y_OFFSET_START = 20;
@@ -30,10 +31,17 @@ namespace QuestmakerUI {
 		}
 
 		public void handle(Packet packet) {
-			if (packet is PacketSingleEditor) 
-				updateForm(packet.type, this.packet = packet as PacketSingleEditor);
+            if (!isEditingReference) {
+                if (packet is PacketSingleEditor) {
+                    this.packet = packet as PacketSingleEditor;
 
-            groupbox.Text = packet.ToString();
+                    if (packet is PacketSingleEditor)
+                        updateForm(packet.type, this.packet);
+
+                    groupbox.Text = packet.ToString();
+                }
+            }
+
 		}
 
         private void updateForm(Type type, PacketSingleEditor packet) {
@@ -55,6 +63,7 @@ namespace QuestmakerUI {
                 groupbox.Controls.Add(ctr);
                 list.Add(ctr);
             }
+
             validate();
         }
 
@@ -102,6 +111,27 @@ namespace QuestmakerUI {
             groupbox.Controls.Add(btnUpdate);
         }
 
+        internal void clickReference(Button button, PacketEdit tag) {
+            isEditingReference = !isEditingReference;
+            validate();
+
+            if (isEditingReference) {
+                sent(this, tag);
+                button.Text = "Save";
+            } else {
+                sent(this, tag.packet);
+                button.Text = "Edit";
+            }
+            
+
+            foreach (EditorFieldControl item in list) {
+                if (item.control != null) {
+                    item.control.Enabled = !isEditingReference;
+                }
+            }
+            button.Enabled = true;
+        }
+
         private void clear(object sender, MouseEventArgs e) {
             Button button = sender as Button;
 			Type type = button.Tag as Type;
@@ -147,6 +177,7 @@ namespace QuestmakerUI {
         private void destroy(object sender, MouseEventArgs e) {
             packet.getEntity().deactivate();
             packet = null;
+            groupbox.Text = "";
 
             refresh();
 
@@ -160,7 +191,7 @@ namespace QuestmakerUI {
         }
 
         public void validate() {
-            groupbox.Text = packet?.ToString();
+            groupbox.Text = "Packet: " + packet?.ToString();
 
             bool validCreate = true;
             bool ValidUpdate = true;
@@ -172,9 +203,9 @@ namespace QuestmakerUI {
                 if (control.canDestroy == false) ValidDestroy = false;
             }
 
-            btnCreate.Enabled = validCreate;
-            btnUpdate.Enabled = ValidUpdate;
-            btnDestroy.Enabled = ValidDestroy;
+            btnCreate.Enabled = validCreate && !isEditingReference;
+            btnUpdate.Enabled = ValidUpdate && !isEditingReference;
+            btnDestroy.Enabled = ValidDestroy && !isEditingReference;
         }
     }
 }

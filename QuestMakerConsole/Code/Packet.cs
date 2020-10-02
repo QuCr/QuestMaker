@@ -154,7 +154,7 @@ namespace QuestMaker.Code {
         public PacketType(Type type) {
             handlerEnum = HandlerEnum.Type;
             this.type = type;
-            entities = EntityCollection.getTypeArray(type); ;
+            entities = EntityCollection.getTypeArray(type);
         }
 
         public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
@@ -171,7 +171,7 @@ namespace QuestMaker.Code {
         public override string ToString() => $"Update";
     }
 
-
+	
 	/// <summary>
 	/// Packet with a value of entities that is going to be edited, referencing a packet for the edited value.
 	/// Used when editing the value by selecting the entities from the underlying request.
@@ -191,7 +191,7 @@ namespace QuestMaker.Code {
 		}
 
 		public override string ToString() => 
-			$"Edit{packet.handlerEnum}<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
+			$"{packet.handlerEnum}<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
 	}
 
 	/// <summary>

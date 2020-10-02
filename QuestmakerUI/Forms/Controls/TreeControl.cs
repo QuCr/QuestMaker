@@ -5,11 +5,6 @@ using QuestMaker.Data;
 using System.Reflection;
 using QuestMaker.Code.Attributes;
 using QuestMaker.Code;
-using Newtonsoft.Json;
-using System.Data;
-using System.Linq;
-using System.Drawing;
-using System.Collections;
 
 namespace QuestmakerUI {
 	public partial class TreeControl : UserControl {
