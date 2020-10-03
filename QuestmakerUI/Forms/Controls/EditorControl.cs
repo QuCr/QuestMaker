@@ -150,11 +150,10 @@ namespace QuestmakerUI {
                 control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
             }
 
-
             try {
                 entity.activate();
             } catch (ArgumentException) {
-                MessageBox.Show("ERROR: create cannot be executed!!!");
+                MessageBox.Show("ERROR: create could not be executed!!!");
             }
 
             sent(this, new PacketSingleEditor(Packet.byEntity(entity)));
@@ -179,11 +178,11 @@ namespace QuestmakerUI {
             packet = null;
             groupbox.Text = "";
 
-            refresh();
-
             btnCreate.Enabled = true;
             btnUpdate.Enabled = false;
             btnDestroy.Enabled = false;
+
+            refresh();
         }
 
         public void refresh() {
@@ -191,8 +190,6 @@ namespace QuestmakerUI {
         }
 
         public void validate() {
-            groupbox.Text = "Packet: " + packet?.ToString();
-
             bool validCreate = true;
             bool ValidUpdate = true;
             bool ValidDestroy = true;

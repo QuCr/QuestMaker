@@ -16,7 +16,9 @@ namespace QuestmakerUI.Forms.Controls {
         public string name;
 		public object value;
 		public Type type;
-		public Control control;
+		public bool exists;
+
+        public Control control;
 
 		public bool canCreate = true;
 		public bool canUpdate = true;
@@ -31,6 +33,7 @@ namespace QuestmakerUI.Forms.Controls {
 			
 			this.field = field;
 			this.parent = parent;
+
 			name = field.Name;
 			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
 			type = field.FieldType;
@@ -127,59 +130,47 @@ namespace QuestmakerUI.Forms.Controls {
 		/// </summary>
 		public void textChanged(object sender, EventArgs e) {
 			if (sender is TextBox) {
-                /*TextBox textBox = sender as TextBox;
-				//tag is the original ID of the text box
+				TextBox textBox = sender as TextBox;
 				string tag = textBox.Tag.ToString();
-
-				//packetID is the ID of the entity
-				string packetID = "";
 				string text = textBox.Text;
 
-				if (packetID == tag)
-					Console.WriteLine($"same: {packetID}");
-				else 
-					Console.WriteLine($"diff: {packetID} - {tag}");
-
-				if (parent.packet != null) {
-					packetID = parent.packet.getEntity().id;
-				}
-
-				if (tag != string.Empty) {
-					if (EntityCollection.isExistingID(textBox.Text)) {
-						canCreate = false;
-						canUpdate = true;
-						canDestroy = true;
-					} else {
+				if (tag != "") {
+					if (parent.packet == null) {
 						canCreate = true;
-						canUpdate = true;
-						canDestroy = true;
-					}
-
-					if (EntityCollection.isExistingID(textBox.Text) && packetID != text) {
-						canCreate = false;
 						canUpdate = false;
 						canDestroy = false;
-						textBox.ForeColor = Color.Red;
-					} else {
 						textBox.ForeColor = Color.Black;
+					} else {
+						bool existingIDFromText = EntityCollection.isExistingID(text);
+						bool currentID = parent.packet.getEntity().id == text;
+
+						if (existingIDFromText && currentID) {
+							canCreate = false;
+							canUpdate = true;
+							canDestroy = true;
+							textBox.ForeColor = Color.Green;
+						} else if (existingIDFromText && !currentID) {
+							canCreate = false;
+							canUpdate = false;
+							canDestroy = false;
+							textBox.ForeColor = Color.Red;
+						} else if (!existingIDFromText && !currentID) {
+							canCreate = true;
+							canUpdate = true;
+							canDestroy = false;
+							textBox.ForeColor = Color.Black;
+						} else if (!existingIDFromText && currentID) {
+							throw new Exception("Case should never be fired");
+						}
 					}
-
-					if (!canCreate && !canUpdate && !canDestroy) Console.WriteLine("Case: Other ID");
-					if (canCreate && canUpdate && canDestroy) Console.WriteLine("Case: No existing ID");
-					if (!canCreate && canUpdate && canDestroy) Console.WriteLine("Case: Own ID");
-					if (canCreate && !canUpdate && canDestroy) Console.WriteLine("Case: unhandled");
-					if (!canCreate && !canUpdate && canDestroy) Console.WriteLine("Case: unhandled");
-					if (canCreate && canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
-					if (!canCreate && canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
-					if (canCreate && !canUpdate && !canDestroy) Console.WriteLine("Case: unhandled");
-				} */
+				}
 			}
-
-			parent.validate();
 
             if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
             if (sender is TextBox) value = (sender as TextBox).Text;
             if (sender is CheckBox) value = (sender as CheckBox).Checked;
-        }
+
+			parent.validate();
+		}
 	}
 }
