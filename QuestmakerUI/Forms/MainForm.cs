@@ -13,7 +13,7 @@ namespace QuestmakerUI {
 			editor.sent += handle;
 		}
 
-		private void handle(object sender, Packet packet) {
+		public void handle(object sender, Packet packet) {
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagTree))	tree.handle(packet);
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagViewer))	viewer.handle(packet);
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagEditor))	editor.handle(packet);

@@ -7,9 +7,6 @@ using QuestMakerConsole;
 
 namespace QuestmakerUI {
 	public static class UserInterface {
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
 		[STAThread]
 		static void Main() {
 			Program.Main("default");

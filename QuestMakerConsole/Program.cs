@@ -11,26 +11,23 @@ namespace QuestMakerConsole {
 			Console.WriteLine("||          QuestMaker - v0.0.0.5          ||");
 			Console.WriteLine("*********************************************\n");
 
-			switch (args[0]) {
-				case "json":
-					dataAccess = new JsonDataAccess();		//import & export
-					break;
-
-				case "default":
-				default:
-					dataAccess = new DefaultDataAccess();	//import & export
-					break;
+			if (args[0] == null || args[0] == "default") {
+				dataAccess = new DefaultDataAccess();   //import & export
+			} else if (args[0] == "json") {
+				dataAccess = new JsonDataAccess();      //import & export
+			} else {
+                Console.WriteLine("DataAcces is not defined, resorting to default data access.");
+				dataAccess = new DefaultDataAccess();   //import & export
 			}
 
 			if (dataAccess.isImportable()) 
 				dataAccess.import();
-
-			
 		}
 
-		public static void export() {
+		public static bool export() {
 			if (dataAccess.isExportable())
 				dataAccess.export(EntityCollection.entityCollection);
+			return dataAccess.isExportable();
 		}
 	}
 }

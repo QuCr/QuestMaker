@@ -47,15 +47,20 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="EditorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QuestMakerConsole\QuestMakerConsole.csproj">
+      <Project>{BB4E0D60-65AF-46C8-8861-ACC76BD6EF95}</Project>
+      <Name>QuestMakerConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestmakerUI\QuestmakerUI.csproj">
       <Project>{392B3583-3444-4676-A91C-1075BBA9B10F}</Project>
       <Name>QuestmakerUI</Name>

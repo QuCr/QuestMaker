@@ -13,7 +13,7 @@ using QuestMaker.Data;
 namespace QuestmakerUI {
     public partial class EditorControl : UserControl {
         public event EventHandler<Packet> sent;
-        List<EditorFieldControl> list;
+        public List<EditorFieldControl> list;
         public PacketSingleEditor packet;
         public bool isEditingReference = false;
 
@@ -140,7 +140,7 @@ namespace QuestmakerUI {
 			updateForm(type, null);
         }
 
-        private void create(object sender, MouseEventArgs e) {
+        public void create(object sender, MouseEventArgs e) {
             Button button = sender as Button;
             Type type = button.Tag as Type;
 
@@ -162,7 +162,7 @@ namespace QuestmakerUI {
             refresh();
         }
 
-        private void update(object sender, MouseEventArgs e) {
+        public void update(object sender, MouseEventArgs e) {
             Entity entity = packet.getEntity();
 
             entity.deactivate();
@@ -174,7 +174,7 @@ namespace QuestmakerUI {
             refresh();
         }
 
-        private void destroy(object sender, MouseEventArgs e) {
+        public void destroy(object sender, MouseEventArgs e) {
             packet.getEntity().deactivate();
             packet = null;
             groupbox.Text = "";
