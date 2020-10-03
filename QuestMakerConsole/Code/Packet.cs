@@ -178,20 +178,18 @@ namespace QuestMaker.Code {
 	/// </summary>
 	public sealed class PacketEdit : Packet {
 		public Packet packet = null;
-		public string field = null;
 
 		/// <param name="packet">Underlying packet</param>
-		/// <param name="field">Name of the edited field</param>
-		public PacketEdit(Packet packet, string field) {
+		public PacketEdit(Packet packet) {
 			this.packet = packet;
+
 			entities.AddRange(EntityCollection.get(packet));
 			type = packet.type.IsGenericType ? packet.type.GetGenericArguments()[0] : packet.type;
-			this.field = field;
 			handlerEnum = HandlerEnum.Edit;
 		}
 
 		public override string ToString() => 
-			$"{packet.handlerEnum}<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
+			$"Edit<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
 	}
 
 	/// <summary>
