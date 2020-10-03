@@ -21,10 +21,10 @@ namespace QuestmakerUI {
 		const int Y_OFFSET_START = 20;
 		const int Y_OFFSET = 27;
 
-        Button btnClear;
-        Button btnCreate;
-        Button btnUpdate;
-        Button btnDestroy;
+        public Button btnClear;
+        public Button btnCreate;
+        public Button btnUpdate;
+        public Button btnDestroy;
 
         public EditorControl() {
 			InitializeComponent();
@@ -140,7 +140,7 @@ namespace QuestmakerUI {
 			updateForm(type, null);
         }
 
-        public void create(object sender, MouseEventArgs e) {
+        public void create(object sender, MouseEventArgs _) {
             Button button = sender as Button;
             Type type = button.Tag as Type;
 
@@ -153,7 +153,7 @@ namespace QuestmakerUI {
             try {
                 entity.activate();
             } catch (ArgumentException) {
-                MessageBox.Show("ERROR: create could not be executed!!!");
+                MessageBox.Show("ERROR: Entity is already activated");
             }
 
             sent(this, new PacketSingleEditor(Packet.byEntity(entity)));
@@ -170,6 +170,9 @@ namespace QuestmakerUI {
             }
             entity.activate();
 
+            list[0].control.Text = entity.id + "!";
+            list[0].control.Text = entity.id;
+
             refresh();
         }
 
@@ -181,6 +184,10 @@ namespace QuestmakerUI {
             btnCreate.Enabled = true;
             btnUpdate.Enabled = false;
             btnDestroy.Enabled = false;
+
+            string text = list[0].control.Text;
+            list[0].control.Text = text + "!";
+            list[0].control.Text = text;
 
             refresh();
         }

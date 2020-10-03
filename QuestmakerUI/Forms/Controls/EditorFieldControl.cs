@@ -134,7 +134,11 @@ namespace QuestmakerUI.Forms.Controls {
 				string tag = textBox.Tag.ToString();
 				string text = textBox.Text;
 
-				if (tag != "") {
+				if (text == "") {
+					canCreate = false;
+					canUpdate = false;
+					canDestroy = false;
+				} else if (tag != "") {
 					if (parent.packet == null) {
 						canCreate = true;
 						canUpdate = false;
