@@ -170,7 +170,6 @@ namespace QuestmakerUI {
 				}
 			} else {
 				foreach (Dummy item in packet.entities) {
-
 					ListViewItem listViewItem = new ListViewItem {
 						UseItemStyleForSubItems = false
 					};
@@ -182,10 +181,7 @@ namespace QuestmakerUI {
 						Text = item.value.ToString()
 					});
 
-
 					view.Items.Add(listViewItem);
-
-					Console.WriteLine(item.value);
 				}
 			}
 		}
@@ -208,7 +204,7 @@ namespace QuestmakerUI {
 				if (a != null)
 					sent(this, a);
 
-				Console.WriteLine("Packet: " + a?.ToString() + wasSelected);
+				//Console.WriteLine("Packet: " + a?.ToString() + wasSelected);
 			}
 		}
 	}
