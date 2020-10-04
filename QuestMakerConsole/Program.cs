@@ -13,6 +13,8 @@ namespace QuestMaker.Console {
 
 			if (args.Length == 0) {
 				dataAccess = new DefaultDataAccess();   //import & export
+			} else if (args[0] == "default") {
+				dataAccess = new DefaultDataAccess();    //import & export
 			} else if (args[0] == "json") {
 				dataAccess = new JsonDataAccess();      //import & export
 			} else {

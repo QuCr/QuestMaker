@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Questmaker.UI.Forms.Controls;
 using System.Reflection;
 using QuestMaker.Data;
+using Questmaker.UI.Forms;
+using QuestMaker.Console;
 
 namespace Questmaker.UI {
     public partial class EditorControl : UserControl {
@@ -114,14 +116,6 @@ namespace Questmaker.UI {
         internal void clickReference(Button button, PacketEdit tag) {
             isEditingReference = !isEditingReference;
             validate();
-
-            if (isEditingReference) {
-                sent(this, tag);
-                button.Text = "Save";
-            } else {
-                sent(this, tag.packet);
-                button.Text = "Edit";
-            }
             
 
             foreach (EditorFieldControl item in list) {
@@ -129,7 +123,18 @@ namespace Questmaker.UI {
                     item.control.Enabled = !isEditingReference;
                 }
             }
-            button.Enabled = true;
+            btnCreate.Enabled = !isEditingReference;
+            btnCreate.Enabled = !isEditingReference;
+            btnUpdate.Enabled = !isEditingReference;
+            btnDestroy.Enabled = !isEditingReference;
+
+            if (isEditingReference) {
+                var a = new ReferenceForm(this, "hello");
+                a.Show();
+
+                isEditingReference = !isEditingReference;
+            }
+            validate();
         }
 
         private void clear(object sender, MouseEventArgs e) {
@@ -207,9 +212,10 @@ namespace Questmaker.UI {
                 if (control.canDestroy == false) ValidDestroy = false;
             }
 
-            btnCreate.Enabled = validCreate && !isEditingReference;
-            btnUpdate.Enabled = ValidUpdate && !isEditingReference;
-            btnDestroy.Enabled = ValidDestroy && !isEditingReference;
+            btnClear.Enabled = !isEditingReference;
+            btnCreate.Enabled = validCreate || !isEditingReference;
+            btnUpdate.Enabled = ValidUpdate || !isEditingReference;
+            btnDestroy.Enabled = ValidDestroy || !isEditingReference;
         }
     }
 }

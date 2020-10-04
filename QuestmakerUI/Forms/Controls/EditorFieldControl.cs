@@ -134,7 +134,7 @@ namespace Questmaker.UI.Forms.Controls {
 		/// The EventArgs aren't used, but the event handler expects it.
 		/// </summary>
 		public void textChanged(object sender, EventArgs e) {
-			if (sender is TextBox) {
+			if (sender is TextBox) { //tag !== null ier schrihve,
 				TextBox textBox = sender as TextBox;
 				string tag = textBox.Tag.ToString();
 				string text = textBox.Text;
