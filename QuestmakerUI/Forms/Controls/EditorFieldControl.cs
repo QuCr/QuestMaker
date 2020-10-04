@@ -7,6 +7,7 @@ using Qutilities;
 using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
+using System.CodeDom;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
@@ -16,6 +17,7 @@ namespace Questmaker.UI.Forms.Controls {
         public string name;
 		public object value;
 		public Type type;
+		public Type objectType = null;
 		public bool exists;
 
         public Control control;
@@ -28,7 +30,7 @@ namespace Questmaker.UI.Forms.Controls {
 			InitializeComponent();
 		}
 
-		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null) {
+		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null, Type objectType = null) {
 			InitializeComponent();
 			
 			this.field = field;
@@ -37,6 +39,7 @@ namespace Questmaker.UI.Forms.Controls {
 			name = field.Name;
 			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
 			type = field.FieldType;
+			this.objectType = objectType;
 
 			label.Text = name;
 
@@ -70,8 +73,10 @@ namespace Questmaker.UI.Forms.Controls {
 
 			if (type == typeof(string)) {
 				if (value == null)
-					if (name == "id" || name == "displayName")
+					if (name == "id")
 						value = "ID";
+					else if (name == "displayName") 
+						value = objectType.Name;
 					else
 						value = "";
 

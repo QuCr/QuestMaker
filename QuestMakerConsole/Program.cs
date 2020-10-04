@@ -10,7 +10,6 @@ namespace QuestMaker.Console {
 			header("*********************************************");
 			header("||          QuestMaker - v0.0.0.5          ||");
 			header("*********************************************");
-			error("hey");
 
 			if (args.Length == 0) {
 				dataAccess = new DefaultDataAccess();   //import & export

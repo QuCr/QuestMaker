@@ -57,7 +57,7 @@ namespace Questmaker.UI {
                  select field;
 
             for (int fieldIndex = 0; fieldIndex < fields.Count(); fieldIndex++) {
-                var ctr = new EditorFieldControl(this, fields.ElementAt(fieldIndex), packet) {
+                var ctr = new EditorFieldControl(this, fields.ElementAt(fieldIndex), packet, type) {
                     Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * fieldIndex + 40)
                 };
                 groupbox.Controls.Add(ctr);
