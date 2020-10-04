@@ -11,9 +11,15 @@ namespace Questmaker.UI {
 		static void Main() {
 			Program.Main("default");
 
+			Entity entity = EntityCollection.byID(typeof(Person), "albert");
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+			MainForm mainform = new MainForm();
+			mainform.handle(mainform.Tree, new PacketType(typeof(Person)));
+			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
+
+			Application.Run(mainform);
 		}
 	}
 }

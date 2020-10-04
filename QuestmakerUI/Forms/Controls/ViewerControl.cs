@@ -203,8 +203,6 @@ namespace Questmaker.UI {
 				
 				if (a != null)
 					sent(this, a);
-
-				//Console.WriteLine("Packet: " + a?.ToString() + wasSelected);
 			}
 		}
 	}

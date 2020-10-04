@@ -17,7 +17,7 @@ namespace Questmaker.UI.Forms {
         public ReferenceForm(EditorControl parent, string text) {
             InitializeComponent();
 
-            selector.setText(parent, text);
+            selector.init(parent.packet);
         }
 }
 }

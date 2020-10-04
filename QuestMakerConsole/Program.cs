@@ -1,15 +1,20 @@
 ﻿using QuestMaker.Data;
 using QuestMaker.Console.Code.DataAccess;
+using System;
 
 namespace QuestMaker.Console {
 	public class Program {
-		public static IDataAccess dataAccess;
+		static IDataAccess dataAccess;
 
 		public static void Main(params string[] args) {
+			string dateTime = $"{DateTime.Now:MM/dd/yy HH:mm:ss zzz}";
 			title("QuestMaker - v0.0.0.5");
-			header("*********************************************");
-			header("||          QuestMaker - v0.0.0.5          ||");
-			header("*********************************************");
+			header("                                                                                                                        ");
+			header("                                               ***************************                                              ");
+			header("                                               || QuestMaker - v0.0.0.5 ||                                              ");
+			header("                                               ***************************                                              ");
+			header($" Started at {dateTime}                                                                            By Q.C. ");
+			header("                                                                                                                        ");
 
 			if (args.Length == 0) {
 				dataAccess = new DefaultDataAccess();   //import & export
@@ -32,21 +37,21 @@ namespace QuestMaker.Console {
 			return dataAccess.isExportable();
 		}
 
-		static void WriteLine(string text, System.ConsoleColor ForegroundColor = System.ConsoleColor.Gray, System.ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
+		static void Write(string text, System.ConsoleColor ForegroundColor = System.ConsoleColor.Gray, System.ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
 			System.ConsoleColor startingForegroundColor = System.Console.ForegroundColor;
 			System.ConsoleColor startingBackgroundColor = System.Console.BackgroundColor;
 
 			System.Console.ForegroundColor = ForegroundColor;
 			System.Console.BackgroundColor = BackgroundColor;
-			System.Console.WriteLine(text);
+			System.Console.Write(text);
 			System.Console.ForegroundColor = startingForegroundColor;
 			System.Console.BackgroundColor = startingBackgroundColor;
 		}
 
 		public static void title(string title) { System.Console.Title = title; }
-		public static void header(string text) { WriteLine(text, System.ConsoleColor.Black, System.ConsoleColor.White); }
-		public static void info(string text) { WriteLine(text, System.ConsoleColor.Blue); }
-		public static void debug(string text) { WriteLine(text, System.ConsoleColor.Green); }
-		public static void error(string text) { WriteLine(text, System.ConsoleColor.Red); }
+		public static void header(string text) { Write(text, System.ConsoleColor.Black, System.ConsoleColor.White); }
+		public static void info(string text) { Write(text + "\n", System.ConsoleColor.Blue); }
+		public static void debug(string text) { Write(text + "\n", System.ConsoleColor.Green); }
+		public static void error(string text) { Write(text + "\n", System.ConsoleColor.Red); }
 	}
 }

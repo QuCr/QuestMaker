@@ -10,7 +10,6 @@ using Questmaker.UI.Forms.Controls;
 using System.Reflection;
 using QuestMaker.Data;
 using Questmaker.UI.Forms;
-using QuestMaker.Console;
 
 namespace Questmaker.UI {
     public partial class EditorControl : UserControl {
@@ -123,10 +122,10 @@ namespace Questmaker.UI {
                     item.control.Enabled = !isEditingReference;
                 }
             }
-            btnCreate.Enabled = !isEditingReference;
+            /*btnCreate.Enabled = !isEditingReference;
             btnCreate.Enabled = !isEditingReference;
             btnUpdate.Enabled = !isEditingReference;
-            btnDestroy.Enabled = !isEditingReference;
+            btnDestroy.Enabled = !isEditingReference;*/
 
             if (isEditingReference) {
                 var a = new ReferenceForm(this, "hello");
@@ -212,10 +211,10 @@ namespace Questmaker.UI {
                 if (control.canDestroy == false) ValidDestroy = false;
             }
 
-            btnClear.Enabled = !isEditingReference;
-            btnCreate.Enabled = validCreate || !isEditingReference;
-            btnUpdate.Enabled = ValidUpdate || !isEditingReference;
-            btnDestroy.Enabled = ValidDestroy || !isEditingReference;
+            btnClear.Enabled = true;//!isEditingReference;
+            btnCreate.Enabled = validCreate;// && !isEditingReference;
+            btnUpdate.Enabled = ValidUpdate;// && !isEditingReference;
+            btnDestroy.Enabled = ValidDestroy;// && !isEditingReference;
         }
     }
 }

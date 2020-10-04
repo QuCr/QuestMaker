@@ -97,21 +97,24 @@ namespace Questmaker.UI.Forms.Controls {
 					Controls.Add(control = button = new Button() {
 						Text = "Entity",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity((Entity)value))
+						Tag = new PacketEdit(Packet.byEntity((Entity)value)),
+						Width = 100
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()))
+						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray())),
+						Width = 100
 					});
-				} /*else if (Helper.isList(value)) {
-                    Controls.Add(control = button = new Button() {
+				} else if (Helper.isList(value)) {
+					Controls.Add(control = button = new Button() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
-						Enabled = false
+						Enabled = false,
+						Width = 100
 					});
-				}*/
+				}
 				button.Click += click;
 			} else
 				Controls.Add(new Label() {
