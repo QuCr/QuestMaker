@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using QuestMaker.Code;
 using QuestMaker.Data;
 
 namespace Qutilities {
 	public static class Helper {
-		/// <summary> !condition </summary>
-		public static bool Not(bool condition) {
-			return !condition;
-		}
-
 		/// <summary> obj is IList </summary>
 		public static bool isList(object obj) {
 			return obj is IList;
