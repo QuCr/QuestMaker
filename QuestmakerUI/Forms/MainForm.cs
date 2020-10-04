@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using QuestMaker.Code;
-using QuestMakerConsole;
+using QuestMaker.Console;
 
-namespace QuestmakerUI {
+namespace Questmaker.UI {
 	public partial class MainForm : Form {
 		public MainForm() {
 			InitializeComponent();

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using QuestMaker.Code.Attributes;
 using QuestMaker.Data;
-using QuestMakerConsole;
+using QuestMaker.Console;
 
 namespace QuestMaker.Code {
 

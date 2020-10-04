@@ -6,7 +6,7 @@ using System.Reflection;
 using QuestMaker.Code.Attributes;
 using QuestMaker.Code;
 
-namespace QuestmakerUI {
+namespace Questmaker.UI {
 	public partial class TreeControl : UserControl {
 		public event EventHandler<Packet> sent;
 

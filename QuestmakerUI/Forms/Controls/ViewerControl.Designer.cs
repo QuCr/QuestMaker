@@ -1,4 +1,4 @@
-﻿namespace QuestmakerUI {
+﻿namespace Questmaker.UI {
 	partial class ViewControl {
 		/// <summary> 
 		/// Required designer variable.

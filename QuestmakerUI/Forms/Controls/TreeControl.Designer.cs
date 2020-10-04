@@ -1,4 +1,4 @@
-﻿namespace QuestmakerUI {
+﻿namespace Questmaker.UI {
 	partial class TreeControl {
 		/// <summary> 
 		/// Required designer variable.

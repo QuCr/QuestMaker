@@ -12,7 +12,7 @@ using static System.Windows.Forms.ListViewItem;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace QuestmakerUI {
+namespace Questmaker.UI {
 	public partial class ViewControl : UserControl {
 		public event EventHandler<Packet> sent;
 		public Packet previousPacket = null;

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using QuestMaker.Code;
 using QuestMaker.Data;
 
-namespace QuestMakerConsole.Code.DataAccess {
+namespace QuestMaker.Console.Code.DataAccess {
 	public class DefaultDataAccess : IDataAccess {
 		public bool isImportable() => true;
 		public bool isExportable() => true;

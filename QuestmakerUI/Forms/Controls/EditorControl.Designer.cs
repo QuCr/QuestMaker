@@ -1,5 +1,5 @@
 ﻿
-namespace QuestmakerUI {
+namespace Questmaker.UI {
 	partial class EditorControl {
 		/// <summary> 
 		/// Required designer variable.

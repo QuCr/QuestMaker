@@ -8,7 +8,7 @@ using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
 
-namespace QuestmakerUI.Forms.Controls {
+namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
         public FieldInfo field;
         private EditorControl parent;

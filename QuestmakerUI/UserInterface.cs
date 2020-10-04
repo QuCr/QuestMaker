@@ -3,9 +3,9 @@ using System.Collections;
 using System.Windows.Forms;
 using QuestMaker.Code;
 using QuestMaker.Data;
-using QuestMakerConsole;
+using QuestMaker.Console;
 
-namespace QuestmakerUI {
+namespace Questmaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QuestMaker.Code;
 using QuestMaker.Data;
-using QuestMakerConsole;
-using QuestmakerUI;
+using QuestMaker.Console;
+using Questmaker.UI;
 
-namespace QuestMakerTests {
+namespace QuestMaker.Tests {
     [TestClass]
     public class EditorTest {
 
@@ -65,7 +64,7 @@ namespace QuestMakerTests {
             editor.create(editor.btnClear, null);
 
             Assert.IsNotNull(EntityCollection.byID(typeof(Person), "bert"), "created entity");
-            Console.WriteLine($"There are now {EntityCollection.entityCollection["Person"].Count} people");
+            System.Console.WriteLine($"There are now {EntityCollection.entityCollection["Person"].Count} people");
 
             Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
             Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
