@@ -112,14 +112,14 @@ namespace Questmaker.UI {
             groupbox.Controls.Add(btnUpdate);
         }
 
-        internal void clickReference(Button button, PacketEdit tag) {
+        internal void clickReference(Button button, Packet tag) {
             isEditingReference = !isEditingReference;
             validate();
             
 
             foreach (EditorFieldControl item in list) {
                 if (item.control != null) {
-                    item.control.Enabled = !isEditingReference;
+                    //item.control.Enabled = !isEditingReference;
                 }
             }
             /*btnCreate.Enabled = !isEditingReference;
@@ -128,7 +128,7 @@ namespace Questmaker.UI {
             btnDestroy.Enabled = !isEditingReference;*/
 
             if (isEditingReference) {
-                var a = new ReferenceForm(this, "hello");
+                var a = new ReferenceForm(this, tag);
                 a.Show();
 
                 isEditingReference = !isEditingReference;

@@ -27,6 +27,9 @@
             this.listBoxRight = new System.Windows.Forms.ListBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
+            this.btnMode = new System.Windows.Forms.Button();
+            this.btnSet = new System.Windows.Forms.Button();
+            this.btnNew = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listBoxLeft
@@ -47,12 +50,13 @@
             this.listBoxRight.Name = "listBoxRight";
             this.listBoxRight.Size = new System.Drawing.Size(120, 308);
             this.listBoxRight.TabIndex = 3;
+            this.listBoxRight.SelectedIndexChanged += new System.EventHandler(this.listBoxRight_SelectedIndexChanged);
             // 
             // btnAdd
             // 
             this.btnAdd.Location = new System.Drawing.Point(129, 3);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(75, 25);
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
@@ -60,18 +64,50 @@
             // 
             // btnRemove
             // 
-            this.btnRemove.Location = new System.Drawing.Point(129, 32);
+            this.btnRemove.Location = new System.Drawing.Point(129, 34);
             this.btnRemove.Name = "btnRemove";
-            this.btnRemove.Size = new System.Drawing.Size(75, 23);
+            this.btnRemove.Size = new System.Drawing.Size(75, 29);
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
+            // btnMode
+            // 
+            this.btnMode.Location = new System.Drawing.Point(129, 69);
+            this.btnMode.Name = "btnMode";
+            this.btnMode.Size = new System.Drawing.Size(75, 28);
+            this.btnMode.TabIndex = 6;
+            this.btnMode.Text = "Duped";
+            this.btnMode.UseVisualStyleBackColor = true;
+            this.btnMode.Click += new System.EventHandler(this.btnMode_Click);
+            // 
+            // button1
+            // 
+            this.btnSet.Location = new System.Drawing.Point(129, 103);
+            this.btnSet.Name = "button1";
+            this.btnSet.Size = new System.Drawing.Size(75, 28);
+            this.btnSet.TabIndex = 7;
+            this.btnSet.Text = "Set";
+            this.btnSet.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.btnNew.Location = new System.Drawing.Point(129, 137);
+            this.btnNew.Name = "button2";
+            this.btnNew.Size = new System.Drawing.Size(75, 28);
+            this.btnNew.TabIndex = 8;
+            this.btnNew.Text = "New";
+            this.btnNew.UseVisualStyleBackColor = true;
+            this.btnNew.Click += new System.EventHandler(this.btnSet_Click);
+            // 
             // SelectorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnNew);
+            this.Controls.Add(this.btnSet);
+            this.Controls.Add(this.btnMode);
             this.Controls.Add(this.btnRemove);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.listBoxRight);
@@ -87,5 +123,8 @@
         private System.Windows.Forms.ListBox listBoxRight;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
+        private System.Windows.Forms.Button btnMode;
+        private System.Windows.Forms.Button btnSet;
+        private System.Windows.Forms.Button btnNew;
     }
 }

@@ -7,14 +7,14 @@ namespace QuestMaker.Console {
 		static IDataAccess dataAccess;
 
 		public static void Main(params string[] args) {
-			string dateTime = $"{DateTime.Now:MM/dd/yy HH:mm:ss zzz}";
+			string dateTime = $"{DateTime.Now:HH:mm:ss dd/MM/yy}";
 			title("QuestMaker - v0.0.0.5");
-			header("                                                                                                                        ");
-			header("                                               ***************************                                              ");
-			header("                                               || QuestMaker - v0.0.0.5 ||                                              ");
-			header("                                               ***************************                                              ");
-			header($" Started at {dateTime}                                                                            By Q.C. ");
-			header("                                                                                                                        ");
+			header("                                                                                                                   ");
+			header("                                          ***************************                                              ");
+			header("                                          || QuestMaker - v0.0.0.5 ||                                              ");
+			header("                                          ***************************                                              ");
+			header($" Started at {dateTime}                                                                           By Q.C. ");
+			header("                                                                                                                      ");
 
 			if (args.Length == 0) {
 				dataAccess = new DefaultDataAccess();   //import & export
@@ -37,21 +37,25 @@ namespace QuestMaker.Console {
 			return dataAccess.isExportable();
 		}
 
-		static void Write(string text, System.ConsoleColor ForegroundColor = System.ConsoleColor.Gray, System.ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
+		static void Write(string text, char letter = '?', ConsoleColor ForegroundColor = ConsoleColor.Gray, System.ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
 			System.ConsoleColor startingForegroundColor = System.Console.ForegroundColor;
 			System.ConsoleColor startingBackgroundColor = System.Console.BackgroundColor;
 
+			System.Console.ForegroundColor = ConsoleColor.Black;
+			System.Console.BackgroundColor = ConsoleColor.White;
+			System.Console.Write(" " + letter + " ");
 			System.Console.ForegroundColor = ForegroundColor;
 			System.Console.BackgroundColor = BackgroundColor;
+			System.Console.Write("  ");
 			System.Console.Write(text);
 			System.Console.ForegroundColor = startingForegroundColor;
 			System.Console.BackgroundColor = startingBackgroundColor;
 		}
 
 		public static void title(string title) { System.Console.Title = title; }
-		public static void header(string text) { Write(text, System.ConsoleColor.Black, System.ConsoleColor.White); }
-		public static void info(string text) { Write(text + "\n", System.ConsoleColor.Blue); }
-		public static void debug(string text) { Write(text + "\n", System.ConsoleColor.Green); }
-		public static void error(string text) { Write(text + "\n", System.ConsoleColor.Red); }
+		public static void header(string text) { Write(text,' ', ConsoleColor.Black, ConsoleColor.White); }
+		public static void info(string text) { Write(text + "\n", 'I', ConsoleColor.Blue); }
+		public static void debug(string text) { Write(text + "\n", 'D', ConsoleColor.Green); }
+		public static void error(string text) { Write(text + "\n", 'E', ConsoleColor.Red); }
 	}
 }

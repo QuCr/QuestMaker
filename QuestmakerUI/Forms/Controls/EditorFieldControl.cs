@@ -8,6 +8,7 @@ using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
 using System.CodeDom;
+using QuestMaker.Console;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
@@ -97,21 +98,24 @@ namespace Questmaker.UI.Forms.Controls {
 					Controls.Add(control = button = new Button() {
 						Text = "Entity",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity((Entity)value)),
+						Tag = Packet.byEntity((Entity)value),
 						Width = 100
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray())),
+						Tag = Packet.byEntity(((IList)value).Cast<Entity>().ToArray()),
 						Width = 100
 					});
 				} else if (Helper.isList(value)) {
+                    string[] a = ((IList)value).Cast<string>().ToArray();
+					Helper.outputList(a, true);
+
 					Controls.Add(control = button = new Button() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
-						Enabled = false,
+						Tag = Packet.byString(Helper.getListType(value), a),
 						Width = 100
 					});
 				}
@@ -127,7 +131,7 @@ namespace Questmaker.UI.Forms.Controls {
 
         private void click(object sender, EventArgs e) {
             var button = sender as Button;
-            var tag = (PacketEdit)button.Tag;
+            var tag = (Packet)button.Tag;
 
 			parent.clickReference(sender as Button, tag);
         }

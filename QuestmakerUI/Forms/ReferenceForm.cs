@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QuestMaker.Code;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,10 +15,10 @@ namespace Questmaker.UI.Forms {
             InitializeComponent();
         }
 
-        public ReferenceForm(EditorControl parent, string text) {
+        public ReferenceForm(EditorControl parent, Packet packet) {
             InitializeComponent();
 
-            selector.init(parent.packet);
+            selector.init(packet);
         }
 }
 }

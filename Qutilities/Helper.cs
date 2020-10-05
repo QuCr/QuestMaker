@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using QuestMaker.Console;
 using QuestMaker.Data;
 
 namespace Qutilities {
@@ -36,5 +37,31 @@ namespace Qutilities {
 			var returnValue = isSubOfType<T>(getListType(obj));
 			return returnValue;
 		}
-	}
+
+        public static void outputList<T>(T[] a, bool newLine = false, Func<T, object> p = null) {
+			if (p == null)
+				p = x => x.ToString();
+
+			string text = "[";
+			if (newLine)
+				text = "\n[";
+			if (newLine)
+				text += "\n";
+			for (int i = 0; i < a.Length; i++) {
+				if (a[i].GetType() == typeof(string))
+					text += "\"";
+
+				text += $"{p(a[i])}";
+
+				if (a[i].GetType() == typeof(string))
+					text += "\"";
+				if (i < a.Length - 1)
+					text += ", ";
+				if (newLine)
+					text += "\n";
+			}
+			text += "]";
+			Program.info(text);
+        }
+    }
 }

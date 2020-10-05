@@ -30,14 +30,14 @@
             // 
             this.selector.Location = new System.Drawing.Point(12, 12);
             this.selector.Name = "selector";
-            this.selector.Size = new System.Drawing.Size(776, 426);
+            this.selector.Size = new System.Drawing.Size(341, 321);
             this.selector.TabIndex = 0;
             // 
             // ReferenceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(354, 336);
             this.Controls.Add(this.selector);
             this.Name = "ReferenceForm";
             this.Text = "ReferenceForm";

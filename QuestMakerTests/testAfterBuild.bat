@@ -1,0 +1,1 @@
+dotnet vstest C:\Users\Quinten\source\repos\Questmaker\QuestMakerTests\bin\Debug\QuestMakerTests.dll
