@@ -23,7 +23,7 @@ namespace QuestMaker.Console {
 			} else if (args[0] == "json") {
 				dataAccess = new JsonDataAccess();      //import & export
 			} else {
-				info("DataAccess is not defined, resorting to default data access.");
+				error("DataAccess is not defined, resorting to default data access.");
 				dataAccess = new DefaultDataAccess();   //import & export
 			}
 

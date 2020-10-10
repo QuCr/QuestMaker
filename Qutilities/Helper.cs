@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using QuestMaker.Console;
 using QuestMaker.Data;
 
@@ -38,24 +39,28 @@ namespace Qutilities {
 			return returnValue;
 		}
 
-        public static void outputList<T>(T[] a, bool newLine = false, Func<T, object> p = null) {
-			if (p == null)
-				p = x => x.ToString();
+		public static void outputList<T>(List<T> list, bool newLine = false, Func<T, object> function = null) {
+			outputList(list.ToArray(), newLine, function);
+		}
+
+        public static void outputList<T>(T[] array, bool newLine = false, Func<T, object> function = null) {
+			if (function == null)
+				function = x => x.ToString();
 
 			string text = "[";
 			if (newLine)
 				text = "\n[";
 			if (newLine)
 				text += "\n";
-			for (int i = 0; i < a.Length; i++) {
-				if (a[i].GetType() == typeof(string))
+			for (int i = 0; i < array.Length; i++) {
+				if (array[i].GetType() == typeof(string))
 					text += "\"";
 
-				text += $"{p(a[i])}";
+				text += $"{function(array[i])}";
 
-				if (a[i].GetType() == typeof(string))
+				if (array[i].GetType() == typeof(string))
 					text += "\"";
-				if (i < a.Length - 1)
+				if (i < array.Length - 1)
 					text += ", ";
 				if (newLine)
 					text += "\n";

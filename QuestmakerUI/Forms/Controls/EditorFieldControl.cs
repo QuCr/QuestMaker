@@ -110,7 +110,6 @@ namespace Questmaker.UI.Forms.Controls {
 					});
 				} else if (Helper.isList(value)) {
                     string[] a = ((IList)value).Cast<string>().ToArray();
-					Helper.outputList(a, true);
 
 					Controls.Add(control = button = new Button() {
 						Text = "List of dummies",

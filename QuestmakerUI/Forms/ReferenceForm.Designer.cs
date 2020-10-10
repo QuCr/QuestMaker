@@ -23,22 +23,13 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.selector = new Questmaker.UI.Forms.Controls.SelectorControl();
             this.SuspendLayout();
-            // 
-            // selector
-            // 
-            this.selector.Location = new System.Drawing.Point(12, 12);
-            this.selector.Name = "selector";
-            this.selector.Size = new System.Drawing.Size(341, 321);
-            this.selector.TabIndex = 0;
             // 
             // ReferenceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(354, 336);
-            this.Controls.Add(this.selector);
             this.Name = "ReferenceForm";
             this.Text = "ReferenceForm";
             this.ResumeLayout(false);
@@ -46,7 +37,5 @@
         }
 
         #endregion
-
-        private Controls.SelectorControl selector;
     }
 }

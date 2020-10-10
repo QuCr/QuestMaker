@@ -114,26 +114,13 @@ namespace Questmaker.UI {
 
         internal void clickReference(Button button, Packet tag) {
             isEditingReference = !isEditingReference;
-            validate();
-            
-
-            foreach (EditorFieldControl item in list) {
-                if (item.control != null) {
-                    //item.control.Enabled = !isEditingReference;
-                }
-            }
-            /*btnCreate.Enabled = !isEditingReference;
-            btnCreate.Enabled = !isEditingReference;
-            btnUpdate.Enabled = !isEditingReference;
-            btnDestroy.Enabled = !isEditingReference;*/
 
             if (isEditingReference) {
-                var a = new ReferenceForm(this, tag);
-                a.Show();
+                ReferenceForm referenceForm = new ReferenceForm(this, tag);
+                referenceForm.Show();
 
                 isEditingReference = !isEditingReference;
             }
-            validate();
         }
 
         private void clear(object sender, MouseEventArgs e) {

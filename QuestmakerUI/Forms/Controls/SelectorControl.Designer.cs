@@ -1,5 +1,5 @@
 ﻿namespace Questmaker.UI.Forms.Controls {
-    partial class SelectorControl {
+    partial  class SelectorControl {
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -22,7 +22,7 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent() {
+        public void InitializeComponent() {
             this.listBoxLeft = new System.Windows.Forms.ListBox();
             this.listBoxRight = new System.Windows.Forms.ListBox();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -40,7 +40,6 @@
             this.listBoxLeft.Name = "listBoxLeft";
             this.listBoxLeft.Size = new System.Drawing.Size(120, 308);
             this.listBoxLeft.TabIndex = 2;
-            this.listBoxLeft.SelectedIndexChanged += new System.EventHandler(this.listBoxLeft_SelectedIndexChanged);
             // 
             // listBoxRight
             // 
@@ -50,7 +49,6 @@
             this.listBoxRight.Name = "listBoxRight";
             this.listBoxRight.Size = new System.Drawing.Size(120, 308);
             this.listBoxRight.TabIndex = 3;
-            this.listBoxRight.SelectedIndexChanged += new System.EventHandler(this.listBoxRight_SelectedIndexChanged);
             // 
             // btnAdd
             // 
@@ -60,7 +58,6 @@
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = true;
-            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // btnRemove
             // 
@@ -70,7 +67,6 @@
             this.btnRemove.TabIndex = 5;
             this.btnRemove.Text = "Remove";
             this.btnRemove.UseVisualStyleBackColor = true;
-            this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
             // 
             // btnMode
             // 
@@ -80,26 +76,24 @@
             this.btnMode.TabIndex = 6;
             this.btnMode.Text = "Duped";
             this.btnMode.UseVisualStyleBackColor = true;
-            this.btnMode.Click += new System.EventHandler(this.btnMode_Click);
             // 
-            // button1
+            // btnSet
             // 
             this.btnSet.Location = new System.Drawing.Point(129, 103);
-            this.btnSet.Name = "button1";
+            this.btnSet.Name = "btnSet";
             this.btnSet.Size = new System.Drawing.Size(75, 28);
             this.btnSet.TabIndex = 7;
             this.btnSet.Text = "Set";
             this.btnSet.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // btnNew
             // 
             this.btnNew.Location = new System.Drawing.Point(129, 137);
-            this.btnNew.Name = "button2";
+            this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(75, 28);
             this.btnNew.TabIndex = 8;
             this.btnNew.Text = "New";
             this.btnNew.UseVisualStyleBackColor = true;
-            this.btnNew.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // SelectorControl
             // 
