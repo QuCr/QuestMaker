@@ -34,7 +34,7 @@ namespace Questmaker.UI {
 			}
 			tree.EndUpdate();
 
-			tree.ExpandAll();
+			//tree.ExpandAll();
 		}
 
 		internal void handle(Packet packet) {

@@ -112,7 +112,7 @@ namespace Questmaker.UI {
             groupbox.Controls.Add(btnUpdate);
         }
 
-        internal void clickReference(Button button, Packet tag) {
+        internal void clickReference(Button button, PacketEdit tag) {
             isEditingReference = !isEditingReference;
 
             if (isEditingReference) {

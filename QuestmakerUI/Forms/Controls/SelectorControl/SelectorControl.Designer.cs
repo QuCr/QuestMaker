@@ -24,12 +24,12 @@
         /// </summary>
         public void InitializeComponent() {
             this.listBoxLeft = new System.Windows.Forms.ListBox();
-            this.listBoxRight = new System.Windows.Forms.ListBox();
             this.btnAdd = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnMode = new System.Windows.Forms.Button();
             this.btnSet = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
+            this.listBoxRight = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // listBoxLeft
@@ -40,15 +40,6 @@
             this.listBoxLeft.Name = "listBoxLeft";
             this.listBoxLeft.Size = new System.Drawing.Size(120, 308);
             this.listBoxLeft.TabIndex = 2;
-            // 
-            // listBoxRight
-            // 
-            this.listBoxRight.FormattingEnabled = true;
-            this.listBoxRight.ItemHeight = 16;
-            this.listBoxRight.Location = new System.Drawing.Point(210, 3);
-            this.listBoxRight.Name = "listBoxRight";
-            this.listBoxRight.Size = new System.Drawing.Size(120, 308);
-            this.listBoxRight.TabIndex = 3;
             // 
             // btnAdd
             // 
@@ -95,6 +86,15 @@
             this.btnNew.Text = "New";
             this.btnNew.UseVisualStyleBackColor = true;
             // 
+            // listBoxRight
+            // 
+            this.listBoxRight.FormattingEnabled = true;
+            this.listBoxRight.ItemHeight = 16;
+            this.listBoxRight.Location = new System.Drawing.Point(210, 3);
+            this.listBoxRight.Name = "listBoxRight";
+            this.listBoxRight.Size = new System.Drawing.Size(120, 308);
+            this.listBoxRight.TabIndex = 3;
+            // 
             // SelectorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -114,11 +114,11 @@
 
         #endregion
         private System.Windows.Forms.ListBox listBoxLeft;
-        private System.Windows.Forms.ListBox listBoxRight;
         private System.Windows.Forms.Button btnAdd;
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.Button btnMode;
         private System.Windows.Forms.Button btnSet;
         private System.Windows.Forms.Button btnNew;
+        private System.Windows.Forms.ListBox listBoxRight;
     }
 }

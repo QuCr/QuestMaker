@@ -7,14 +7,13 @@ using Qutilities;
 using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
-using System.CodeDom;
-using QuestMaker.Console;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
         public FieldInfo field;
         private EditorControl parent;
 
+		public Entity entity;
         public string name;
 		public object value;
 		public Type type;
@@ -37,8 +36,9 @@ namespace Questmaker.UI.Forms.Controls {
 			this.field = field;
 			this.parent = parent;
 
+			entity = singleEditorPacket.getEntity();
 			name = field.Name;
-			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
+			value = singleEditorPacket == null ? null : field.GetValue(entity);
 			type = field.FieldType;
 			this.objectType = objectType;
 
@@ -92,29 +92,32 @@ namespace Questmaker.UI.Forms.Controls {
 				return;
 			}
 
+
 			if (value != null) {
 				Button button = null;
 				if (Helper.isSubOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
 						Text = "Entity",
 						Location = new Point(75, 0),
-						Tag = Packet.byEntity((Entity)value),
+						Tag = new PacketEdit(Packet.byEntity((Entity)value), entity, field),
 						Width = 100
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
-						Tag = Packet.byEntity(((IList)value).Cast<Entity>().ToArray()),
+						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()), entity, field),
 						Width = 100
 					});
 				} else if (Helper.isList(value)) {
-                    string[] a = ((IList)value).Cast<string>().ToArray();
+                    string[] data = ((IList)value).Cast<string>().ToArray();
+                    Type type = Helper.getListType(value);
+                    Packet packet = Packet.byString(type, data);
 
 					Controls.Add(control = button = new Button() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
-						Tag = Packet.byString(Helper.getListType(value), a),
+						Tag = new PacketEdit(packet,entity, field),
 						Width = 100
 					});
 				}
@@ -130,7 +133,7 @@ namespace Questmaker.UI.Forms.Controls {
 
         private void click(object sender, EventArgs e) {
             var button = sender as Button;
-            var tag = (Packet)button.Tag;
+            var tag = (PacketEdit)button.Tag;
 
 			parent.clickReference(sender as Button, tag);
         }

@@ -39,7 +39,7 @@
             this.projectToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(758, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(993, 28);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -65,7 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.viewer.Location = new System.Drawing.Point(209, 33);
             this.viewer.Name = "viewer";
-            this.viewer.Size = new System.Drawing.Size(537, 204);
+            this.viewer.Size = new System.Drawing.Size(478, 314);
             this.viewer.TabIndex = 2;
             // 
             // tree
@@ -75,7 +75,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tree.Location = new System.Drawing.Point(12, 31);
             this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(192, 615);
+            this.tree.Size = new System.Drawing.Size(191, 316);
             this.tree.TabIndex = 1;
             // 
             // editor
@@ -83,16 +83,16 @@
             this.editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editor.Location = new System.Drawing.Point(224, 243);
+            this.editor.Location = new System.Drawing.Point(693, 45);
             this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(522, 403);
+            this.editor.Size = new System.Drawing.Size(288, 302);
             this.editor.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(758, 658);
+            this.ClientSize = new System.Drawing.Size(993, 359);
             this.Controls.Add(this.viewer);
             this.Controls.Add(this.tree);
             this.Controls.Add(this.editor);

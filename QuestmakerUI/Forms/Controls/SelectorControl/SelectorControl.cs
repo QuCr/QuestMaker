@@ -1,10 +1,69 @@
-﻿//using System;
-//using System.Windows.Forms;
-//using QuestMaker.Data;
-//using QuestMaker.Code;
-//using System.Collections.Generic;
-//using QuestMaker.Console;
-//using System.Linq;
+﻿using QuestMaker.Code;
+using QuestMaker.Console;
+using QuestMaker.Data;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace Questmaker.UI.Forms.Controls {
+    public partial class SelectorControl : UserControl {
+        protected ListBox typeListBox;
+        protected PacketEdit packetEdit;
+        protected ReferenceForm parent;
+
+        public SelectorControl() {
+            InitializeComponent();
+        }
+
+        public SelectorControl(ReferenceForm parent, PacketEdit packet) {
+            InitializeComponent();
+
+            this.packetEdit = packet;
+            this.parent = parent;
+
+            Button btnSave = new Button() {
+                Text = "Save",
+                Location = new Point(10, 10),
+                Width = 50
+            };
+            Button btnCancel = new Button() {
+                Text = "Cancel",
+                Location = new Point(60, 10),
+                Width = 50
+            };
+            btnSave.Click += (_1, _2) => save();
+            btnCancel.Click += (_1, _2) => cancel();
+
+            addControl(btnSave);
+            addControl(btnCancel);
+        }
+
+        protected virtual void save() {
+            Program.error("Not saved");
+        }
+
+        protected virtual void cancel() {
+            Program.error("Not canceled");
+        }
+
+        public ListBox createTypeListBox() {
+            typeListBox = new ListBox() {
+                Location = new Point(10, 40)
+            };
+
+            typeListBox.Items.AddRange(EntityCollection.getTypeArray(packetEdit.type).Select(x => x.id).ToArray());
+            addControl(typeListBox);
+
+            return typeListBox;
+        }
+
+        public void addControl(Control control) => parent.Controls.Add(control);
+
+
+    }
+}
+
 
 //namespace Questmaker.UI.Forms.Controls {
 //    public partial class SelectorControl : UserControl {

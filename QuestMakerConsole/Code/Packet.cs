@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using QuestMaker.Data;
 
 namespace QuestMaker.Code {
@@ -177,13 +178,18 @@ namespace QuestMaker.Code {
 	/// Used when editing the value by selecting the entities from the underlying request.
 	/// </summary>
 	public sealed class PacketEdit : Packet {
-		public Packet packet = null;
+		public Packet packet;
+
+		public Entity entity;
+		public FieldInfo field;
 
 		/// <param name="packet">Underlying packet</param>
-		public PacketEdit(Packet packet) {
+		public PacketEdit(Packet packet, Entity entity, FieldInfo field) {
 			this.packet = packet;
+			this.field = field;
+			this.entity = entity;
 
-			entities.AddRange(EntityCollection.get(packet));
+            entities = packet.entities;
 			type = packet.type.IsGenericType ? packet.type.GetGenericArguments()[0] : packet.type;
 			handlerEnum = HandlerEnum.Edit;
 		}

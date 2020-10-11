@@ -64,11 +64,20 @@
     <Compile Include="Forms\Controls\EditorFieldControl.Designer.cs">
       <DependentUpon>EditorFieldControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Controls\SelectorControl.cs">
+    <Compile Include="Forms\Controls\SelectorControl\SelectorArrayControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\Controls\SelectorControl.Designer.cs">
+    <Compile Include="Forms\Controls\SelectorControl\SelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorControl.Designer.cs">
       <DependentUpon>SelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorDummyArrayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorSingleControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -103,7 +112,7 @@
     <EmbeddedResource Include="Forms\Controls\EditorFieldControl.resx">
       <DependentUpon>EditorFieldControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Controls\SelectorControl.resx">
+    <EmbeddedResource Include="Forms\Controls\SelectorControl\SelectorControl.resx">
       <DependentUpon>SelectorControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
