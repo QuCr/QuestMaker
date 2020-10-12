@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class SelectorControl : UserControl {
-        protected ListBox typeListBox;
         protected PacketEdit packetEdit;
         protected ReferenceForm parent;
+        ListBox typeListBox;
 
         public SelectorControl() {
             InitializeComponent();

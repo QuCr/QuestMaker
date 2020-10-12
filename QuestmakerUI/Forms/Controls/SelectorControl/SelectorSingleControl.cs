@@ -7,11 +7,10 @@ using System.Windows.Forms;
 namespace Questmaker.UI.Forms.Controls {
     public class SelectorSingleControl : SelectorControl {
         Label lblID;
+        ListBox typeListBox;
         Button btnSet;
 
         public SelectorSingleControl(ReferenceForm parent, PacketEdit packet) : base(parent, packet) {
-            Program.debug(GetType().Name);
-
             ListBox typeListBox = createTypeListBox();
             typeListBox.SelectedIndexChanged += (_1, _2) => update();
 

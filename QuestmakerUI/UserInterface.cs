@@ -11,7 +11,7 @@ namespace Questmaker.UI {
 		static void Main() {
 			Program.Main("default");
 
-			Entity entity = EntityCollection.byID(typeof(Sentence), "sentence");
+			Entity entity = EntityCollection.byID(typeof(Route), "route_bert");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);

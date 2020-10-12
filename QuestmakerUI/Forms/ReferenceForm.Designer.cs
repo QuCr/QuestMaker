@@ -29,7 +29,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 336);
+            this.ClientSize = new System.Drawing.Size(486, 336);
             this.Name = "ReferenceForm";
             this.Text = "ReferenceForm";
             this.ResumeLayout(false);

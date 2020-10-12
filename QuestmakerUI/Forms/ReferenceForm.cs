@@ -18,9 +18,9 @@ namespace Questmaker.UI.Forms {
             if (packetEdit.packet is PacketSingle) 
                 selector = new SelectorSingleControl(this, packetEdit);
             else if (packetEdit.packet is PacketArray) 
-                selector = new SelectorArrayControl(packetEdit);
+                selector = new SelectorArrayControl(this, packetEdit);
             else if (packetEdit.packet is PacketDummyArray) 
-                selector = new SelectorDummyArrayControl(packetEdit);
+                selector = new SelectorDummyArrayControl(this, packetEdit);
             else throw new ArgumentException("case not handled");
         }
     }

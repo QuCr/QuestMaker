@@ -107,7 +107,7 @@
             this.Controls.Add(this.listBoxRight);
             this.Controls.Add(this.listBoxLeft);
             this.Name = "SelectorControl";
-            this.Size = new System.Drawing.Size(338, 322);
+            this.Size = new System.Drawing.Size(422, 322);
             this.ResumeLayout(false);
 
         }
