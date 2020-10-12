@@ -37,7 +37,7 @@ namespace QuestMaker.Data {
 		public string ToDetailedString() => displayName;
 
 		public override string ToString() {
-			return $"Entity<{GetType().Name}>[{id}]";
+			return id;
 		}
 
         public static Entity createType(Type type = null, bool activate = true) {

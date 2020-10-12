@@ -2,8 +2,11 @@
 using QuestMaker.Console;
 using QuestMaker.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -21,7 +24,7 @@ namespace Questmaker.UI.Forms.Controls {
             valueListBox = new ListBox() {
                 Location = new Point(200, 40)
             };
-            valueListBox.Items.AddRange(EntityCollection.get(packetEdit.packet).Select(x => x.id).ToArray());
+            valueListBox.Items.AddRange(EntityCollection.get(packetEdit.packet).ToArray());
             addControl(valueListBox);
 
             typeListBox.SelectedIndexChanged += (_1, _2) => stateButton();
@@ -53,14 +56,17 @@ namespace Questmaker.UI.Forms.Controls {
 
 
         protected override void save() {
-            string[] ids = valueListBox.Items.Cast<string>().ToArray();
             Entity obj = packetEdit.entity;
 
-            //here
-            packetEdit.field.SetValue(obj, EntityCollection.byIDs(packetEdit.type, ids));
+            IList list = (IList)packetEdit.field.GetValue(obj);
+            list.Clear();
+            foreach (Entity item in valueListBox.Items) {
+                list.Add(item);
+            }
+            packetEdit.field.SetValue(obj, list);
 
             Program.debug("Saved to field " + packetEdit.field.Name + " of " + obj);
-
+            
             parent.Close();
         }
 
