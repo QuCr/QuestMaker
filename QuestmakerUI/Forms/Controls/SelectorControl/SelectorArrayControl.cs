@@ -80,9 +80,9 @@ namespace Questmaker.UI.Forms.Controls {
             //int positionLeft = typeListBox.SelectedItem == null ? typeListBox.Items.Count : typeListBox.SelectedIndex;
             int positionRight = valueListBox.SelectedItem == null ? valueListBox.Items.Count : valueListBox.SelectedIndex;
 
-            object obj = typeListBox.SelectedItem;
+            Entity entity = EntityCollection.byID(packetEdit.type, typeListBox.SelectedItem.ToString()); ;
 
-            valueListBox.Items.Insert(Math.Min(positionRight, valueListBox.Items.Count), obj);
+            valueListBox.Items.Insert(Math.Min(positionRight, valueListBox.Items.Count), entity);
 
 
         }

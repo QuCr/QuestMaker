@@ -1,5 +1,6 @@
 ﻿using Questmaker.UI.Forms.Controls;
 using QuestMaker.Code;
+using QuestMaker.Console;
 using System;
 using System.Windows.Forms;
 
@@ -10,6 +11,8 @@ namespace Questmaker.UI.Forms {
 
         public ReferenceForm() {
             InitializeComponent();
+
+            Program.info("started");
         }
 
         public ReferenceForm(EditorControl parent, PacketEdit packetEdit) {
