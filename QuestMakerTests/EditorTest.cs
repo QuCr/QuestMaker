@@ -116,6 +116,19 @@ namespace QuestMaker.Tests {
             Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
         }
 
+        /*[TestMethod]
+        public void EditorTest_ClearEntity() {
+            Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");
+            mainform.handle(tree, new PacketType(typeof(Person)));
+            mainform.handle(viewer, new PacketSingleEditor(point1));
+
+            setText("");
+            Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+            Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
+            Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
+        }*/
+
         [TestMethod]
         public void EditorTest_EmptyTextID() {
             Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");

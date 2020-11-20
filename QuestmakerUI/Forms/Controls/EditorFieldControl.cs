@@ -39,7 +39,7 @@ namespace Questmaker.UI.Forms.Controls {
 			name = field.Name;
 			if (singleEditorPacket != null) {
 				entity = singleEditorPacket.getEntity();
-				value = field.GetValue(entity);-----
+				value = field.GetValue(entity);
 			}
 			type = field.FieldType;
 			this.objectType = objectType;
