@@ -36,9 +36,11 @@ namespace Questmaker.UI.Forms.Controls {
 			this.field = field;
 			this.parent = parent;
 
-			entity = singleEditorPacket.getEntity();
 			name = field.Name;
-			value = singleEditorPacket == null ? null : field.GetValue(entity);
+			if (singleEditorPacket != null) {
+				entity = singleEditorPacket.getEntity();
+				value = field.GetValue(entity);-----
+			}
 			type = field.FieldType;
 			this.objectType = objectType;
 
@@ -99,14 +101,14 @@ namespace Questmaker.UI.Forms.Controls {
 					Controls.Add(control = button = new Button() {
 						Text = "Entity",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity((Entity)value), entity, field),
+						Tag = (entity == null) ? null : new PacketEdit(Packet.byEntity((Entity)value), entity, field),
 						Width = 100
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
 						Text = "List of entities",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()), entity, field),
+						Tag = (entity == null) ? null : new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()), entity, field),
 						Width = 100
 					});
 				} else if (Helper.isList(value)) {
@@ -117,7 +119,7 @@ namespace Questmaker.UI.Forms.Controls {
 					Controls.Add(control = button = new Button() {
 						Text = "List of dummies",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(packet,entity, field),
+						Tag = (entity == null) ? null : new PacketEdit(packet,entity, field),
 						Width = 100
 					});
 				}

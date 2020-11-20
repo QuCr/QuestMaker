@@ -25,7 +25,7 @@ namespace QuestMaker.Code {
 		, SingleEditor =					flagEditor	|					flagEntity                  //10
 
 		/*FOR SUDDEN UNINTENDED REFORMATS.
-		TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
+		THESE TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
 
 		Null = 0
 		, Single =			flagViewer									|	flagEntity					//18
@@ -42,7 +42,7 @@ namespace QuestMaker.Code {
 
 	/// <summary>
 	/// Packets are used for detemining how data should be presented.
-	/// Packets say if it is a list or not; if it references 0, 1 or many Entities;
+	/// Packets say if it is a list or not; if it references 0, 1 or many objects;
 	/// if it references all instances of a Entity type; if it's just a string or integer.
 	/// All these different cases must be handled differently by the UI.
 	/// </summary>
