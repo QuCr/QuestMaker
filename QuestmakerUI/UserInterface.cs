@@ -15,6 +15,7 @@ namespace Questmaker.UI {
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
 			MainForm mainform = new MainForm();
 			mainform.handle(mainform.Tree, new PacketType(entity.GetType()));
 			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));

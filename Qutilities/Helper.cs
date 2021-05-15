@@ -17,9 +17,9 @@ namespace Qutilities {
 			return returnValue;
 		}
 
-		/// <summary> typeof(Entity).IsAssignableFrom((Type)obj); </summary>
-		public static bool isSubTypeOfType<T>(Type obj) {
-			bool returnValue = typeof(T).IsAssignableFrom(obj);
+		/// <summary> typeof(T).IsAssignableFrom((Type)obj); </summary>
+		public static bool isSubTypeOfType<T>(Type type) {
+			bool returnValue = typeof(T).IsAssignableFrom(type);
 			return returnValue;
 		}
 

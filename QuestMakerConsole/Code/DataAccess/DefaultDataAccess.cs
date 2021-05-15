@@ -102,7 +102,7 @@ namespace QuestMaker.Console.Code.DataAccess {
 
 			new Variable("var_first") {
 				displayName = "My variable",
-				value = "69420",
+				value = "123",
 				used = true
 			};
 		}

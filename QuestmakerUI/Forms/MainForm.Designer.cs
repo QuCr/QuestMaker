@@ -29,6 +29,7 @@
             this.viewer = new Questmaker.UI.ViewControl();
             this.tree = new Questmaker.UI.TreeControl();
             this.editor = new Questmaker.UI.EditorControl();
+            this.generateProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,7 +47,8 @@
             // projectToolStripMenuItem
             // 
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.updateToolStripMenuItem});
+            this.updateToolStripMenuItem,
+            this.generateProjectToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
             this.projectToolStripMenuItem.Text = "Project";
@@ -54,7 +56,7 @@
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(141, 26);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
@@ -88,6 +90,13 @@
             this.editor.Size = new System.Drawing.Size(288, 302);
             this.editor.TabIndex = 0;
             // 
+            // generateProjectToolStripMenuItem
+            // 
+            this.generateProjectToolStripMenuItem.Name = "generateProjectToolStripMenuItem";
+            this.generateProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.generateProjectToolStripMenuItem.Text = "Generate Project";
+            this.generateProjectToolStripMenuItem.Click += new System.EventHandler(this.generateProjectToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -116,6 +125,7 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem generateProjectToolStripMenuItem;
 
         public EditorControl Editor { get => editor; private set => editor = value; }
         public TreeControl Tree { get => tree; private set => tree = value; }
