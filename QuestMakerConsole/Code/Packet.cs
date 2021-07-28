@@ -138,6 +138,8 @@ namespace QuestMaker.Code {
 	/// Packet for an 0, 1 or many entities.
 	/// </summary>
 	public sealed class PacketArray : Packet {
+		//TODO: type kan niet worden gevonden als de lijst leeg is
+		// -> Verwijder alle waypoints uit een route en probeer het project te updaten
 		public PacketArray(Entity[] entities) {
 			handlerEnum = HandlerEnum.Array;
 			type = entities.FirstOrDefault().GetType();

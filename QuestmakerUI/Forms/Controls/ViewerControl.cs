@@ -97,7 +97,7 @@ namespace Questmaker.UI {
 
             //VIEW
             if (packet.hasEntities) {
-                if (EntityCollection.get(packet)[0] == null) {
+                if (EntityCollection.get(packet).FirstOrDefault() == null) {
                     packet = Packet.byType(packet.type);
                 }
 

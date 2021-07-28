@@ -8,6 +8,7 @@ namespace QuestMaker.Console {
 
 		public static void Main(params string[] args) {
 			string dateTime = $"{DateTime.Now:HH:mm:ss dd/MM/yy}";
+
 			title("QuestMaker - v0.0.0.5");
 			header("                                                                                                                   ");
 			header("                                          ***************************                                              ");
