@@ -46,8 +46,8 @@ namespace QuestMaker.Data {
 		/// <summary> Searches an entity by its ID. </summary>
 		public static Entity byID(Type type, string ID) {
 			Dictionary<string, Entity> types = entityCollection[type.Name];
-			for (int j = 0;j < types.Count;j++) {
-				KeyValuePair<string, Entity> entity = types.ElementAt(j);
+			for (int i = 0;i < types.Count;i++) {
+				KeyValuePair<string, Entity> entity = types.ElementAt(i);
 				if (entity.Key == ID)
 					return entity.Value;
 			}
@@ -87,6 +87,7 @@ namespace QuestMaker.Data {
 		/// Gets a list with all Entitys of a certain type
 		/// </summary>
 		public static List<Entity> getTypeArray(Type type) {
+			//TODO .toList kan toch gebruikt worden?
 			List<Entity> entities = new List<Entity>();
 			entities.AddRange(from item in entityCollection[type.Name] select item.Value);
 			return entities;

@@ -198,10 +198,10 @@ namespace Questmaker.UI {
                 if (control.canDestroy == false) ValidDestroy = false;
             }
 
-            btnClear.Enabled = true;//!isEditingReference;
-            btnCreate.Enabled = validCreate;// && !isEditingReference;
-            btnUpdate.Enabled = ValidUpdate;// && !isEditingReference;
-            btnDestroy.Enabled = ValidDestroy;// && !isEditingReference;
+            btnClear.Enabled = true;            //!isEditingReference;
+            btnCreate.Enabled = validCreate;    // && !isEditingReference;
+            btnUpdate.Enabled = ValidUpdate;    // && !isEditingReference;
+            btnDestroy.Enabled = ValidDestroy;  // && !isEditingReference;
         }
     }
 }

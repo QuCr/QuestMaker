@@ -3,10 +3,10 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 using QuestMaker.Data;
-using Qutilities;
 using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
+using QuestMakerConsole.Code;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {

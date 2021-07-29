@@ -11,6 +11,8 @@ namespace Questmaker.UI {
 			tree.sent += handle;
 			viewer.sent += handle;
 			editor.sent += handle;
+
+			
 		}
 
 		public void handle(object sender, Packet packet) {

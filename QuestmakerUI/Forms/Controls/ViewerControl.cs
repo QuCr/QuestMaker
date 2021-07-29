@@ -7,7 +7,7 @@ using QuestMaker.Code;
 using QuestMaker.Data;
 using System.Reflection;
 using Newtonsoft.Json;
-using static Qutilities.Helper;
+using static QuestMakerConsole.Code.Helper;
 using static System.Windows.Forms.ListViewItem;
 using System.Collections.Generic;
 using System.Collections;

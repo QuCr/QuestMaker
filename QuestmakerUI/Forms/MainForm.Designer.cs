@@ -39,7 +39,8 @@
             this.projectToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(993, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(745, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -48,13 +49,13 @@
             this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.updateToolStripMenuItem});
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
-            this.projectToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
             this.projectToolStripMenuItem.Text = "Project";
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(141, 26);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.updateToolStripMenuItem.Text = "Update";
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
@@ -63,9 +64,10 @@
             this.viewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewer.Location = new System.Drawing.Point(209, 33);
+            this.viewer.Location = new System.Drawing.Point(157, 27);
+            this.viewer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.viewer.Name = "viewer";
-            this.viewer.Size = new System.Drawing.Size(478, 314);
+            this.viewer.Size = new System.Drawing.Size(358, 255);
             this.viewer.TabIndex = 2;
             // 
             // tree
@@ -73,9 +75,10 @@
             this.tree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tree.Location = new System.Drawing.Point(12, 31);
+            this.tree.Location = new System.Drawing.Point(9, 25);
+            this.tree.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tree.Name = "tree";
-            this.tree.Size = new System.Drawing.Size(191, 316);
+            this.tree.Size = new System.Drawing.Size(143, 257);
             this.tree.TabIndex = 1;
             // 
             // editor
@@ -83,23 +86,25 @@
             this.editor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.editor.Location = new System.Drawing.Point(693, 45);
+            this.editor.Location = new System.Drawing.Point(520, 37);
+            this.editor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.editor.Name = "editor";
-            this.editor.Size = new System.Drawing.Size(288, 302);
+            this.editor.Size = new System.Drawing.Size(216, 245);
             this.editor.TabIndex = 0;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(993, 359);
+            this.ClientSize = new System.Drawing.Size(745, 292);
             this.Controls.Add(this.viewer);
             this.Controls.Add(this.tree);
             this.Controls.Add(this.editor);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "QuestMaker";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

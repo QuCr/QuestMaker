@@ -1,10 +1,10 @@
-﻿using System;
+﻿using QuestMaker.Console;
+using QuestMaker.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using QuestMaker.Console;
-using QuestMaker.Data;
 
-namespace Qutilities {
+namespace QuestMakerConsole.Code {
 	public static class Helper {
 		/// <summary> obj is IList </summary>
 		public static bool isList(object obj) {
@@ -49,7 +49,7 @@ namespace Qutilities {
 			outputList(list.ToArray(), newLine, function);
 		}
 
-        public static void outputList<T>(T[] array, bool newLine = false, Func<T, object> function = null) {
+		public static void outputList<T>(T[] array, bool newLine = false, Func<T, object> function = null) {
 			if (function == null)
 				function = x => x.ToString();
 
@@ -58,7 +58,8 @@ namespace Qutilities {
 				text = "\n[";
 			if (newLine)
 				text += "\n";
-			for (int i = 0; i < array.Length; i++) {
+			for (int i = 0; i < array.Length; i++)
+			{
 				if (array[i].GetType() == typeof(string))
 					text += "\"";
 
@@ -73,6 +74,6 @@ namespace Qutilities {
 			}
 			text += "]";
 			Program.info(text);
-        }
-    }
+		}
+	}
 }

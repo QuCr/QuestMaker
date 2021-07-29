@@ -18,7 +18,7 @@ namespace QuestMaker.Code {
 		, Single =			flagViewer									|	flagEntity					//18
 		, DummyArray =		flagViewer	|	flagList													//17
 		, Array =			flagViewer	|	flagList	|					flagEntity					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType       //31
 		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
 		, Edit =			flagViewer									|   flagEntity					//18
 		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
@@ -31,7 +31,7 @@ namespace QuestMaker.Code {
 		, Single =			flagViewer									|	flagEntity					//18
 		, DummyArray =		flagViewer	|	flagList													//17
 		, Array =			flagViewer	|	flagList	|					flagEntity					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagType	|	flagEntity	//31
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType       //31
 		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
 		, Edit =			flagViewer									|   flagEntity					//18
 		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
@@ -95,8 +95,8 @@ namespace QuestMaker.Code {
 		}
 
 		/// <summary> Creates a packet (Single) for the given entity </summary>
-		public static PacketSingle byEntity(Entity entities) {
-			return new PacketSingle(entities);
+		public static PacketSingle byEntity(Entity entity) {
+			return new PacketSingle(entity);
 		}
 
 		/// <summary> Creates a packet (Type) for the given type </summary>

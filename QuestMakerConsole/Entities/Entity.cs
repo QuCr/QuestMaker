@@ -22,15 +22,13 @@ namespace QuestMaker.Data {
 
 		public Entity(string id, bool activate = true) {
 			if (id == null || id.Length < 1)
-				throw new ArgumentNullException("id is null");
+				throw new ArgumentNullException("id is null or empty");
 
 			this.id = id;
 			displayName = id;
 
-			if (!activate)
-				return;
-
-			this.activate();
+			if (activate) //only false for dummy objects
+				this.activate();
 		}
 
 		public string ToMasterString() => displayName;
@@ -53,6 +51,7 @@ namespace QuestMaker.Data {
 		}
     }
 
+	/// <summary> Used for showing values in lists, cannot be real entities</summary>
 	[DataViewer(mock = true)]
 	public class Dummy : Entity {
 		public object value;
