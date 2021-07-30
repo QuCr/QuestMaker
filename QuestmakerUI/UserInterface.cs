@@ -13,6 +13,7 @@ namespace Questmaker.UI {
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+
 			MainForm mainform = new MainForm();
 
 			Entity entity = EntityCollection.byID(typeof(Waypoint), "bed_red");

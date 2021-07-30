@@ -28,5 +28,9 @@ namespace Questmaker.UI {
 		private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
 			Program.export();
 		}
-	}
+
+        private void generateProjectToolStripMenuItem_Click(object sender, EventArgs e) {
+			Project.generateProject();
+        }
+    }
 }
