@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Windows.Forms;
 using QuestMaker.Code;
 using QuestMaker.Data;
@@ -20,7 +19,6 @@ namespace Questmaker.UI {
 			mainform.handle(mainform.Tree, new PacketType(entity.GetType()));
 			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
 
-			
 			Application.Run(mainform);
 		}
 	}

@@ -33,8 +33,6 @@ namespace Questmaker.UI {
 				}
 			}
 			tree.EndUpdate();
-
-			//tree.ExpandAll();
 		}
 
 		internal void handle(Packet packet) {
@@ -43,6 +41,5 @@ namespace Questmaker.UI {
 		}
 
 		void tree_Click(object sender, TreeNodeMouseClickEventArgs e) => sent(this, (Packet)e.Node.Tag);
-		
 	}
 }

@@ -6,7 +6,7 @@ using QuestMaker.Data;
 using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
-using QuestMakerConsole.Code;
+using QuestMaker.Console.Code;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {

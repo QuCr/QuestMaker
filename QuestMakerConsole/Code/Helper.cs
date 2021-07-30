@@ -1,10 +1,9 @@
-﻿using QuestMaker.Console;
-using QuestMaker.Data;
+﻿using QuestMaker.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace QuestMakerConsole.Code {
+namespace QuestMaker.Console.Code {
 	public static class Helper {
 		/// <summary> obj is IList </summary>
 		public static bool isList(object obj) {
@@ -17,19 +16,19 @@ namespace QuestMakerConsole.Code {
 			return returnValue;
 		}
 
-		/// <summary> typeof(T).IsAssignableFrom((Type)obj); </summary>
+		/// <summary> typeof(T).IsAssignableFrom(type); </summary>
 		public static bool isSubTypeOfType<T>(Type type) {
 			bool returnValue = typeof(T).IsAssignableFrom(type);
 			return returnValue;
 		}
 
-		/// <summary> typeof(Entity).IsAssignableFrom((Type)obj); </summary>
+		/// <summary> typeof(Entity).IsAssignableFrom(obj); </summary>
 		public static bool isSubTypeOfEntity(Type obj) {
 			bool returnValue = typeof(Entity).IsAssignableFrom(obj);
 			return returnValue;
 		}
 
-		/// <summary> obj.GetType().GetGenericArguments()[0]; </summary>
+		/// <summary> if (isList(obj)) obj.GetType().GetGenericArguments()[0]; </summary>
 		public static Type getListType(object obj) {
 			Type returnValue = null;
 
@@ -39,7 +38,7 @@ namespace QuestMakerConsole.Code {
 			return returnValue;
 		}
 
-		/// <summary> isSubOfType<T>(getListType(obj)); </summary>
+		/// <summary> isSubTypeOfType<T>(getListType(obj)); </summary>
 		public static bool isListOf<T>(object obj) {
 			var returnValue = isSubTypeOfType<T>(getListType(obj));
 			return returnValue;

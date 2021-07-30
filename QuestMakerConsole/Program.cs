@@ -38,7 +38,7 @@ namespace QuestMaker.Console {
 			return dataAccess.isExportable();
 		}
 
-		static void Write(string text, char letter = '?', ConsoleColor ForegroundColor = ConsoleColor.Gray, System.ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
+		static void Write(string text, char letter = '?', ConsoleColor ForegroundColor = ConsoleColor.Gray, ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
 			System.ConsoleColor startingForegroundColor = System.Console.ForegroundColor;
 			System.ConsoleColor startingBackgroundColor = System.Console.BackgroundColor;
 

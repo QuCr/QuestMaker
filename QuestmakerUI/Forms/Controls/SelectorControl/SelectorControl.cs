@@ -1,7 +1,6 @@
 ﻿using QuestMaker.Code;
 using QuestMaker.Console;
 using QuestMaker.Data;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -57,10 +56,7 @@ namespace Questmaker.UI.Forms.Controls {
 
             return typeListBox;
         }
-
         public void addControl(Control control) => parent.Controls.Add(control);
-
-
     }
 }
 

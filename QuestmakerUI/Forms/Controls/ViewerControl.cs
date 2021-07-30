@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using QuestMaker.Code;
 using QuestMaker.Data;
 using System.Reflection;
 using Newtonsoft.Json;
-using static QuestMakerConsole.Code.Helper;
-using static System.Windows.Forms.ListViewItem;
 using System.Collections.Generic;
 using System.Collections;
+using static QuestMaker.Console.Code.Helper;
+using static System.Windows.Forms.ListViewItem;
 
 namespace Questmaker.UI {
 	public partial class ViewControl : UserControl {

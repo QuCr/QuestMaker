@@ -3,11 +3,7 @@ using QuestMaker.Console;
 using QuestMaker.Data;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Questmaker.UI.Forms.Controls {
