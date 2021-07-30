@@ -7,6 +7,7 @@ using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
 using QuestMaker.Console.Code;
+using QuestMaker.Console;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
@@ -70,7 +71,7 @@ namespace Questmaker.UI.Forms.Controls {
 					Width = 100,
 					Checked = value?.ToString() == true.ToString()
 				});
-				control.TextChanged += textChanged;
+				control.Click += textChanged;
 				return;
 			}
 
@@ -188,7 +189,10 @@ namespace Questmaker.UI.Forms.Controls {
 
             if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
             if (sender is TextBox) value = (sender as TextBox).Text;
-            if (sender is CheckBox) value = (sender as CheckBox).Checked;
+            if (sender is CheckBox) 
+				value = (sender as CheckBox).Checked;
+
+			Program.debug(sender.GetType().Name);
 
 			parent.validate();
 		}
