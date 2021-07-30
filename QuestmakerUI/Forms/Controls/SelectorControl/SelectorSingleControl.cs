@@ -11,7 +11,7 @@ namespace Questmaker.UI.Forms.Controls {
         Button btnSet;
 
         public SelectorSingleControl(ReferenceForm parent, PacketEdit packet) : base(parent, packet) {
-            ListBox typeListBox = createTypeListBox();
+            typeListBox = createTypeListBox();
             typeListBox.SelectedIndexChanged += (_1, _2) => update();
 
             btnSet = new Button() {

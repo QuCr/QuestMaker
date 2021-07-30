@@ -7,6 +7,7 @@ using QuestMaker.Code;
 using System.Collections;
 using System.Linq;
 using QuestMaker.Console.Code;
+using QuestMaker.Console;
 
 namespace Questmaker.UI.Forms.Controls {
     public partial class EditorFieldControl : UserControl {
@@ -18,7 +19,6 @@ namespace Questmaker.UI.Forms.Controls {
 		public object value;
 		public Type type;
 		public Type objectType = null;
-		public bool exists;
 
         public Control control;
 
@@ -70,7 +70,7 @@ namespace Questmaker.UI.Forms.Controls {
 					Width = 100,
 					Checked = value?.ToString() == true.ToString()
 				});
-				control.TextChanged += textChanged;
+				control.Click += textChanged;
 				return;
 			}
 
@@ -135,9 +135,9 @@ namespace Questmaker.UI.Forms.Controls {
 
         private void click(object sender, EventArgs e) {
             var button = sender as Button;
-            var tag = (PacketEdit)button.Tag;
+            var packetEdit = (PacketEdit)button.Tag;
 
-			parent.clickReference(sender as Button, tag);
+			parent.clickReference(sender as Button, packetEdit);
         }
 
 		/// <summary>
@@ -161,25 +161,25 @@ namespace Questmaker.UI.Forms.Controls {
 						canDestroy = false;
 						textBox.ForeColor = Color.Black;
 					} else {
-						bool existingIDFromText = EntityCollection.isExistingID(text);
+						bool existsID = EntityCollection.isExistingID(text);
 						bool currentID = parent.packet.getEntity().id == text;
 
-						if (existingIDFromText && currentID) {
+						if (existsID && currentID) {
 							canCreate = false;
 							canUpdate = true;
 							canDestroy = true;
 							textBox.ForeColor = Color.Green;
-						} else if (existingIDFromText && !currentID) {
+						} else if (existsID && !currentID) {
 							canCreate = false;
 							canUpdate = false;
 							canDestroy = false;
 							textBox.ForeColor = Color.Red;
-						} else if (!existingIDFromText && !currentID) {
+						} else if (!existsID && !currentID) {
 							canCreate = true;
 							canUpdate = true;
 							canDestroy = false;
 							textBox.ForeColor = Color.Black;
-						} else if (!existingIDFromText && currentID) {
+						} else if (!existsID && currentID) {
 							throw new Exception("Case should never be fired");
 						}
 					}
@@ -189,6 +189,8 @@ namespace Questmaker.UI.Forms.Controls {
             if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
             if (sender is TextBox) value = (sender as TextBox).Text;
             if (sender is CheckBox) value = (sender as CheckBox).Checked;
+
+			Program.debug(sender.GetType().Name);
 
 			parent.validate();
 		}

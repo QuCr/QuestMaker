@@ -6,7 +6,6 @@ using System.Windows.Forms;
 
 namespace Questmaker.UI.Forms {
     public partial class ReferenceForm : Form {
-
         SelectorControl selector;
 
         public ReferenceForm() {

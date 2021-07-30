@@ -118,7 +118,7 @@ namespace Questmaker.UI {
                 ReferenceForm referenceForm = new ReferenceForm(this, tag);
                 referenceForm.Show();
 
-                isEditingReference = !isEditingReference;
+                isEditingReference = false;
             }
         }
 
