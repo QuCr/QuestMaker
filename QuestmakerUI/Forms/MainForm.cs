@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using QuestMaker.Code;
+﻿using QuestMaker.Code;
 using QuestMaker.Console;
+using System;
+using System.Windows.Forms;
 
 namespace Questmaker.UI {
 	public partial class MainForm : Form {
@@ -14,9 +14,11 @@ namespace Questmaker.UI {
 		}
 
 		public void handle(object sender, Packet packet) {
+			Program.debug("MainForm handles: " + packet?.ToString() ?? "null");
+
 			if (packet.handlerEnum.HasFlag(HandlerEnum.flagTree))	tree.handle(packet);
-			if (packet.handlerEnum.HasFlag(HandlerEnum.flagViewer))	viewer.handle(packet);
-			if (packet.handlerEnum.HasFlag(HandlerEnum.flagEditor))	editor.handle(packet);
+			if (packet.handlerEnum.HasFlag(HandlerEnum.flagViewer)) viewer.handle(packet);
+			if (packet.handlerEnum.HasFlag(HandlerEnum.flagEditor)) editor.handle(packet);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e) {
@@ -27,8 +29,8 @@ namespace Questmaker.UI {
 			Program.export();
 		}
 
-        private void generateProjectToolStripMenuItem_Click(object sender, EventArgs e) {
+		private void generateProjectToolStripMenuItem_Click(object sender, EventArgs e) {
 			Project.generateProject();
-        }
-    }
+		}
+	}
 }

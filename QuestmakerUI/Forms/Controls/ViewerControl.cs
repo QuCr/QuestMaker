@@ -1,13 +1,13 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
+﻿using Newtonsoft.Json;
 using QuestMaker.Code;
 using QuestMaker.Data;
-using System.Reflection;
-using Newtonsoft.Json;
-using System.Collections.Generic;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 using static QuestMaker.Console.Code.Helper;
 using static System.Windows.Forms.ListViewItem;
 
@@ -36,14 +36,14 @@ namespace Questmaker.UI {
 				generateViewer(packet);
 				previousPacket = packet;
 			}
-        }
+		}
 
-        private void generateViewer(Packet packet) {
-            view.BeginUpdate();
+		private void generateViewer(Packet packet) {
+			view.BeginUpdate();
 
 			updateItems(packet);
 			updateColumns(packet);
-			
+
 			groupbox.Text = "Address: " + packet.ToString();
 
 			view.EndUpdate();
@@ -52,12 +52,12 @@ namespace Questmaker.UI {
 		private void updateColumns(Packet packetItem) {
 			view.Columns.Clear();
 			view.Columns.Add("", 20);
-			
+
 			var fields = from FieldInfo field in packetItem.type.GetFields()
 						 where field.Name != "type"
-						 orderby ((JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)))?.Order
+						 orderby ( (JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)) )?.Order
 						 select field;
-			
+
 			if (packetItem.hasEntities) {
 				foreach (FieldInfo field in fields) {
 					view.Columns.Add(field.Name);
@@ -71,7 +71,7 @@ namespace Questmaker.UI {
 				view.AutoResizeColumn(1, ColumnHeaderAutoResizeStyle.ColumnContent);
 			}
 
-			for (int i = 0;i < view.Columns.Count;i++) {
+			for (int i = 0; i < view.Columns.Count; i++) {
 				ColumnHeader col = view.Columns[i];
 
 				view.AutoResizeColumn(i, ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -85,22 +85,22 @@ namespace Questmaker.UI {
 
 		private void updateItems(Packet packet) {
 			view.Items.Clear();
-            view.CheckBoxes = false;
+			view.CheckBoxes = false;
 
 			List<Entity> selectedItems = new List<Entity>();
-            if (packet is PacketEdit) {
-                view.CheckBoxes = true;
-                selectedItems = EntityCollection.get( (packet as PacketEdit).packet );
-                packet = Packet.byType(packet.type);
-            }
+			if (packet is PacketEdit) {
+				view.CheckBoxes = true;
+				selectedItems = EntityCollection.get(( packet as PacketEdit ).packet);
+				packet = Packet.byType(packet.type);
+			}
 
-            //VIEW
-            if (packet.hasEntities) {
-                if (EntityCollection.get(packet).FirstOrDefault() == null) {
-                    packet = Packet.byType(packet.type);
-                }
+			//VIEW
+			if (packet.hasEntities) {
+				if (EntityCollection.get(packet).FirstOrDefault() == null) {
+					packet = Packet.byType(packet.type);
+				}
 
-                foreach (Entity entity in EntityCollection.get(packet)) {
+				foreach (Entity entity in EntityCollection.get(packet)) {
 					ListViewItem listViewItem = new ListViewItem {
 						UseItemStyleForSubItems = false,
 						Tag = new PacketType(typeof(Waypoint)),
@@ -109,7 +109,7 @@ namespace Questmaker.UI {
 
 					var fields = from FieldInfo field in packet.type.GetFields()
 								 where field.Name != "type"
-								 orderby ((JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)))?.Order
+								 orderby ( (JsonPropertyAttribute)field.GetCustomAttribute(typeof(JsonPropertyAttribute)) )?.Order
 								 select field;
 
 					foreach (FieldInfo field in fields) {
@@ -135,14 +135,14 @@ namespace Questmaker.UI {
 							//E- (Single)
 							else if (isList(value) == false && isSubOf<Entity>(value) == true) {
 								packetItem = Packet.byEntity((Entity)value);
-								textItem = ((Entity)value).displayName.ToString();
+								textItem = ( (Entity)value ).displayName.ToString();
 								fontItem = fontReference;
 								foreColor = Color.Blue;
 							}
 
 							//O+ (DummyArray)
 							else if (isList(value) == true && isListOf<Entity>(value) == false) {
-								packetItem = (PacketDummyArray)Packet.byString(typeof(object), ((List<string>)value).ToArray());
+								packetItem = (PacketDummyArray)Packet.byString(typeof(object), ( (List<string>)value ).ToArray());
 								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
 								fontItem = fontReference;
 								foreColor = Color.Blue;
@@ -150,7 +150,7 @@ namespace Questmaker.UI {
 
 							//E+ (Array)
 							else if (isList(value) == true && isListOf<Entity>(value) == true) {
-								packetItem = Packet.byEntity(((IList)value).Cast<Entity>().ToArray());
+								packetItem = Packet.byEntity(( (IList)value ).Cast<Entity>().ToArray());
 								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
 								fontItem = fontReference;
 								foreColor = Color.Blue;
@@ -199,7 +199,7 @@ namespace Questmaker.UI {
 				var b = c.SubItems[columnIndex];
 				var a = (Packet)b.Tag;
 				string stringSubItem = view.Items[rowIndex].SubItems[columnIndex].Text;
-				
+
 				if (a != null)
 					sent(this, a);
 			}

@@ -1,21 +1,21 @@
-﻿using System;
-using System.Windows.Forms;
-using QuestMaker.Code;
-using QuestMaker.Data;
+﻿using QuestMaker.Code;
 using QuestMaker.Console;
+using QuestMaker.Data;
+using System;
+using System.Windows.Forms;
 
 namespace Questmaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {
-            Program.Main("default");
+			Program.Main("default");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			MainForm mainform = new MainForm();
 
-			Entity entity = EntityCollection.byID(typeof(Waypoint), "bed_red");
+			Entity entity = EntityCollection.byID(typeof(Sentence), "sentence");
 			mainform.handle(mainform.Tree, new PacketType(entity.GetType()));
 			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
 

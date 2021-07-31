@@ -1,9 +1,9 @@
-﻿using System;
+﻿using QuestMaker.Code;
+using QuestMaker.Code.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using QuestMaker.Code;
-using QuestMaker.Code.Attributes;
 
 namespace QuestMaker.Data {
 	/// <summary>
@@ -37,7 +37,7 @@ namespace QuestMaker.Data {
 					getSingle(packet.type, packet.entities[0].id)
 				};
 			if (packet is PacketArray)
-				return getArray(packet.type, (from a in packet.entities select a.id).ToArray());
+				return getArray(packet.type, ( from a in packet.entities select a.id ).ToArray());
 			if (packet is PacketType)
 				return getTypeArray(packet.type);
 			return null; //returns null because it's not a Entity, which is what was asked.
@@ -46,7 +46,7 @@ namespace QuestMaker.Data {
 		/// <summary> Searches an entity by its ID. </summary>
 		public static Entity byID(Type type, string ID) {
 			Dictionary<string, Entity> types = entityCollection[type.Name];
-			for (int i = 0;i < types.Count;i++) {
+			for (int i = 0; i < types.Count; i++) {
 				KeyValuePair<string, Entity> entity = types.ElementAt(i);
 				if (entity.Key == ID)
 					return entity.Value;
@@ -70,7 +70,7 @@ namespace QuestMaker.Data {
 		/// Gets a single Entity
 		/// </summary>
 		public static Entity getSingle(Type type, string id) {
-			return (from item in entityCollection[type.Name] where id == item.Key select item.Value).FirstOrDefault();
+			return ( from item in entityCollection[type.Name] where id == item.Key select item.Value ).FirstOrDefault();
 		}
 
 		/// <summary>
@@ -144,8 +144,9 @@ namespace QuestMaker.Data {
 			return (
 				from type in Assembly.GetAssembly(typeof(Entity)).GetTypes()
 				where type.BaseType == typeof(Entity)
-				orderby ((DataViewerAttribute)Attribute.GetCustomAttribute(
-					type, typeof(DataViewerAttribute)))?.order
+				orderby ( (DataViewerAttribute)Attribute.GetCustomAttribute(
+					type, typeof(DataViewerAttribute))
+				)?.order
 				select type
 			).ToList();
 		}

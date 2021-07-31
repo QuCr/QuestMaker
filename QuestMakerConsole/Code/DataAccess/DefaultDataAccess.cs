@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuestMaker.Code;
 using QuestMaker.Data;
+using System.Collections.Generic;
+using System.IO;
 
 namespace QuestMaker.Console.Code.DataAccess {
 	public class DefaultDataAccess : IDataAccess {

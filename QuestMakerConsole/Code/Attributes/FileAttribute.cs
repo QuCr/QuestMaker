@@ -15,7 +15,7 @@ namespace QuestMaker.Code.Attributes {
 			string[] splittedPath = path.Split('/');
 			List<string> splittedDirectoryPath = new List<string> { Project.Path };
 
-			for (int i = 0;i < splittedPath.Length - 1;i++) {
+			for (int i = 0; i < splittedPath.Length - 1; i++) {
 				splittedDirectoryPath.Add(splittedPath[i]);
 				directoryPath = Path.Combine(splittedDirectoryPath.ToArray());
 				Directory.CreateDirectory(directoryPath);

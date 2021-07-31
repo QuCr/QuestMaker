@@ -1,0 +1,51 @@
+Test: btnClear zorgt ervoor dat alle velden in de editor de standaard waarden krijgen
+	EN de editor zijn pakket verwijst naar een nieuwe of geen bestaande entitieit
+
+Editorknoppen
+*************
+
+Lijst van entitieten:
+	als het NULL is, mag er geen tekst NULL staan maar moet een knop beschikbaar zijn
+	er moet kunnen worden aangeduid om de lijst niet of wel duplicaten kan bevatten (nieuwe attribuut?)
+	er moet in de knop zijn tekst staan hoeveel entiteiten er in de lijst zitten, zodat de gebruiker kan zien dat de aanpassingen opgeslagen zijn in de editor.
+Entiteit:
+	in de form is dubbelklikken voldoende om de nieuwe entititen aan te duiden
+
+
+Issues GitHub
+*************
+
+#11 BUG: Editing values (like arrays, entity) are troublesome.
+
+The EditorField's edit button's text must be "Edit".
+This button opens a form where the value can be updated or not.
+Only when the RefernceForm is open, can these values be updated
+by clicking the "Save" button.
+=============================================================
+#?? BUG: Possibility for null values and empty lists
+
+Values that are not should not be displayed as a label with
+the text "NULL", but should have also an "Edit" button that just 
+has a label with the text "NULL" next to it.
+To solve this issue, there should be a possibility for lists to be empty
+and for entities to be null.
+=============================================================
+#?? ENHANCEMENT: List with the possibilty the enable duplicates
+
+Lists need to be able to have duplicates. A new attribute 
+"DuplicateListAttribute" will be made that marks duplicatable lists.
+=============================================================
+#02 ENHANCEMENT: List should be able to be ordered
+
+You should be able to move items of a list up and down.
+An extra would be to sort them alphabettically!
+=============================================================
+#?? ENHANCEMENT: History for both the viewer & editor
+
+It'd be nice to go back (and forth) to previous sent packets. 
+Like when you accidentally click on the tree and it switches.
+=============================================================
+#?? BUG: Clearing and the creating twice gives an error about creating an existing ID
+
+The "Create" button of the editor should be disabled when
+you cannot create the entity.
