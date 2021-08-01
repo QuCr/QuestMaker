@@ -1,5 +1,5 @@
-﻿using QuestMaker.Data;
-using QuestMaker.Console.Code.DataAccess;
+﻿using QuestMaker.Console.Code.DataAccess;
+using QuestMaker.Data;
 using System;
 
 namespace QuestMaker.Console {
@@ -54,9 +54,9 @@ namespace QuestMaker.Console {
 		}
 
 		public static void title(string title) { System.Console.Title = title; }
-		public static void header(string text) { Write(text,' ', ConsoleColor.Black, ConsoleColor.White); }
+		public static void header(string text) { Write(text, ' ', ConsoleColor.Black, ConsoleColor.White); }
 		public static void info(string text) { Write(text + "\n", 'I', ConsoleColor.Blue); }
-		public static void debug(string text) { Write(text + "\n", 'D', ConsoleColor.Green); }
+		public static void debug(object text) { Write(text.ToString() + "\n", 'D', ConsoleColor.Green); }
 		public static void error(string text) { Write(text + "\n", 'E', ConsoleColor.Red); }
 	}
 }

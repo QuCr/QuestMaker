@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using QuestMaker.Data;
-
 namespace QuestMaker.Code {
 	[Flags]
 	public enum HandlerEnum {
@@ -13,29 +12,29 @@ namespace QuestMaker.Code {
 		flagEditor = 8,
 		flagViewer = 16,
 		flagTree = 32,
+		flagRef = 64,
 
 		Null = 0
-		, Single =			flagViewer									|	flagEntity					//18
-		, DummyArray =		flagViewer	|	flagList													//17
-		, Array =			flagViewer	|	flagList	|					flagEntity					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType       //31
-		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
-		, Edit =			flagViewer									|   flagEntity					//18
-		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
-		, SingleEditor =					flagEditor	|					flagEntity                  //10
+		, Single =			flagViewer									|	flagEntity
+		, DummyArray =		flagViewer	|					flagList
+		, Array =			flagViewer	|					flagList	|	flagEntity
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType
+		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity
+		, Edit =			flagRef										|   flagEntity
+		, SingleEditor =					flagEditor	|					flagEntity
+
 
 		/*FOR SUDDEN UNINTENDED REFORMATS.
 		THESE TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
 
 		Null = 0
-		, Single =			flagViewer									|	flagEntity					//18
-		, DummyArray =		flagViewer	|	flagList													//17
-		, Array =			flagViewer	|	flagList	|					flagEntity					//19
-		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType       //31
-		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity					//
-		, Edit =			flagViewer									|   flagEntity					//18
-		, EditUpdate =		flagViewer	|	flagEditor	|	flagTree									//56
-		, SingleEditor =					flagEditor	|					flagEntity                  //10
+		, Single =			flagViewer									|	flagEntity
+		, DummyArray =		flagViewer	|					flagList
+		, Array =			flagViewer	|					flagList	|	flagEntity
+		, Type =			flagViewer	|	flagEditor	|	flagList	|	flagEntity | flagType
+		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity
+		, Edit =			flagRef										|   flagEntity
+		, SingleEditor =					flagEditor	|					flagEntity
 
 		*/
 	}
@@ -126,7 +125,7 @@ namespace QuestMaker.Code {
 			handlerEnum = HandlerEnum.DummyArray;
 			this.type = type;
 
-			for (int i = 0;i < data.Length;i++) {
+			for (int i = 0; i < data.Length; i++) {
 				entities.Add(new Dummy(i, data[i]));
 			}
 		}
@@ -147,34 +146,34 @@ namespace QuestMaker.Code {
 		}
 
 		public override string ToString() => $"Array<{type.Name}>[{entities.Count}]";
-    }
+	}
 
-    /// <summary>
-    /// Packet for all entities of given type.
-    /// </summary>
-    public sealed class PacketType : Packet {
-        /// <param name="type">Packeted type of the entities</param>
-        public PacketType(Type type) {
-            handlerEnum = HandlerEnum.Type;
-            this.type = type;
-            entities = EntityCollection.getTypeArray(type);
-        }
+	/// <summary>
+	/// Packet for all entities of given type.
+	/// </summary>
+	public sealed class PacketType : Packet {
+		/// <param name="type">Packeted type of the entities</param>
+		public PacketType(Type type) {
+			handlerEnum = HandlerEnum.Type;
+			this.type = type;
+			entities = EntityCollection.getTypeArray(type);
+		}
 
-        public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
-    }
+		public override string ToString() => $"Type<{type.Name}>[{entities.Count}]";
+	}
 
-    /// <summary>
-    /// Packet for updating the controls
-    /// </summary>
-    public sealed class PacketUpdate : Packet {
-        public PacketUpdate() {
-            handlerEnum = HandlerEnum.Update;
-        }
+	/// <summary>
+	/// Packet for updating the controls
+	/// </summary>
+	public sealed class PacketUpdate : Packet {
+		public PacketUpdate() {
+			handlerEnum = HandlerEnum.Update;
+		}
 
-        public override string ToString() => $"Update";
-    }
+		public override string ToString() => $"Update";
+	}
 
-	
+
 	/// <summary>
 	/// Packet with a value of entities that is going to be edited, referencing a packet for the edited value.
 	/// Used when editing the value by selecting the entities from the underlying request.
@@ -191,70 +190,31 @@ namespace QuestMaker.Code {
 			this.field = field;
 			this.entity = entity;
 
-            entities = packet.entities;
+			entities = packet.entities;
 			type = packet.type.IsGenericType ? packet.type.GetGenericArguments()[0] : packet.type;
 			handlerEnum = HandlerEnum.Edit;
 		}
 
-		public override string ToString() => 
+		public override string ToString() =>
 			$"Edit<{packet.type?.Name}>[{packet.entities.Count}] from {packet}";
 	}
-
-	/*
-	/// <summary>
-	/// Packet with an update for the edit of the entities, referening the underlying packet for the edit.
-	/// Used when (de)selecting an item when editing
-	/// </summary>
-	public sealed class PacketEditUpdate : Packet {
-		public PacketEdit packetEdit;
-		public Entity value;
-		public bool? isSelected;
-
-		public PacketEditUpdate(PacketEdit packetEdit, Entity value, bool isSelected) {
-			type = packetEdit.getEntity().GetType();
-			this.packetEdit = packetEdit;
-			this.value = value;
-			entities = packetEdit.entities;
-			this.isSelected = isSelected;
-			handlerEnum = HandlerEnum.EditUpdate;
-		}
-
-		public PacketEditUpdate(PacketEdit packetEdit, Entity value) {
-			type = packetEdit.getEntity().GetType();
-			this.packetEdit = packetEdit;
-			this.value = value;
-			entities = packetEdit.entities;
-			handlerEnum = HandlerEnum.EditUpdate;
-		}
-
-		public override string ToString() {
-			PacketEdit PE = packetEdit as PacketEdit;
-			char isSelectedChar = ' ';
-			
-			if (isSelected.HasValue)
-				isSelectedChar = isSelected.Value ? '+' : '-';
-
-			return $"EditUpdate<{type.Name}>({PE.entities.First().id})<{PE.type.Name}>[{value.id}] {isSelectedChar}";
-		}
-	}*/
 
 	/// <summary>
 	/// Updates only the editor
 	/// </summary>
 	public sealed class PacketSingleEditor : Packet {
-        public PacketSingleEditor(Packet packet) {
-            handlerEnum = HandlerEnum.SingleEditor;
-            entities = EntityCollection.get(packet);
-            type = getEntity().GetType();
-        }
+		public PacketSingleEditor(Packet packet) {
+			handlerEnum = HandlerEnum.SingleEditor;
+			entities = EntityCollection.get(packet);
+			type = getEntity().GetType();
+		}
 
-        public PacketSingleEditor(Entity entity) {
-            handlerEnum = HandlerEnum.SingleEditor;
-            entities.Add(entity);
-            type = entity.GetType();
-        }
+		public PacketSingleEditor(Entity entity) {
+			handlerEnum = HandlerEnum.SingleEditor;
+			entities.Add(entity);
+			type = entity.GetType();
+		}
 
-        public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";
+		public override string ToString() => $"SingleEditor<{type.Name}>({getEntity().id})";
 	}
 }
- 

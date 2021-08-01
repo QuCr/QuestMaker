@@ -1,26 +1,24 @@
-﻿using System;
+﻿using QuestMaker.Code;
+using QuestMaker.Console.Code;
+using QuestMaker.Data;
+using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using QuestMaker.Data;
-using QuestMaker.Code;
-using System.Collections;
-using System.Linq;
-using QuestMaker.Console.Code;
-using QuestMaker.Console;
 
 namespace Questmaker.UI.Forms.Controls {
-    public partial class EditorFieldControl : UserControl {
-        public FieldInfo field;
-        private EditorControl parent;
+	public partial class EditorFieldControl : UserControl {
+		public FieldInfo field;
+		private EditorControl parent;
 
 		public Entity entity;
-        public string name;
+		public string name;
 		public object value;
 		public Type type;
 		public Type objectType = null;
 
-        public Control control;
+		public Control control;
+		public Label valueLabel;
 
 		public bool canCreate = true;
 		public bool canUpdate = true;
@@ -32,7 +30,7 @@ namespace Questmaker.UI.Forms.Controls {
 
 		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null, Type objectType = null) {
 			InitializeComponent();
-			
+
 			this.field = field;
 			this.parent = parent;
 
@@ -78,7 +76,7 @@ namespace Questmaker.UI.Forms.Controls {
 				if (value == null)
 					if (name == "id")
 						value = "ID";
-					else if (name == "displayName") 
+					else if (name == "displayName")
 						value = objectType.Name;
 					else
 						value = "";
@@ -99,28 +97,40 @@ namespace Questmaker.UI.Forms.Controls {
 				Button button = null;
 				if (Helper.isSubOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
-						Text = "Entity",
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = (entity == null) ? null : new PacketEdit(Packet.byEntity((Entity)value), entity, field),
-						Width = 100
+						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity((Entity)value), entity, field),
+						Width = 35
+					});
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
-						Text = "List of entities",
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = (entity == null) ? null : new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()), entity, field),
-						Width = 100
+						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity(Helper.asArrayOf<Entity>(value)), entity, field),
+						Width = 35
+					});
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
 					});
 				} else if (Helper.isList(value)) {
-                    string[] data = ((IList)value).Cast<string>().ToArray();
-                    Type type = Helper.getListType(value);
-                    Packet packet = Packet.byString(type, data);
+					string[] data = Helper.asArrayOf<string>(value);
+					Type type = Helper.getListType(value);
+					Packet packet = Packet.byString(type, data);
 
 					Controls.Add(control = button = new Button() {
-						Text = "List of dummies",
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = (entity == null) ? null : new PacketEdit(packet,entity, field),
-						Width = 100
+						Tag = ( entity == null ) ? null : new PacketEdit(packet, entity, field),
+						Width = 35
+					});
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
 					});
 				}
 				button.Click += click;
@@ -133,12 +143,12 @@ namespace Questmaker.UI.Forms.Controls {
 			return;
 		}
 
-        private void click(object sender, EventArgs e) {
-            var button = sender as Button;
-            var packetEdit = (PacketEdit)button.Tag;
+		private void click(object sender, EventArgs e) {
+			var button = sender as Button;
+			var packetEdit = (PacketEdit)button.Tag;
 
-			parent.clickReference(sender as Button, packetEdit);
-        }
+			parent.clickReference(this, packetEdit);
+		}
 
 		/// <summary>
 		/// This is an event, just because it can be called by KeyUp. 
@@ -186,11 +196,9 @@ namespace Questmaker.UI.Forms.Controls {
 				}
 			}
 
-            if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
-            if (sender is TextBox) value = (sender as TextBox).Text;
-            if (sender is CheckBox) value = (sender as CheckBox).Checked;
-
-			Program.debug(sender.GetType().Name);
+			if (sender is NumericUpDown) value = ( sender as NumericUpDown ).Value;
+			if (sender is TextBox) value = ( sender as TextBox ).Text;
+			if (sender is CheckBox) value = ( sender as CheckBox ).Checked;
 
 			parent.validate();
 		}

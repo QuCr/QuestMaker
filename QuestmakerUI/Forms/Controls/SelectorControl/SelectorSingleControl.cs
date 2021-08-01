@@ -1,59 +1,32 @@
 ﻿using QuestMaker.Code;
 using QuestMaker.Console;
+using QuestMaker.Console.Code;
 using QuestMaker.Data;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace Questmaker.UI.Forms.Controls {
-    public class SelectorSingleControl : SelectorControl {
-        Label lblID;
-        ListBox typeListBox;
-        Button btnSet;
+	public class SelectorSingleControl : SelectorControl {
+		ListBox typeListBox;
+		EditorFieldControl editorFieldControl;
 
-        public SelectorSingleControl(ReferenceForm parent, PacketEdit packet) : base(parent, packet) {
-            typeListBox = createTypeListBox();
-            typeListBox.SelectedIndexChanged += (_1, _2) => update();
+		public SelectorSingleControl(ReferenceForm parent, PacketEdit packet, EditorFieldControl editorFieldControl) : base(parent, packet) {
+			typeListBox = createTypeListBox();
+			this.editorFieldControl = editorFieldControl;
 
-            btnSet = new Button() {
-                Text = "Set",
-                Location = new Point(150, 40),
-                Width = 50,
-                Enabled = typeListBox.SelectedIndex != -1
-            };
-            btnSet.Click += (_1, _2) => set();
+			Entity entity = editorFieldControl.field.GetValue(packet.entity) as Entity;
+			if (entity != null) typeListBox.SelectedItem = entity.id;
+		}
 
-            lblID = new Label() {
-                Text = packet.getEntity().id,
-                Location = new Point(150, 60),
-                Width = 50
-            };
+		protected override void save() {
+			string value = typeListBox.SelectedItem.ToString();
+			editorFieldControl.value = EntityCollection.byID(packetEdit.type, value);
+			editorFieldControl.valueLabel.Text = Helper.toDisplayString(editorFieldControl.value);
 
-            addControl(btnSet);
-            addControl(lblID);
-        }
+			parent.Close();
+		}
 
-        private void update() {
-            btnSet.Enabled = typeListBox.SelectedIndex != -1;
-        }
-
-        public void set() {
-            lblID.Text = typeListBox.SelectedItem.ToString();
-        }
-
-        protected override void save() {
-            Entity obj = packetEdit.entity;
-            Entity value = EntityCollection.byID(packetEdit.type, lblID.Text);
-            packetEdit.field.SetValue(obj, value);
-
-            Program.debug("Saved " + value + " to field " + packetEdit.field.Name + " of " + obj);
-
-            parent.Close();
-        }
-
-        protected override void cancel() {
-            Program.debug("Canceled");
-
-            parent.Close();
-        }
-    }
+		protected override void cancel() {
+			parent.Close();
+		}
+	}
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QuestMaker.Code.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Newtonsoft.Json;
-using QuestMaker.Code.Attributes;
 
 namespace QuestMaker.Data {
 	public class Entity {
@@ -38,18 +38,18 @@ namespace QuestMaker.Data {
 			return id;
 		}
 
-        public static Entity createType(Type type = null, bool activate = true) {
-			if (type == null) 
+		public static Entity createType(Type type = null, bool activate = true) {
+			if (type == null)
 				type = MethodBase.GetCurrentMethod().DeclaringType;
-			
-			var entity =  Activator.CreateInstance(type, false) as Entity;
-			
-			if (activate) 
+
+			var entity = Activator.CreateInstance(type, false) as Entity;
+
+			if (activate)
 				entity.activate();
-			
+
 			return entity;
 		}
-    }
+	}
 
 	/// <summary> Used for showing values in lists, cannot be real entities</summary>
 	[DataViewer(mock = true)]
@@ -219,7 +219,7 @@ namespace QuestMaker.Data {
 			int currentTime = 0;
 			string data = "";
 
-			for (int i = 0;i < sentences.Count;i++) {
+			for (int i = 0; i < sentences.Count; i++) {
 				currentTime += sentences[i].time;
 				data += $"schedule function questmaker:sentences/{sentences[i].id} {currentTime}t\n";
 			}
@@ -240,11 +240,10 @@ namespace QuestMaker.Data {
 		[File("data/questmaker/functions/sentences/{id}", "mcfunction")]
 		public string sentence() {
 			string data = $"tellraw @a \"[{person.displayName}] {text[0]}\"\n";
-			for (int i = 1;i < text.Count;i++) {
+			for (int i = 1; i < text.Count; i++) {
 				data += $"tellraw @a \"{text[i]}\"\n";
 			}
 			return data;
 		}
-
 	}
 }
