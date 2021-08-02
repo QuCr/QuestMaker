@@ -15,37 +15,63 @@ Entiteit:
 Issues GitHub
 *************
 
-#11 BUG: Editing values (like arrays, entity) are troublesome.
-
-The EditorField's edit button's text must be "Edit".
-This button opens a form where the value can be updated or not.
-Only when the RefernceForm is open, can these values be updated
-by clicking the "Save" button.
-=============================================================
-#?? BUG: Possibility for null values and empty lists
+BUG: Possibility for null values and empty lists #12 
 
 Values that are not should not be displayed as a label with
 the text "NULL", but should have also an "Edit" button that just 
 has a label with the text "NULL" next to it.
 To solve this issue, there should be a possibility for lists to be empty
 and for entities to be null.
+
+Note: implement PacketNull for no entity and 
+a PacketArray with 0 entities for empty lists
 =============================================================
-#?? ENHANCEMENT: List with the possibilty the enable duplicates
+FEATURE: List with the possibilty the enable duplicates #14 
 
 Lists need to be able to have duplicates. A new attribute 
 "DuplicateListAttribute" will be made that marks duplicatable lists.
 =============================================================
-#02 ENHANCEMENT: List should be able to be ordered
+FEATURE: List should be able to be ordered #2 
 
 You should be able to move items of a list up and down.
 An extra would be to sort them alphabettically!
 =============================================================
-#?? ENHANCEMENT: History for both the viewer & editor
+FEATURE: History for both the viewer & editor #18
 
 It'd be nice to go back (and forth) to previous sent packets. 
 Like when you accidentally click on the tree and it switches.
 =============================================================
-#?? BUG: Clearing and the creating twice gives an error about creating an existing ID
+BUG: Clearing and the creating twice gives an error about creating an existing ID #16 
 
 The "Create" button of the editor should be disabled when
 you cannot create the entity.
+=============================================================
+FEATURE: Built-in Script Writer #17 
+
+Next to the 'entity' editor, there will be also an editor for scripts.
+Details about how this will be implemented are not clear yet, but the
+general idea is that 3 types of scripts: 
+
+1. Project-wide scripts (like (un)loading a project in the 'game').
+	Alternative names: One-Time Scripts
+2. Static scripts (not like static-still, but static-within-c#, thus one for every entity)
+	Alternative names: Type Script ;)
+3. Regular scripts (script executed with the properties of each entity of that type)
+	Alternative names: Entity Script
+=============================================================
+FEATURE: History for both the viewer & editor #18 
+
+A back button for going to previous packets.
+When misclicking, you are redirected in the viewer to another packet. With the addition of this button, you can go back to what you previously saw in the viewer.
+
+Additional:
+also a forth button
+also in the editor
+=============================================================
+FEATURE: Version control for QuestMaker projects #19 
+
+The database is made into a git repository,
+and automatically (based on timer, or actions, ...) commits their changes.
+I don't know see yet how branches could be implented, and is probably too 
+far fetched. So it's probably going to be one single main (or master) branch
+=============================================================
