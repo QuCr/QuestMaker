@@ -89,12 +89,17 @@ namespace QuestMaker.Code {
 		}
 
 		/// <summary> Creates a packet (Array) for the given entities </summary>
+		public static PacketArray byEntity(Entity[] entities, Type type = null) {
+			return new PacketArray(entities, type);
+		}
+
+		/// <summary> Creates a packet (Array) for the given entities </summary>
 		public static PacketArray byEntity(params Entity[] entities) {
-			return new PacketArray(entities);
+			return new PacketArray(entities, null);
 		}
 
 		/// <summary> Creates a packet (Single) for the given entity </summary>
-		public static PacketSingle byEntity(Entity entity) {
+		public static PacketSingle byEntity(Type type, Entity entity) {
 			return new PacketSingle(entity);
 		}
 
@@ -139,9 +144,9 @@ namespace QuestMaker.Code {
 	public sealed class PacketArray : Packet {
 		//TODO: type kan niet worden gevonden als de lijst leeg is
 		// -> Verwijder alle waypoints uit een route en probeer het project te updaten
-		public PacketArray(Entity[] entities) {
+		public PacketArray(Entity[] entities, Type type) {
 			handlerEnum = HandlerEnum.Array;
-			type = entities.FirstOrDefault().GetType();
+			this.type = type ?? entities.FirstOrDefault().GetType();
 			base.entities = entities.ToList();
 		}
 
