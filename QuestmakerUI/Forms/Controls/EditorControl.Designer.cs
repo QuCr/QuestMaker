@@ -1,5 +1,4 @@
-﻿
-namespace Questmaker.UI {
+﻿namespace Questmaker.UI {
 	partial class EditorControl {
 		/// <summary> 
 		/// Required designer variable.
@@ -51,7 +50,7 @@ namespace Questmaker.UI {
 			//
 			// btnHistoryForward
 			//
-			this.btnHistoryForward.Location = new System.Drawing.Point(100, 0);
+			this.btnHistoryForward.Location = new System.Drawing.Point(50, 0);
 			this.btnHistoryForward.Size = this.btnHistoryBack.Size;
 			this.btnHistoryForward.Text = "->";
 			this.btnHistoryForward.Click += new System.EventHandler(this.historyForward);

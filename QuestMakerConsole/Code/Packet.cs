@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QuestMaker.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using QuestMaker.Data;
+
 namespace QuestMaker.Code {
 	[Flags]
 	public enum HandlerEnum {
@@ -22,7 +23,6 @@ namespace QuestMaker.Code {
 		, Update =			flagViewer	|	flagEditor	|	flagTree	|	flagEntity
 		, Edit =			flagRef										|   flagEntity
 		, SingleEditor =					flagEditor	|					flagEntity
-
 
 		/*FOR SUDDEN UNINTENDED REFORMATS.
 		THESE TABS WILL NOT BE REMOVED WHEN AUTO REFORMATTING
@@ -172,7 +172,6 @@ namespace QuestMaker.Code {
 
 		public override string ToString() => $"Update";
 	}
-
 
 	/// <summary>
 	/// Packet with a value of entities that is going to be edited, referencing a packet for the edited value.

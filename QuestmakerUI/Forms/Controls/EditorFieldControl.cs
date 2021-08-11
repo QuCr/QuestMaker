@@ -92,7 +92,6 @@ namespace Questmaker.UI.Forms.Controls {
 				return;
 			}
 
-
 			if (value != null) {
 				Button button = null;
 				if (Helper.isSubOf<Entity>(value)) {

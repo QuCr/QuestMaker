@@ -20,7 +20,6 @@ namespace Questmaker.UI {
 			tree.BeginUpdate();
 
 			foreach (Type type in EntityCollection.types) {
-
 				if (type.GetCustomAttribute<DataViewerAttribute>().mock == false) {
 					TreeNode node = tree.Nodes.Add(type.Name);
 					node.Tag = new PacketType(type);

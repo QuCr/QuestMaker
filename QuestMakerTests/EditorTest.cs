@@ -8,7 +8,6 @@ using System.Drawing;
 namespace QuestMaker.Tests {
 	[TestClass]
 	public class EditorTest {
-
 		MainForm mainform;
 
 		ViewControl viewer;

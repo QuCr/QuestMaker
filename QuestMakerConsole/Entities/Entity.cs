@@ -175,8 +175,6 @@ namespace QuestMaker.Data {
 						 "}\n";
 			}
 			return text;
-
-
 		}
 
 		[File("data/questmaker/functions/routes/tick/{id}", "mcfunction")]
@@ -189,7 +187,6 @@ namespace QuestMaker.Data {
 					$"execute if entity @e[tag=TARGET_{id},limit=1] as @e[tag=ACTOR_{id},limit=1] at @s run tp ^ ^ ^" + person.speed.ToString().Replace(',', '.') + "\n\n" +
 					$"execute if entity @e[tag=TARGET_{id}] run schedule function questmaker:routes/{id}/tick 1t\n\n" +
 					$"execute unless entity @e[tag=TARGET_{id},distance=..1] at @e[tag=ACTOR_{id},limit=1] run kill @e[tag=TARGET_{id},distance=..1]";
-
 			text += $"\nschedule function questmaker:routes/tick/{id} 1t\n";
 			return text;
 		}

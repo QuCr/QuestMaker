@@ -1,5 +1,4 @@
 ﻿using QuestMaker.Code;
-using QuestMaker.Console;
 using QuestMaker.Console.Code;
 using QuestMaker.Data;
 using System;
@@ -82,7 +81,7 @@ namespace Questmaker.UI.Forms.Controls {
 
 		void add() {
 			int positionRight = valueListBox.SelectedItem == null ? valueListBox.Items.Count : valueListBox.SelectedIndex;
-			Entity entity = EntityCollection.byID(packetEdit.type, typeListBox.SelectedItem.ToString()); ;
+			Entity entity = EntityCollection.byID(packetEdit.type, typeListBox.SelectedItem.ToString());
 			valueListBox.Items.Insert(Math.Min(positionRight, valueListBox.Items.Count), entity);
 			valueListBox.SelectedIndex = positionRight;
 
@@ -127,7 +126,7 @@ namespace Questmaker.UI.Forms.Controls {
 
 		void updateButtonStates() {
 			btnAdd.Enabled = typeListBox.SelectedIndex != -1;
-			
+
 			bool isAnyIndexSelected = valueListBox.SelectedIndex != -1;
 			btnRemove.Enabled = isAnyIndexSelected;
 			btnUp.Enabled = isAnyIndexSelected && valueListBox.SelectedIndex != 0;

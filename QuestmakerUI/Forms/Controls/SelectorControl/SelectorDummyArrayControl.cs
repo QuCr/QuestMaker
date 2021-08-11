@@ -1,5 +1,4 @@
 ﻿using QuestMaker.Code;
-using QuestMaker.Console;
 using QuestMaker.Console.Code;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,6 +29,7 @@ namespace Questmaker.UI.Forms.Controls {
 		}
 
 		protected override void save() {
+			//TODO better way of splitting
 			string[] value = multilineTextbox.Text.Replace("\r\n", "µ").Split('µ');
 			editorFieldControl.value = new List<string>(value);
 			editorFieldControl.valueLabel.Text = Helper.toDisplayString(editorFieldControl.value);

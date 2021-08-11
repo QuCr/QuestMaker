@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 
 namespace QuestMaker.Code {
-
 	public class Project {
 		public static string Path = @"C:\Users\Quinten\AppData\Roaming\.minecraft\saves\TestWorld\datapacks\TestPack";
 		public static string Name = "TestPack";
@@ -20,7 +19,6 @@ namespace QuestMaker.Code {
 			List<MethodInfo> methods = new List<MethodInfo>();
 			foreach (var typeMethods in from type in Assembly.GetAssembly(typeof(Project)).GetTypes()
 										select type.GetMethods()) {
-
 				methods.AddRange(from method in typeMethods
 								 where method.GetCustomAttribute<FileAttribute>() != null
 								 select method);
@@ -75,7 +73,6 @@ namespace QuestMaker.Code {
 																//"scoreboard objectives add Global dummy\n" +
 																//"scoreboard objectives setdisplay sidebar Global\n" + data;
 		}
-
 
 		[File("data/minecraft/tags/functions/load", "json")]
 		public static string loadMinecraft() {

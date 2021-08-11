@@ -49,7 +49,6 @@ namespace Questmaker.UI {
 			Program.debug("Editor: historyForward");
 		}
 
-
 		private void updateForm(Type type, PacketSingleEditor packet) {
 			generateButtons(type, packet);
 
