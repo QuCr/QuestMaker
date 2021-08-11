@@ -150,7 +150,7 @@ namespace Questmaker.UI {
 
 							//E+ (Array)
 							else if (isList(value) == true && isListOf<Entity>(value) == true) {
-								packetItem = Packet.byEntity(( (IList)value ).Cast<Entity>().ToArray());
+								packetItem = Packet.byEntity(( (IList)value ).Cast<Entity>().ToArray(), Helper.getListType(value));
 								textItem = getListType(value).Name + $"[{packetItem.entities.Count}]";
 								fontItem = fontReference;
 								foreColor = Color.Blue;
