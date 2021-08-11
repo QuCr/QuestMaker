@@ -165,14 +165,15 @@ namespace Questmaker.UI.Forms.Controls {
 					canUpdate = false;
 					canDestroy = false;
 				} else if (tag != "") {
-					if (parent.packet == null) {
+					//TODO extra care here for clearing with new history impl.
+					if (parent.packetHistory.currentItem() == null) {
 						canCreate = true;
 						canUpdate = false;
 						canDestroy = false;
 						textBox.ForeColor = Color.Black;
 					} else {
 						bool existsID = EntityCollection.isExistingID(text);
-						bool currentID = parent.packet.getEntity().id == text;
+						bool currentID = parent.packetHistory.currentItem().getEntity().id == text;
 
 						if (existsID && currentID) {
 							canCreate = false;
@@ -190,7 +191,7 @@ namespace Questmaker.UI.Forms.Controls {
 							canDestroy = false;
 							textBox.ForeColor = Color.Black;
 						} else if (!existsID && currentID) {
-							throw new Exception("Case should never be fired");
+							//throw new Exception("Case should never be fired");
 						}
 					}
 				}

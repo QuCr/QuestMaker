@@ -39,6 +39,7 @@
     <Compile Include="Code\DataAccess\IDataAccess.cs" />
     <Compile Include="Code\DataAccess\JsonDataAccess.cs" />
     <Compile Include="Code\Project.cs" />
+    <Compile Include="Code\CursorList.cs" />
     <Compile Include="Entities\EntityCollection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Entities\Entity.cs" />
@@ -48,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using QuestMaker.Code;
+using QuestMaker.Console;
+using QuestMaker.Console.Code;
 using QuestMaker.Data;
 using System;
 using System.Collections;
@@ -14,7 +16,7 @@ using static System.Windows.Forms.ListViewItem;
 namespace Questmaker.UI {
 	public partial class ViewControl : UserControl {
 		public event EventHandler<Packet> sent;
-		public Packet previousPacket = null;
+		public CursorList<Packet> packetHistory;
 
 		/// <summary> Underlined text </summary>
 		static Font fontReference = new Font("Microsoft Sans Serif", 8.5f, FontStyle.Underline);
@@ -27,15 +29,25 @@ namespace Questmaker.UI {
 
 		public ViewControl() {
 			InitializeComponent();
+			packetHistory = new CursorList<Packet>(generateViewer);
 		}
 
 		public void handle(Packet packet) {
 			if (packet is PacketUpdate) {
-				generateViewer(previousPacket);
+				packetHistory.refresh();
 			} else {
-				generateViewer(packet);
-				previousPacket = packet;
+				packetHistory.go(packet);
 			}
+		}
+
+		public void historyBack(object sender, EventArgs e) {
+			packetHistory.back();
+
+			Program.debug("historyBack");
+		}
+		public void historyForward(object sender, EventArgs e) {
+			packetHistory.forward();
+			Program.debug("historyForward");
 		}
 
 		private void generateViewer(Packet packet) {
@@ -44,7 +56,10 @@ namespace Questmaker.UI {
 			updateItems(packet);
 			updateColumns(packet);
 
-			groupbox.Text = "Address: " + packet.ToString();
+			groupbox.Text = packet.ToString();
+
+			btnHistoryBack.Enabled = packetHistory.canBack();
+			btnHistoryForward.Enabled = packetHistory.canForward();
 
 			view.EndUpdate();
 		}

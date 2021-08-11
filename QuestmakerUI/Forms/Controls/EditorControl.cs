@@ -2,6 +2,8 @@
 using Questmaker.UI.Forms;
 using Questmaker.UI.Forms.Controls;
 using QuestMaker.Code;
+using QuestMaker.Console;
+using QuestMaker.Console.Code;
 using QuestMaker.Data;
 using System;
 using System.Collections;
@@ -15,7 +17,7 @@ namespace Questmaker.UI {
 	public partial class EditorControl : UserControl {
 		public event EventHandler<Packet> sent;
 		public List<EditorFieldControl> list;
-		public PacketSingleEditor packet;
+		public CursorList<Packet> packetHistory;
 
 		const int X_OFFSET_START = 10;
 		const int Y_OFFSET_START = 20;
@@ -25,20 +27,33 @@ namespace Questmaker.UI {
 
 		public EditorControl() {
 			InitializeComponent();
+			packetHistory = new CursorList<Packet>(generateEditor);
 		}
 
 		public void handle(Packet packet) {
 			if (packet is PacketSingleEditor) {
-				this.packet = packet as PacketSingleEditor;
-				updateForm(packet.type, this.packet);
-
-				groupbox.Text = packet.ToString();
-			}
+				packetHistory.go(packet);			}
 		}
+
+		void generateEditor(Packet packet) { 
+			updateForm(packet.type, packet as PacketSingleEditor);
+		}
+
+		public void historyBack(object sender, EventArgs e) {
+			packetHistory.back();
+
+			Program.debug("Editor: historyBack");
+		}
+		public void historyForward(object sender, EventArgs e) {
+			packetHistory.forward();
+			Program.debug("Editor: historyForward");
+		}
+
 
 		private void updateForm(Type type, PacketSingleEditor packet) {
 			generateButtons(type, packet);
 
+			groupbox.Text = packet?.ToString();
 			list = new List<EditorFieldControl>();
 
 			IOrderedEnumerable<FieldInfo> fields =
@@ -50,13 +65,16 @@ namespace Questmaker.UI {
 
 			for (int fieldIndex = 0; fieldIndex < fields.Count(); fieldIndex++) {
 				var ctr = new EditorFieldControl(this, fields.ElementAt(fieldIndex), packet, type) {
-					Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * fieldIndex + 40)
+					Location = new Point(X_OFFSET_START, 40 + Y_OFFSET_START + Y_OFFSET * fieldIndex)
 				};
 				groupbox.Controls.Add(ctr);
 				list.Add(ctr);
 			}
 
 			validate();
+
+			btnHistoryBack.Enabled = packetHistory.canBack();
+			btnHistoryForward.Enabled = packetHistory.canForward();
 		}
 
 		private void generateButtons(Type type, Packet packet) {
@@ -110,7 +128,6 @@ namespace Questmaker.UI {
 		private void clear(object sender, MouseEventArgs e) {
 			Button button = sender as Button;
 			Type type = button.Tag as Type;
-			packet = null;
 
 			updateForm(type, null);
 		}
@@ -137,7 +154,7 @@ namespace Questmaker.UI {
 		}
 
 		public void update(object sender, MouseEventArgs e) {
-			Entity entity = packet.getEntity();
+			Entity entity = packetHistory.currentItem().getEntity();
 
 			entity.deactivate();
 			foreach (EditorFieldControl control in list) {
@@ -157,8 +174,7 @@ namespace Questmaker.UI {
 		}
 
 		public void destroy(object sender, MouseEventArgs e) {
-			packet.getEntity().deactivate();
-			packet = null;
+			packetHistory.currentItem().getEntity().deactivate();
 			groupbox.Text = "";
 
 			btnCreate.Enabled = true;
