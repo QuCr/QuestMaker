@@ -14,7 +14,7 @@ namespace QuestMaker.Console {
 			header("                                          ***************************                                              ");
 			header("                                          || QuestMaker - v0.0.0.5 ||                                              ");
 			header("                                          ***************************                                              ");
-			header($" Started at {dateTime}                                                                           By Q.C. ");
+			header($" Started at {dateTime}                                                          By QuCr (github.com/QuCr)");
 			header("                                                                                                                      ");
 
 			if (args.Length == 0) {
@@ -39,8 +39,8 @@ namespace QuestMaker.Console {
 		}
 
 		static void Write(string text, char letter = '?', ConsoleColor ForegroundColor = ConsoleColor.Gray, ConsoleColor BackgroundColor = System.ConsoleColor.Black) {
-			System.ConsoleColor startingForegroundColor = System.Console.ForegroundColor;
-			System.ConsoleColor startingBackgroundColor = System.Console.BackgroundColor;
+			ConsoleColor startingForegroundColor = System.Console.ForegroundColor;
+			ConsoleColor startingBackgroundColor = System.Console.BackgroundColor;
 
 			System.Console.ForegroundColor = ConsoleColor.Black;
 			System.Console.BackgroundColor = ConsoleColor.White;
