@@ -41,12 +41,10 @@ namespace Questmaker.UI {
 
 		public void historyBack(object sender, EventArgs e) {
 			packetHistory.back();
-
-			Program.debug("Editor: historyBack");
 		}
+
 		public void historyForward(object sender, EventArgs e) {
 			packetHistory.forward();
-			Program.debug("Editor: historyForward");
 		}
 
 		private void updateForm(Type type, PacketSingleEditor packet) {

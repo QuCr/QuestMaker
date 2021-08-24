@@ -42,12 +42,10 @@ namespace Questmaker.UI {
 
 		public void historyBack(object sender, EventArgs e) {
 			packetHistory.back();
-
-			Program.debug("historyBack");
 		}
+
 		public void historyForward(object sender, EventArgs e) {
-			packetHistory.forward();
-			Program.debug("historyForward");
+			packetHistory.forward();;
 		}
 
 		private void generateViewer(Packet packet) {

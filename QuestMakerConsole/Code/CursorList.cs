@@ -34,8 +34,6 @@ namespace QuestMaker.Console.Code {
 			if (action != null) {
 				action(item);
 			}
-
-			Helper.outputList(list);
 		}
 
 		/// <summary> Goes to the previous item</summary>
