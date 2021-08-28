@@ -75,3 +75,21 @@ and automatically (based on timer, or actions, ...) commits their changes.
 I don't know see yet how branches could be implented, and is probably too 
 far fetched. So it's probably going to be one single main (or master) branch
 =============================================================
+FEATURE: Localization #21
+
+Support for multiple languages: primarily EN & NL
+
+=============================================================
+FEATURE: File Scripts with the same file path must be possible #22
+
+Currently, when two scripts use the same file path, an exception will be thrown.
+It'd be nice if you could order scripts (with the same path) and that the FileAttribute handles
+the order of the scripts; the next script's output will be appended to the previous' output.
+==============================================================
+FEATURE: Rename Create/Delete to activate/deactivate #23
+
+With the addition of history (going back to previous entities in the editor), a deleted entity
+is no longer really deleted. Once you can go back in history to the packet that references 
+that entity, it is technically not deleted. Hence the verb deactivate; a deactivated entity 
+can still be accessed but will not be used in the editor or other parts.
+After the entity is no longer in the history, it can be finally be destroyed by the GC.
