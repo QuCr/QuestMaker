@@ -44,7 +44,8 @@
 			//
 			this.btnHistoryBack.Location = new System.Drawing.Point(0, 0);
 			this.btnHistoryBack.Size = new System.Drawing.Size(50, 30);
-			this.btnHistoryBack.Text = "<-";
+			this.btnHistoryBack.Text = "<-"; 
+			this.btnHistoryBack.Enabled = false;
 			this.btnHistoryBack.Click += new System.EventHandler(this.historyBack);
 			this.Controls.Add(this.btnHistoryBack);
 			//
@@ -53,6 +54,7 @@
 			this.btnHistoryForward.Location = new System.Drawing.Point(50, 0);
 			this.btnHistoryForward.Size = this.btnHistoryBack.Size;
 			this.btnHistoryForward.Text = "->";
+			this.btnHistoryForward.Enabled = false;
 			this.btnHistoryForward.Click += new System.EventHandler(this.historyForward);
 			this.Controls.Add(this.btnHistoryForward);
 			// 

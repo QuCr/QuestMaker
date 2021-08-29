@@ -20,9 +20,9 @@ namespace Questmaker.UI.Forms.Controls {
 		public Control control;
 		public Label valueLabel;
 
-		public bool canCreate = true;
+		public bool canActivate = true;
+		public bool canDeactivate = true;
 		public bool canUpdate = true;
-		public bool canDestroy = true;
 
 		public EditorFieldControl() {
 			InitializeComponent();
@@ -160,34 +160,34 @@ namespace Questmaker.UI.Forms.Controls {
 				string text = textBox.Text;
 
 				if (text == "") {
-					canCreate = false;
+					canActivate = false;
+					canDeactivate = false;
 					canUpdate = false;
-					canDestroy = false;
 				} else if (tag != "") {
 					//TODO extra care here for clearing with new history impl.
 					if (parent.packetHistory.currentItem() == null) {
-						canCreate = true;
+						canActivate = true;
+						canDeactivate = false;
 						canUpdate = false;
-						canDestroy = false;
 						textBox.ForeColor = Color.Black;
 					} else {
 						bool existsID = EntityCollection.isExistingID(text);
 						bool currentID = parent.packetHistory.currentItem().getEntity().id == text;
 
 						if (existsID && currentID) {
-							canCreate = false;
+							canActivate = false;
+							canDeactivate = true;
 							canUpdate = true;
-							canDestroy = true;
 							textBox.ForeColor = Color.Green;
 						} else if (existsID && !currentID) {
-							canCreate = false;
+							canActivate = false;
+							canDeactivate = false;
 							canUpdate = false;
-							canDestroy = false;
 							textBox.ForeColor = Color.Red;
 						} else if (!existsID && !currentID) {
-							canCreate = true;
+							canActivate = true;
+							canDeactivate = false;
 							canUpdate = true;
-							canDestroy = false;
 							textBox.ForeColor = Color.Black;
 						} else if (!existsID && currentID) {
 							//throw new Exception("Case should never be fired");
