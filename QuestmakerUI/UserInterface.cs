@@ -15,9 +15,7 @@ namespace Questmaker.UI {
 
 			MainForm mainform = new MainForm();
 
-			Entity entity = EntityCollection.byID(typeof(Route), "route_bert");
-			mainform.handle(mainform.Tree, new PacketType(entity.GetType()));
-			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
+			mainform.handle(mainform.Tree, new PacketType(typeof(Waypoint)));
 
 			Application.Run(mainform);
 		}

@@ -23,7 +23,7 @@ namespace Questmaker.UI {
 		const int Y_OFFSET_START = 20;
 		const int Y_OFFSET = 27;
 
-		public Button btnClear, btnCreate, btnUpdate, btnDestroy;
+		public Button btnClear, btnActivate, btnDeactivate, btnUpdate;
 
 		public EditorControl() {
 			InitializeComponent();
@@ -32,7 +32,8 @@ namespace Questmaker.UI {
 
 		public void handle(Packet packet) {
 			if (packet is PacketSingleEditor) {
-				packetHistory.go(packet);			}
+				packetHistory.go(packet);			
+			}
 		}
 
 		void generateEditor(Packet packet) { 
@@ -41,10 +42,12 @@ namespace Questmaker.UI {
 
 		public void historyBack(object sender, EventArgs e) {
 			packetHistory.back();
+			refreshStateButtons();
 		}
 
 		public void historyForward(object sender, EventArgs e) {
 			packetHistory.forward();
+			refreshStateButtons();
 		}
 
 		private void updateForm(Type type, PacketSingleEditor packet) {
@@ -82,40 +85,42 @@ namespace Questmaker.UI {
 			btnClear = new Button() {
 				Text = "Clear",
 				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
-				Width = 50,
+				Width = 66,
 				Tag = type
 			};
 
-			btnCreate = new Button() {
-				Text = "Create",
-				Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
-				Width = 50,
+			btnActivate = new Button() {
+				Text = "Activate",
+				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
+				Width = 66,
 				Tag = type
+			};
+
+			btnDeactivate = new Button() {
+				Text = "Deactivate",
+				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
+				Width = 66,
+				Tag = packet
 			};
 
 			btnUpdate = new Button() {
 				Text = "Update",
-				Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
-				Width = 50,
-				Tag = packet
-			};
-
-			btnDestroy = new Button() {
-				Text = "Delete",
-				Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
-				Width = 50,
+				Location = new Point(X_OFFSET_START + 132, Y_OFFSET_START + 0),
+				Width = 66,
 				Tag = packet
 			};
 
 			btnClear.MouseClick += clear;
-			btnCreate.MouseClick += create;
-			btnDestroy.MouseClick += destroy;
+			btnActivate.MouseClick += activate;
+			btnDeactivate.MouseClick += deactivate;
 			btnUpdate.MouseClick += update;
 
 			groupbox.Controls.Add(btnClear);
-			groupbox.Controls.Add(btnCreate);
-			groupbox.Controls.Add(btnDestroy);
+			groupbox.Controls.Add(btnActivate);
+			groupbox.Controls.Add(btnDeactivate);
 			groupbox.Controls.Add(btnUpdate);
+
+			refreshStateButtons();
 		}
 
 		internal void clickReference(EditorFieldControl editorFieldControl, PacketEdit tag) {
@@ -129,7 +134,7 @@ namespace Questmaker.UI {
 			updateForm(type, null);
 		}
 
-		public void create(object sender, MouseEventArgs _) {
+		public void activate(object sender, MouseEventArgs _) {
 			Button button = sender as Button;
 			Type type = button.Tag as Type;
 
@@ -147,7 +152,17 @@ namespace Questmaker.UI {
 
 			sent(this, new PacketSingleEditor(Packet.byEntity(entity)));
 
-			refresh();
+			refreshStateButtons();
+		}
+		public void deactivate(object sender, MouseEventArgs e) {
+			packetHistory.currentItem().getEntity().deactivate();
+			groupbox.Text = "";
+
+			string text = list[0].control.Text;
+			list[0].control.Text = text + "!";
+			list[0].control.Text = text;
+
+			refreshStateButtons();
 		}
 
 		public void update(object sender, MouseEventArgs e) {
@@ -167,43 +182,42 @@ namespace Questmaker.UI {
 			list[0].control.Text = entity.id + "!";
 			list[0].control.Text = entity.id;
 
-			refresh();
+			refreshStateButtons();
 		}
 
-		public void destroy(object sender, MouseEventArgs e) {
-			packetHistory.currentItem().getEntity().deactivate();
-			groupbox.Text = "";
-
-			btnCreate.Enabled = true;
-			btnUpdate.Enabled = false;
-			btnDestroy.Enabled = false;
-
-			string text = list[0].control.Text;
-			list[0].control.Text = text + "!";
-			list[0].control.Text = text;
-
-			refresh();
-		}
-
-		public void refresh() {
+		public void refreshStateButtons() {
 			sent(this, new PacketUpdate());
+
+			bool isActive = EntityCollection.get(packetHistory.currentItem())[0] != null;
+			btnActivate.Enabled = !isActive;
+			btnDeactivate.Enabled = isActive;
+			btnUpdate.Enabled = isActive;
+
+			btnActivate.Visible = !isActive;
+			btnDeactivate.Visible = isActive;
+
+			Program.info(isActive+"");
 		}
 
 		public void validate() {
-			bool validCreate = true;
-			bool ValidUpdate = true;
-			bool ValidDestroy = true;
+			bool validActivate = true;
+			bool validDeactivate = true;
+			bool validUpdate = true;
 
 			foreach (EditorFieldControl control in list) {
-				if (control.canCreate == false) validCreate = false;
-				if (control.canUpdate == false) ValidUpdate = false;
-				if (control.canDestroy == false) ValidDestroy = false;
+				if (control.canActivate == false) validActivate = false;
+				if (control.canDeactivate == false) validDeactivate = false;
+				if (control.canUpdate == false) validUpdate = false;
 			}
 
 			btnClear.Enabled = true;            //!isEditingReference;
-			btnCreate.Enabled = validCreate;    // && !isEditingReference;
-			btnUpdate.Enabled = ValidUpdate;    // && !isEditingReference;
-			btnDestroy.Enabled = ValidDestroy;  // && !isEditingReference;
+			btnActivate.Enabled = validActivate;    // && !isEditingReference;
+			btnDeactivate.Enabled = validDeactivate;  // && !isEditingReference;
+			btnUpdate.Enabled = validUpdate;    // && !isEditingReference;
+			
+
+			btnActivate.Visible = validActivate;
+			btnDeactivate.Visible = validDeactivate;
 		}
 	}
 }

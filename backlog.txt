@@ -93,3 +93,8 @@ is no longer really deleted. Once you can go back in history to the packet that 
 that entity, it is technically not deleted. Hence the verb deactivate; a deactivated entity 
 can still be accessed but will not be used in the editor or other parts.
 After the entity is no longer in the history, it can be finally be destroyed by the GC.
+==============================================================
+BUG: When activating an entity, a new history tab is created with the same entity #24
+
+The history should not act that way, because consecutive history tabs should not have the
+same entity.
