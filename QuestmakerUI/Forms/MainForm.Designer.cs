@@ -61,7 +61,7 @@
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
             this.updateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.updateToolStripMenuItem.Text = "Update";
+            this.updateToolStripMenuItem.Text = "Export project to file";
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
             // viewer
@@ -101,7 +101,7 @@
             // 
             this.generateProjectToolStripMenuItem.Name = "generateProjectToolStripMenuItem";
             this.generateProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.generateProjectToolStripMenuItem.Text = "Generate Project";
+            this.generateProjectToolStripMenuItem.Text = "Write scripts";
             this.generateProjectToolStripMenuItem.Click += new System.EventHandler(this.generateProjectToolStripMenuItem_Click);
             // 
             // MainForm
