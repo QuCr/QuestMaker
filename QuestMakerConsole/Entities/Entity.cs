@@ -123,7 +123,7 @@ namespace QuestMaker.Data {
 		public Route(string id, bool activate = true) : base(id, activate) { }
 		public Route() : base() { }
 
-		[File("data/questmaker/functions/routes/start_hard/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/routes/start_hard/{id}.mcfunction")]
 		public string start_hard() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -154,7 +154,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[File("data/questmaker/functions/routes/start_soft/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/routes/start_soft/{id}.mcfunction")]
 		public string start_soft() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -177,7 +177,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[File("data/questmaker/functions/routes/tick/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/routes/tick/{id}.mcfunction")]
 		public string tick() {
 			string text = $"";
 			if (announceWhenExecuting)
@@ -191,14 +191,14 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[File("data/questmaker/functions/routes/stop/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/routes/stop/{id}.mcfunction")]
 		public string stop() {
 			//string text = $"tellraw @a \"[Function Stopped - {displayName}]\"\n";
 			string text = $"";
 			if (announceWhenStopped)
 				text += $"tellraw @a \"[Function Stopped - {displayName}]\"\n";
 
-			//Only works in 1.15, will not be cleared with prior MC versions 
+			//Only works in/after 1.15, will not be cleared with prior MC versions 
 			text += $"\nschedule clear questmaker:routes/tick/{id}\n";
 			return text;
 		}
@@ -211,7 +211,7 @@ namespace QuestMaker.Data {
 		public Dialog(string id, bool activate = true) : base(id, activate) { }
 		public Dialog() : base() { }
 
-		[File("data/questmaker/functions/dialogs/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/dialogs/{id}.mcfunction")]
 		public string sentence() {
 			int currentTime = 0;
 			string data = "";
@@ -234,7 +234,7 @@ namespace QuestMaker.Data {
 		public Sentence(string id, bool activate = true) : base(id, activate) { }
 		public Sentence() : base() { }
 
-		[File("data/questmaker/functions/sentences/{id}", "mcfunction")]
+		[Script("data/questmaker/functions/sentences/{id}.mcfunction")]
 		public string sentence() {
 			string data = $"tellraw @a \"[{person.displayName}] {text[0]}\"\n";
 			for (int i = 1; i < text.Count; i++) {
