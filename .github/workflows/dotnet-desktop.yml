@@ -17,9 +17,6 @@ jobs:
       Solution_Name: QuestMaker.sln 
 
     steps:
-    - name: DIR
-      run: dir
-        
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -37,7 +34,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute unit tests
-      run: dotnet vstest D:/a/QuestMaker/QuestMaker/QuestMakerTests\bin\Debug\QuestMakerTests.dll
+      run: dotnet vstest D:/a/QuestMaker/QuestMakerTests\bin\Debug\QuestMakerTests.dll
       
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
