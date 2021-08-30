@@ -8,11 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     strategy:
       matrix:
         configuration: [Debug, Release]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
     
     env:
       Solution_Name: QuestMaker.sln 
