@@ -98,3 +98,8 @@ BUG: When activating an entity, a new history tab is created with the same entit
 
 The history should not act that way, because consecutive history tabs should not have the
 same entity.
+==============================================================
+BUG: When clearing an entity after clicking on one, you can still deactivate it #26
+
+When you select an entity in the editor, and you clear it. And then type the ID of the entity
+in the ID field, you can deactivate the entity without it being selected.

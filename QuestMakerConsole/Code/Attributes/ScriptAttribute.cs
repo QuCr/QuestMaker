@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace QuestMaker.Code.Attributes {
-	public class FileAttribute : Attribute {
+	public class ScriptAttribute : Attribute {
 		public string directoryPath;
 		public string filename;
 		public string fullPath;
+		public int order;
 
 		/// <summary>
 		/// Gets used when generating the files
 		/// </summary>
-		public FileAttribute(string path, string extension) {
-			string[] splittedPath = path.Split('/');
+		public ScriptAttribute(string path, int order = -1) {
+			this.order = order;
+
+			string directory = path.Split('.')[0];
+			string extension = path.Split('.')[1];
+
+			string[] splittedPath = directory.Split('/');
 			List<string> splittedDirectoryPath = new List<string> { Project.Path };
 
 			for (int i = 0; i < splittedPath.Length - 1; i++) {

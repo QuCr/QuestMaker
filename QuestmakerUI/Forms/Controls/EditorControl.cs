@@ -195,8 +195,6 @@ namespace Questmaker.UI {
 
 			btnActivate.Visible = !isActive;
 			btnDeactivate.Visible = isActive;
-
-			Program.info(isActive+"");
 		}
 
 		public void validate() {
