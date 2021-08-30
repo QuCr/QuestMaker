@@ -41,9 +41,9 @@ namespace QuestMaker.Tests {
 
 			Assert.AreEqual("bert", editor.list[0].value, "ID in editor");
 			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-			Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
 			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-			Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
 			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
 		}
 
@@ -60,15 +60,15 @@ namespace QuestMaker.Tests {
 			Assert.AreEqual("dave", editor.list[0].value, "ID in editor");
 			Assert.AreEqual("Dave", editor.list[1].value, "displayName in editor");
 
-			editor.create(editor.btnClear, null);
+			editor.activate(editor.btnClear, null);
 
 			Assert.IsNotNull(EntityCollection.byID(typeof(Person), "bert"), "created entity");
 			System.Console.WriteLine($"There are now {EntityCollection.entityCollection["Person"].Count} people");
 
 			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-			Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
 			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-			Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
 			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
 		}
 
@@ -91,9 +91,9 @@ namespace QuestMaker.Tests {
 			Assert.AreEqual("Alberto", entity.displayName);
 
 			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-			Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
 			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-			Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
 			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
 		}
 
@@ -105,13 +105,13 @@ namespace QuestMaker.Tests {
 			mainform.handle(viewer, new PacketSingleEditor(entity));
 
 			Assert.IsTrue(EntityCollection.isExistingID(entity.id));
-			editor.destroy(editor.btnDestroy, null);
+			editor.deactivate(editor.btnDeactivate, null);
 			Assert.IsFalse(EntityCollection.isExistingID(entity.id));
 
 			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-			Assert.IsTrue(editor.btnCreate.Enabled, "btnCreate");
+			Assert.IsTrue(editor.btnActivate.Enabled, "btnActivate");
 			Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
-			Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
+			Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
 			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
 		}
 
@@ -123,9 +123,9 @@ namespace QuestMaker.Tests {
 
             setText("");
             Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+            Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
             Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
+            Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
         }*/
 
 		[TestMethod]
@@ -136,9 +136,9 @@ namespace QuestMaker.Tests {
 
 			setText("");
 			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-			Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
 			Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
-			Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
+			Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
 		}
 
 		[TestMethod]
