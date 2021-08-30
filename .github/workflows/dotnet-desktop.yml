@@ -17,6 +17,9 @@ jobs:
       Solution_Name: QuestMaker.sln 
 
     steps:
+    - name: DIR
+      run: dir
+        
     - name: Checkout
       uses: actions/checkout@v2
       with:
