@@ -92,6 +92,11 @@
     <Compile Include="Forms\ReferenceForm.Designer.cs">
       <DependentUpon>ReferenceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Translations\Translation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translation.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\Controls\TreeControl.cs">
@@ -138,6 +143,13 @@
     <EmbeddedResource Include="Forms\Controls\ViewerControl.resx">
       <DependentUpon>ViewerControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Translations\Translation.nl-BE.resx" />
+    <EmbeddedResource Include="Translations\Translation.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translation.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>QuestMaker.UI</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translations\Translations.resx" />
     <None Include="packages.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -158,6 +170,9 @@
       <Project>{bb4e0d60-65af-46c8-8861-acc76bd6ef95}</Project>
       <Name>QuestMakerConsole</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BlueStacks2_native.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

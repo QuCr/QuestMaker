@@ -8,6 +8,9 @@ namespace Questmaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {
+
+			Trans
+			
 			Program.Main("default");
 
 			Application.EnableVisualStyles();
