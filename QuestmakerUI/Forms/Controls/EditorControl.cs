@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Questmaker.UI.Forms;
-using Questmaker.UI.Forms.Controls;
+using QuestMaker.UI.Forms;
+using QuestMaker.UI.Forms.Controls;
 using QuestMaker.Code;
 using QuestMaker.Console;
 using QuestMaker.Console.Code;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Questmaker.UI {
+namespace QuestMaker.UI {
 	public partial class EditorControl : UserControl {
 		public event EventHandler<Packet> sent;
 		public List<EditorFieldControl> list;

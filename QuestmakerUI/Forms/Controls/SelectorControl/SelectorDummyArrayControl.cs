@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public class SelectorDummyArrayControl : SelectorControl {
 		TextBox multilineTextbox;
 		EditorFieldControl editorFieldControl;

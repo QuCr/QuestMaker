@@ -3,7 +3,7 @@ using QuestMaker.Console.Code;
 using QuestMaker.Data;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public class SelectorSingleControl : SelectorControl {
 		ListBox typeListBox;
 		EditorFieldControl editorFieldControl;

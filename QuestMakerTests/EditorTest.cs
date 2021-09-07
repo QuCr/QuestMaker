@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Questmaker.UI;
+using QuestMaker.UI;
 using QuestMaker.Code;
 using QuestMaker.Console;
 using QuestMaker.Data;

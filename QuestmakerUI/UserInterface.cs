@@ -4,13 +4,11 @@ using QuestMaker.Data;
 using System;
 using System.Windows.Forms;
 
-namespace Questmaker.UI {
+namespace QuestMaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {
 
-			Trans
-			
 			Program.Main("default");
 
 			Application.EnableVisualStyles();

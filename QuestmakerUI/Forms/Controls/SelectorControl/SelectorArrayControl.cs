@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public class SelectorArrayControl : SelectorControl {
 		Button btnAdd;
 		Button btnRemove;

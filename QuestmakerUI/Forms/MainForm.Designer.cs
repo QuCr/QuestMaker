@@ -1,4 +1,4 @@
-﻿namespace Questmaker.UI {
+﻿namespace QuestMaker.UI {
 	partial class MainForm {
 		/// <summary>
 		/// Required designer variable.
@@ -26,9 +26,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewer = new Questmaker.UI.ViewControl();
-            this.tree = new Questmaker.UI.TreeControl();
-            this.editor = new Questmaker.UI.EditorControl();
+            this.viewer = new QuestMaker.UI.ViewControl();
+            this.tree = new QuestMaker.UI.TreeControl();
+            this.editor = new QuestMaker.UI.EditorControl();
             this.generateProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();

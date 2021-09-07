@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public partial class EditorFieldControl : UserControl {
 		public FieldInfo field;
 		private EditorControl parent;

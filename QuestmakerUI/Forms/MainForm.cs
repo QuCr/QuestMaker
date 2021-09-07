@@ -3,7 +3,7 @@ using QuestMaker.Console;
 using System;
 using System.Windows.Forms;
 
-namespace Questmaker.UI {
+namespace QuestMaker.UI {
 	public partial class MainForm : Form {
 		public MainForm() {
 			InitializeComponent();
