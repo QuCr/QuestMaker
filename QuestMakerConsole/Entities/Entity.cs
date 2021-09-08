@@ -123,7 +123,7 @@ namespace QuestMaker.Data {
 		public Route(string id, bool activate = true) : base(id, activate) { }
 		public Route() : base() { }
 
-		[Script("data/questmaker/functions/routes/start_hard/{id}.mcfunction")]
+		[File("data/questmaker/functions/routes/start_hard/{id}.mcfunction")]
 		public string start_hard() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -154,7 +154,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[Script("data/questmaker/functions/routes/start_soft/{id}.mcfunction")]
+		[File("data/questmaker/functions/routes/start_soft/{id}.mcfunction")]
 		public string start_soft() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -177,7 +177,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[Script("data/questmaker/functions/routes/tick/{id}.mcfunction")]
+		[File("data/questmaker/functions/routes/tick/{id}.mcfunction")]
 		public string tick() {
 			string text = $"";
 			if (announceWhenExecuting)
@@ -191,7 +191,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[Script("data/questmaker/functions/routes/stop/{id}.mcfunction")]
+		[File("data/questmaker/functions/routes/stop/{id}.mcfunction")]
 		public string stop() {
 			//string text = $"tellraw @a \"[Function Stopped - {displayName}]\"\n";
 			string text = $"";
@@ -211,7 +211,7 @@ namespace QuestMaker.Data {
 		public Dialog(string id, bool activate = true) : base(id, activate) { }
 		public Dialog() : base() { }
 
-		[Script("data/questmaker/functions/dialogs/{id}.mcfunction")]
+		[File("data/questmaker/functions/dialogs/{id}.mcfunction")]
 		public string sentence() {
 			int currentTime = 0;
 			string data = "";
@@ -234,7 +234,7 @@ namespace QuestMaker.Data {
 		public Sentence(string id, bool activate = true) : base(id, activate) { }
 		public Sentence() : base() { }
 
-		[Script("data/questmaker/functions/sentences/{id}.mcfunction")]
+		[File("data/questmaker/functions/sentences/{id}.mcfunction")]
 		public string sentence() {
 			string data = $"tellraw @a \"[{person.displayName}] {text[0]}\"\n";
 			for (int i = 1; i < text.Count; i++) {

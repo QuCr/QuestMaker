@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Activate" xml:space="preserve">
-    <value>Activeer</value>
+    <value>Zet aan</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>Voeg toe</value>
+  </data>
+  <data name="All types" xml:space="preserve">
+    <value>Alle types</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuleer</value>
@@ -130,7 +133,7 @@
     <value>Maak leeg</value>
   </data>
   <data name="Deactivate" xml:space="preserve">
-    <value>Deactiveer</value>
+    <value>Zet uit</value>
   </data>
   <data name="Down" xml:space="preserve">
     <value>Omlaag</value>
@@ -154,7 +157,7 @@
     <value>Omhoog</value>
   </data>
   <data name="Update" xml:space="preserve">
-    <value>Vernieuw</value>
+    <value>Update</value>
   </data>
   <data name="Use enters to seperate values" xml:space="preserve">
     <value>Gebruik enters om de waarden te scheiden</value>
