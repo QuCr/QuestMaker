@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public partial class SelectorControl : UserControl {
 		protected PacketEdit packetEdit;
 		protected ReferenceForm parent;
@@ -22,14 +22,14 @@ namespace Questmaker.UI.Forms.Controls {
 			this.parent = parent;
 
 			Button btnSave = new Button() {
-				Text = "Save",
+				Text = Translation.Save,
 				Location = new Point(10, 10),
-				Width = 50
+				Width = 100
 			};
 			Button btnCancel = new Button() {
-				Text = "Cancel",
-				Location = new Point(60, 10),
-				Width = 50
+				Text = Translation.Cancel,
+				Location = new Point(110, 10),
+				Width = 100
 			};
 			btnSave.Click += (_1, _2) => save();
 			btnCancel.Click += (_1, _2) => cancel();

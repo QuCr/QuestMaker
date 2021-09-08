@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace QuestMaker.Code.Attributes {
-	public class ScriptAttribute : Attribute {
+	public class FileAttribute : Attribute {
 		public string directoryPath;
 		public string filename;
 		public string fullPath;
@@ -12,7 +12,7 @@ namespace QuestMaker.Code.Attributes {
 		/// <summary>
 		/// Gets used when generating the files
 		/// </summary>
-		public ScriptAttribute(string path, int order = -1) {
+		public FileAttribute(string path, int order = -1) {
 			this.order = order;
 
 			string directory = path.Split('.')[0];

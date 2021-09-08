@@ -1,4 +1,4 @@
-﻿namespace Questmaker.UI.Forms.Controls {
+﻿namespace QuestMaker.UI.Forms.Controls {
 	partial class EditorFieldControl {
 		/// <summary> 
 		/// Required designer variable.

@@ -1,4 +1,4 @@
-﻿namespace Questmaker.UI.Forms {
+﻿namespace QuestMaker.UI.Forms {
     partial class ReferenceForm {
         /// <summary>
         /// Required designer variable.

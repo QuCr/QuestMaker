@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public class SelectorArrayControl : SelectorControl {
 		Button btnAdd;
 		Button btnRemove;
@@ -30,25 +30,25 @@ namespace Questmaker.UI.Forms.Controls {
 			valueListBox.SelectedIndexChanged += (_1, _2) => updateButtonStates();
 
 			btnAdd = new Button() {
-				Text = "Add",
+				Text = Translation.Add,
 				Location = new Point(140, 40),
 				Width = 55,
 				Enabled = false
 			};
 			btnRemove = new Button() {
-				Text = "Remove",
+				Text = Translation.Remove,
 				Location = new Point(140, 70),
 				Width = 55,
 				Enabled = false
 			};
 			btnUp = new Button() {
-				Text = "Up",
+				Text = Translation.Up,
 				Location = new Point(140, 110),
 				Width = 55,
 				Enabled = false
 			};
 			btnDown = new Button() {
-				Text = "Down",
+				Text = Translation.Down,
 				Location = new Point(140, 140),
 				Width = 55,
 				Enabled = false

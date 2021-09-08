@@ -20,14 +20,14 @@ namespace QuestMaker.Code {
 			foreach (var typeMethods in from type in Assembly.GetAssembly(typeof(Project)).GetTypes()
 										select type.GetMethods()) {
 				methods.AddRange(from method in typeMethods
-								 let attr = method.GetCustomAttribute<ScriptAttribute>()
+								 let attr = method.GetCustomAttribute<FileAttribute>()
 								 where attr != null //this null check is important
 								 orderby attr.order //... do not use just '?.' ! 
 								 select method);
 			}
 
 			foreach (MethodInfo method in methods) {
-				ScriptAttribute attribute = method.GetCustomAttribute<ScriptAttribute>();
+				FileAttribute attribute = method.GetCustomAttribute<FileAttribute>();
 				Type type = method.DeclaringType;
 
 				string filepath = attribute.fullPath.ToLower();
@@ -53,13 +53,13 @@ namespace QuestMaker.Code {
 			}
 		}
 
-		[Script("pack.mcmeta")]
+		[File("pack.mcmeta")]
 		public static string pack() {
 			return "{\n\t\"pack\": {\n\t\t\"pack_format\":4,\n\t\t\"description\":\"Datapack for " + Name + "\"\n\t}\n}";
 		}
 
 
-		[Script("data/questmaker/functions/load.mcfunction")]
+		[File("data/questmaker/functions/load.mcfunction")]
 		public static string load() {
 			string data = "";
 			foreach (Variable variable in EntityCollection.get(new PacketType(typeof(Variable)))) {
@@ -74,12 +74,12 @@ namespace QuestMaker.Code {
 																//"scoreboard objectives setdisplay sidebar Global\n" + data;
 		}
 
-		[Script("data/minecraft/tags/functions/load.json")]
+		[File("data/minecraft/tags/functions/load.json")]
 		public static string loadMinecraft() {
 			return "{ \"values\": [ \"" + "questmaker" + ":load\" ] }";
 		}
 
-		[Script("data/questmaker/functions/tick.mcfunction")]
+		[File("data/questmaker/functions/tick.mcfunction")]
 		public static string tick() {
 			return "scoreboard players add Tick Global 1\n" +
 					"execute if score Tick Global matches 20 run scoreboard players set Tick Global 0";
@@ -90,12 +90,12 @@ namespace QuestMaker.Code {
 			return "";
 		}
 
-		[Script("data/minecraft/tags/functions/tick.json")]
+		[File("data/minecraft/tags/functions/tick.json")]
 		public static string tickMinecraft() {
 			return "{ \"values\": [ \"" + "questmaker" + ":tick\" ] }";
 		}
 
-		[Script("data/questmaker/functions/routes/start/all/hard.mcfunction")]
+		[File("data/questmaker/functions/routes/start/all/hard.mcfunction")]
 		public static string start_hard() {
 			string text = "";
 
@@ -106,7 +106,7 @@ namespace QuestMaker.Code {
 			return text;
 		}
 
-		[Script("data/questmaker/functions/routes/start/all/soft.mcfunction")]
+		[File("data/questmaker/functions/routes/start/all/soft.mcfunction")]
 		public static string start_soft() {
 			string text = "";
 

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Questmaker.UI.Forms;
-using Questmaker.UI.Forms.Controls;
+using QuestMaker.UI.Forms;
+using QuestMaker.UI.Forms.Controls;
 using QuestMaker.Code;
 using QuestMaker.Console;
 using QuestMaker.Console.Code;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Questmaker.UI {
+namespace QuestMaker.UI {
 	public partial class EditorControl : UserControl {
 		public event EventHandler<Packet> sent;
 		public List<EditorFieldControl> list;
@@ -83,28 +83,28 @@ namespace Questmaker.UI {
 			groupbox.Controls.Clear();
 
 			btnClear = new Button() {
-				Text = "Clear",
+				Text = Translation.Clear,
 				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = type
 			};
 
 			btnActivate = new Button() {
-				Text = "Activate",
+				Text = Translation.Activate,
 				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = type
 			};
 
 			btnDeactivate = new Button() {
-				Text = "Deactivate",
+				Text = Translation.Deactivate,
 				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = packet
 			};
 
 			btnUpdate = new Button() {
-				Text = "Update",
+				Text = Translation.Update,
 				Location = new Point(X_OFFSET_START + 132, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = packet

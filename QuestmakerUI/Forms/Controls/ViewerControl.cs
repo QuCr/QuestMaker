@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using static QuestMaker.Console.Code.Helper;
 using static System.Windows.Forms.ListViewItem;
 
-namespace Questmaker.UI {
+namespace QuestMaker.UI {
 	public partial class ViewControl : UserControl {
 		public event EventHandler<Packet> sent;
 		public CursorList<Packet> packetHistory;

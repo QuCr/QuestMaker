@@ -1,10 +1,10 @@
-﻿using Questmaker.UI.Forms.Controls;
+﻿using QuestMaker.UI.Forms.Controls;
 using QuestMaker.Code;
 using QuestMaker.Console;
 using System;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms {
+namespace QuestMaker.UI.Forms {
 	public partial class ReferenceForm : Form {
 		public SelectorControl selector;
 

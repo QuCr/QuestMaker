@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Questmaker.UI.Forms.Controls {
+namespace QuestMaker.UI.Forms.Controls {
 	public class SelectorDummyArrayControl : SelectorControl {
 		TextBox multilineTextbox;
 		EditorFieldControl editorFieldControl;
@@ -14,8 +14,8 @@ namespace Questmaker.UI.Forms.Controls {
 
 			Label label = new Label() {
 				Location = new Point(10, 40),
-				Width = 200,
-				Text = "Use enters to seperate values"
+				Width = 1000,
+				Text = Translation.Use_enters_to_seperate_values
 			};
 			multilineTextbox = new TextBox() {
 				Location = new Point(10, 70),
