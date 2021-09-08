@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{392B3583-3444-4676-A91C-1075BBA9B10F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>QuestmakerUI</RootNamespace>
+    <RootNamespace>Questmaker.UI</RootNamespace>
     <AssemblyName>QuestmakerUI</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -36,20 +36,21 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.CSharp">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Linq">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Forms\Controls\EditorControl.cs">
@@ -64,11 +65,37 @@
     <Compile Include="Forms\Controls\EditorFieldControl.Designer.cs">
       <DependentUpon>EditorFieldControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorArrayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorControl.Designer.cs">
+      <DependentUpon>SelectorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorDummyArrayControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\Controls\SelectorControl\SelectorSingleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ReferenceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ReferenceForm.Designer.cs">
+      <DependentUpon>ReferenceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Translation\Translation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Translation.resx</DependentUpon>
     </Compile>
     <Compile Include="UserInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,8 +118,14 @@
     <EmbeddedResource Include="Forms\Controls\EditorFieldControl.resx">
       <DependentUpon>EditorFieldControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Controls\SelectorControl\SelectorControl.resx">
+      <DependentUpon>SelectorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ReferenceForm.resx">
+      <DependentUpon>ReferenceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -102,6 +135,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Forms\Controls\TreeControl.resx">
       <DependentUpon>TreeControl.cs</DependentUpon>
@@ -109,6 +143,16 @@
     <EmbeddedResource Include="Forms\Controls\ViewerControl.resx">
       <DependentUpon>ViewerControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Translation\Translation.nl-BE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translation\Translation.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Translation.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>QuestMaker.UI</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,10 +171,6 @@
     <ProjectReference Include="..\QuestMakerConsole\QuestMakerConsole.csproj">
       <Project>{bb4e0d60-65af-46c8-8861-acc76bd6ef95}</Project>
       <Name>QuestMakerConsole</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Qutilities\Qutilities.csproj">
-      <Project>{89aab018-c678-4a9b-a538-d926b7be2eb0}</Project>
-      <Name>Qutilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

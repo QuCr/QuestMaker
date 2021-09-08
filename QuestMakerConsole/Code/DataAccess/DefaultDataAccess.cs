@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using QuestMaker.Code;
 using QuestMaker.Data;
+using System.Collections.Generic;
+using System.IO;
 
-namespace QuestMakerConsole.Code.DataAccess {
+namespace QuestMaker.Console.Code.DataAccess {
 	public class DefaultDataAccess : IDataAccess {
 		public bool isImportable() => true;
 		public bool isExportable() => true;
@@ -102,7 +98,7 @@ namespace QuestMakerConsole.Code.DataAccess {
 
 			new Variable("var_first") {
 				displayName = "My variable",
-				value = "69420",
+				value = "123",
 				used = true
 			};
 		}

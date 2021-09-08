@@ -1,6 +1,6 @@
 ﻿using QuestMaker.Data;
 
-namespace QuestMakerConsole.Code.DataAccess {
+namespace QuestMaker.Console.Code.DataAccess {
 	public interface IDataAccess {
 		bool isImportable();
 		bool isExportable();

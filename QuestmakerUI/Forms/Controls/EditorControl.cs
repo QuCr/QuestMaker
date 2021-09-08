@@ -1,215 +1,221 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QuestMaker.UI.Forms;
+using QuestMaker.UI.Forms.Controls;
+using QuestMaker.Code;
+using QuestMaker.Console;
+using QuestMaker.Console.Code;
+using QuestMaker.Data;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Windows.Forms;
-using QuestMaker.Code;
-using Newtonsoft.Json;
-using QuestmakerUI.Forms.Controls;
 using System.Reflection;
-using QuestMaker.Data;
+using System.Windows.Forms;
 
-namespace QuestmakerUI {
-    public partial class EditorControl : UserControl {
-        public event EventHandler<Packet> sent;
-        public List<EditorFieldControl> list;
-        public PacketSingleEditor packet;
-        public bool isEditingReference = false;
+namespace QuestMaker.UI {
+	public partial class EditorControl : UserControl {
+		public event EventHandler<Packet> sent;
+		public List<EditorFieldControl> list;
+		public CursorList<Packet> packetHistory;
 
-        const int X_OFFSET_START = 10;
+		const int X_OFFSET_START = 10;
 		const int Y_OFFSET_START = 20;
 		const int Y_OFFSET = 27;
 
-        public Button btnClear;
-        public Button btnCreate;
-        public Button btnUpdate;
-        public Button btnDestroy;
+		public Button btnClear, btnActivate, btnDeactivate, btnUpdate;
 
-        public EditorControl() {
+		public EditorControl() {
 			InitializeComponent();
+			packetHistory = new CursorList<Packet>(generateEditor);
 		}
 
 		public void handle(Packet packet) {
-            if (!isEditingReference) {
-                if (packet is PacketSingleEditor) {
-                    this.packet = packet as PacketSingleEditor;
-
-                    if (packet is PacketSingleEditor)
-                        updateForm(packet.type, this.packet);
-
-                    groupbox.Text = packet.ToString();
-                }
-            }
-
+			if (packet is PacketSingleEditor) {
+				packetHistory.go(packet);			
+			}
 		}
 
-        private void updateForm(Type type, PacketSingleEditor packet) {
-            generateButtons(type, packet);
+		void generateEditor(Packet packet) { 
+			updateForm(packet.type, packet as PacketSingleEditor);
+		}
 
-            list = new List<EditorFieldControl>();
+		public void historyBack(object sender, EventArgs e) {
+			packetHistory.back();
+			refreshStateButtons();
+		}
 
-            IOrderedEnumerable<FieldInfo> fields =
-                 from field in type.GetFields()
-                 orderby ((JsonPropertyAttribute)Attribute.GetCustomAttribute(
-                     field, typeof(JsonPropertyAttribute))
-                 )?.Order
-                 select field;
+		public void historyForward(object sender, EventArgs e) {
+			packetHistory.forward();
+			refreshStateButtons();
+		}
 
-            for (int fieldIndex = 0; fieldIndex < fields.Count(); fieldIndex++) {
-                var ctr = new EditorFieldControl(this, fields.ElementAt(fieldIndex), packet) {
-                    Location = new Point(X_OFFSET_START, Y_OFFSET_START + Y_OFFSET * fieldIndex + 40)
-                };
-                groupbox.Controls.Add(ctr);
-                list.Add(ctr);
-            }
+		private void updateForm(Type type, PacketSingleEditor packet) {
+			generateButtons(type, packet);
 
-            validate();
-        }
+			groupbox.Text = packet?.ToString();
+			list = new List<EditorFieldControl>();
 
-        private void generateButtons(Type type, Packet packet) {
-            if (type == null) type = packet.type;
+			IOrderedEnumerable<FieldInfo> fields =
+				 from field in type.GetFields()
+				 orderby ( (JsonPropertyAttribute)Attribute.GetCustomAttribute(
+					 field, typeof(JsonPropertyAttribute))
+				 )?.Order
+				 select field;
 
-            groupbox.Controls.Clear();
+			for (int fieldIndex = 0; fieldIndex < fields.Count(); fieldIndex++) {
+				var ctr = new EditorFieldControl(this, fields.ElementAt(fieldIndex), packet, type) {
+					Location = new Point(X_OFFSET_START, 40 + Y_OFFSET_START + Y_OFFSET * fieldIndex)
+				};
+				groupbox.Controls.Add(ctr);
+				list.Add(ctr);
+			}
 
-            btnClear = new Button() {
-                Text = "Clear",
-                Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
-                Width = 50,
-                Tag = type
-            };
+			validate();
 
-            btnCreate = new Button() {
-                Text = "Create",
-                Location = new Point(X_OFFSET_START + 50, Y_OFFSET_START + 0),
-                Width = 50,
-                Tag = type
-            };
+			btnHistoryBack.Enabled = packetHistory.canBack();
+			btnHistoryForward.Enabled = packetHistory.canForward();
+		}
 
-            btnUpdate = new Button() {
-                Text = "Update",
-                Location = new Point(X_OFFSET_START + 100, Y_OFFSET_START + 0),
-                Width = 50,
-                Tag = packet
-            };
+		private void generateButtons(Type type, Packet packet) {
+			if (type == null) type = packet.type;
 
-            btnDestroy = new Button() {
-                Text = "Delete",
-                Location = new Point(X_OFFSET_START + 150, Y_OFFSET_START + 0),
-                Width = 50,
-                Tag = packet
-            };
+			groupbox.Controls.Clear();
 
-            btnClear.MouseClick += clear;
-            btnCreate.MouseClick += create;
-            btnDestroy.MouseClick += destroy;
-            btnUpdate.MouseClick += update;
+			btnClear = new Button() {
+				Text = Translation.Clear,
+				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
+				Width = 66,
+				Tag = type
+			};
 
-            groupbox.Controls.Add(btnClear);
-            groupbox.Controls.Add(btnCreate);
-            groupbox.Controls.Add(btnDestroy);
-            groupbox.Controls.Add(btnUpdate);
-        }
+			btnActivate = new Button() {
+				Text = Translation.Activate,
+				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
+				Width = 66,
+				Tag = type
+			};
 
-        internal void clickReference(Button button, PacketEdit tag) {
-            isEditingReference = !isEditingReference;
-            validate();
+			btnDeactivate = new Button() {
+				Text = Translation.Deactivate,
+				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
+				Width = 66,
+				Tag = packet
+			};
 
-            if (isEditingReference) {
-                sent(this, tag);
-                button.Text = "Save";
-            } else {
-                sent(this, tag.packet);
-                button.Text = "Edit";
-            }
-            
+			btnUpdate = new Button() {
+				Text = Translation.Update,
+				Location = new Point(X_OFFSET_START + 132, Y_OFFSET_START + 0),
+				Width = 66,
+				Tag = packet
+			};
 
-            foreach (EditorFieldControl item in list) {
-                if (item.control != null) {
-                    item.control.Enabled = !isEditingReference;
-                }
-            }
-            button.Enabled = true;
-        }
+			btnClear.MouseClick += clear;
+			btnActivate.MouseClick += activate;
+			btnDeactivate.MouseClick += deactivate;
+			btnUpdate.MouseClick += update;
 
-        private void clear(object sender, MouseEventArgs e) {
-            Button button = sender as Button;
+			groupbox.Controls.Add(btnClear);
+			groupbox.Controls.Add(btnActivate);
+			groupbox.Controls.Add(btnDeactivate);
+			groupbox.Controls.Add(btnUpdate);
+
+			refreshStateButtons();
+		}
+
+		internal void clickReference(EditorFieldControl editorFieldControl, PacketEdit tag) {
+			new ReferenceForm(tag, editorFieldControl).Show();
+		}
+
+		private void clear(object sender, MouseEventArgs e) {
+			Button button = sender as Button;
 			Type type = button.Tag as Type;
-            packet = null;
 
 			updateForm(type, null);
-        }
+		}
 
-        public void create(object sender, MouseEventArgs _) {
-            Button button = sender as Button;
-            Type type = button.Tag as Type;
+		public void activate(object sender, MouseEventArgs _) {
+			Button button = sender as Button;
+			Type type = button.Tag as Type;
 
-            Entity entity = Entity.createType(type, false);
+			Entity entity = Entity.createType(type, false);
 
-            foreach (EditorFieldControl control in list) {
-                control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
-            }
+			foreach (EditorFieldControl control in list) {
+				control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
+			}
 
-            try {
-                entity.activate();
-            } catch (ArgumentException) {
-                MessageBox.Show("ERROR: Entity is already activated");
-            }
+			try {
+				entity.activate();
+			} catch (ArgumentException) {
+				MessageBox.Show("ERROR: Entity is already activated");
+			}
 
-            sent(this, new PacketSingleEditor(Packet.byEntity(entity)));
+			sent(this, new PacketSingleEditor(Packet.byEntity(entity)));
 
-            refresh();
-        }
+			refreshStateButtons();
+		}
+		public void deactivate(object sender, MouseEventArgs e) {
+			packetHistory.currentItem().getEntity().deactivate();
+			groupbox.Text = "";
 
-        public void update(object sender, MouseEventArgs e) {
-            Entity entity = packet.getEntity();
+			string text = list[0].control.Text;
+			list[0].control.Text = text + "!";
+			list[0].control.Text = text;
 
-            entity.deactivate();
-            foreach (EditorFieldControl control in list) {
-                control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
-            }
-            entity.activate();
+			refreshStateButtons();
+		}
 
-            list[0].control.Text = entity.id + "!";
-            list[0].control.Text = entity.id;
+		public void update(object sender, MouseEventArgs e) {
+			Entity entity = packetHistory.currentItem().getEntity();
 
-            refresh();
-        }
+			entity.deactivate();
+			foreach (EditorFieldControl control in list) {
+				//TODO, ervoor zorgen dat er geen if is en dat diegene die geen lijst zijn
+				//voor dit punt al geconverteerd zijn naar het juiste type.
+				if (control.value is IEnumerable)
+					control.field.SetValue(entity, control.value);
+				else
+					control.field.SetValue(entity, Convert.ChangeType(control.value, control.type));
+			}
+			entity.activate();
 
-        public void destroy(object sender, MouseEventArgs e) {
-            packet.getEntity().deactivate();
-            packet = null;
-            groupbox.Text = "";
+			list[0].control.Text = entity.id + "!";
+			list[0].control.Text = entity.id;
 
-            btnCreate.Enabled = true;
-            btnUpdate.Enabled = false;
-            btnDestroy.Enabled = false;
+			refreshStateButtons();
+		}
 
-            string text = list[0].control.Text;
-            list[0].control.Text = text + "!";
-            list[0].control.Text = text;
+		public void refreshStateButtons() {
+			sent(this, new PacketUpdate());
 
-            refresh();
-        }
+			bool isActive = EntityCollection.get(packetHistory.currentItem())[0] != null;
+			btnActivate.Enabled = !isActive;
+			btnDeactivate.Enabled = isActive;
+			btnUpdate.Enabled = isActive;
 
-        public void refresh() {
-            sent(this, new PacketUpdate());
-        }
+			btnActivate.Visible = !isActive;
+			btnDeactivate.Visible = isActive;
+		}
 
-        public void validate() {
-            bool validCreate = true;
-            bool ValidUpdate = true;
-            bool ValidDestroy = true;
+		public void validate() {
+			bool validActivate = true;
+			bool validDeactivate = true;
+			bool validUpdate = true;
 
-            foreach (EditorFieldControl control in list) {      
-                if (control.canCreate == false) validCreate = false;
-                if (control.canUpdate == false) ValidUpdate = false;
-                if (control.canDestroy == false) ValidDestroy = false;
-            }
+			foreach (EditorFieldControl control in list) {
+				if (control.canActivate == false) validActivate = false;
+				if (control.canDeactivate == false) validDeactivate = false;
+				if (control.canUpdate == false) validUpdate = false;
+			}
 
-            btnCreate.Enabled = validCreate && !isEditingReference;
-            btnUpdate.Enabled = ValidUpdate && !isEditingReference;
-            btnDestroy.Enabled = ValidDestroy && !isEditingReference;
-        }
-    }
+			btnClear.Enabled = true;            //!isEditingReference;
+			btnActivate.Enabled = validActivate;    // && !isEditingReference;
+			btnDeactivate.Enabled = validDeactivate;  // && !isEditingReference;
+			btnUpdate.Enabled = validUpdate;    // && !isEditingReference;
+			
+
+			btnActivate.Visible = validActivate;
+			btnDeactivate.Visible = validDeactivate;
+		}
+	}
 }

@@ -1,5 +1,4 @@
-﻿
-namespace QuestmakerUI {
+﻿namespace QuestMaker.UI {
 	partial class EditorControl {
 		/// <summary> 
 		/// Required designer variable.
@@ -25,6 +24,8 @@ namespace QuestmakerUI {
 		/// </summary>
 		private void InitializeComponent() {
 			this.groupbox = new System.Windows.Forms.GroupBox();
+			this.btnHistoryBack = new System.Windows.Forms.Button();
+			this.btnHistoryForward = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -38,6 +39,24 @@ namespace QuestmakerUI {
 			this.groupbox.TabIndex = 1;
 			this.groupbox.TabStop = false;
 			this.groupbox.Text = "Editor";
+			//
+			// btnHistoryBack
+			//
+			this.btnHistoryBack.Location = new System.Drawing.Point(0, 0);
+			this.btnHistoryBack.Size = new System.Drawing.Size(50, 30);
+			this.btnHistoryBack.Text = "<-"; 
+			this.btnHistoryBack.Enabled = false;
+			this.btnHistoryBack.Click += new System.EventHandler(this.historyBack);
+			this.Controls.Add(this.btnHistoryBack);
+			//
+			// btnHistoryForward
+			//
+			this.btnHistoryForward.Location = new System.Drawing.Point(50, 0);
+			this.btnHistoryForward.Size = this.btnHistoryBack.Size;
+			this.btnHistoryForward.Text = "->";
+			this.btnHistoryForward.Enabled = false;
+			this.btnHistoryForward.Click += new System.EventHandler(this.historyForward);
+			this.Controls.Add(this.btnHistoryForward);
 			// 
 			// EditControl
 			// 
@@ -53,5 +72,7 @@ namespace QuestmakerUI {
 		#endregion
 
 		private System.Windows.Forms.GroupBox groupbox;
+		private System.Windows.Forms.Button btnHistoryBack;
+		private System.Windows.Forms.Button btnHistoryForward;
 	}
 }

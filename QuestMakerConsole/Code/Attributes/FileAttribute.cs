@@ -7,15 +7,21 @@ namespace QuestMaker.Code.Attributes {
 		public string directoryPath;
 		public string filename;
 		public string fullPath;
+		public int order;
 
 		/// <summary>
 		/// Gets used when generating the files
 		/// </summary>
-		public FileAttribute(string path, string extension) {
-			string[] splittedPath = path.Split('/');
+		public FileAttribute(string path, int order = -1) {
+			this.order = order;
+
+			string directory = path.Split('.')[0];
+			string extension = path.Split('.')[1];
+
+			string[] splittedPath = directory.Split('/');
 			List<string> splittedDirectoryPath = new List<string> { Project.Path };
 
-			for (int i = 0;i < splittedPath.Length - 1;i++) {
+			for (int i = 0; i < splittedPath.Length - 1; i++) {
 				splittedDirectoryPath.Add(splittedPath[i]);
 				directoryPath = Path.Combine(splittedDirectoryPath.ToArray());
 				Directory.CreateDirectory(directoryPath);

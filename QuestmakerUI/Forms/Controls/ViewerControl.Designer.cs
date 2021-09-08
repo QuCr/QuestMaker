@@ -1,4 +1,4 @@
-﻿namespace QuestmakerUI {
+﻿namespace QuestMaker.UI {
 	partial class ViewControl {
 		/// <summary> 
 		/// Required designer variable.
@@ -25,6 +25,8 @@
 		private void InitializeComponent() {
 			this.view = new System.Windows.Forms.ListView();
 			this.groupbox = new System.Windows.Forms.GroupBox();
+			this.btnHistoryBack = new System.Windows.Forms.Button();
+			this.btnHistoryForward = new System.Windows.Forms.Button();
 			this.groupbox.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -54,6 +56,22 @@
 			this.groupbox.TabIndex = 2;
 			this.groupbox.TabStop = false;
 			this.groupbox.Text = "Viewer";
+			//
+			// btnHistoryBack
+			//
+			this.btnHistoryBack.Location = new System.Drawing.Point(350, 0);
+			this.btnHistoryBack.Size = new System.Drawing.Size(50, 30);
+			this.btnHistoryBack.Text = "<-";
+			this.btnHistoryBack.Click += new System.EventHandler(this.historyBack);
+			this.Controls.Add(this.btnHistoryBack);
+			//
+			// btnHistoryForward
+			//
+			this.btnHistoryForward.Location = new System.Drawing.Point(400, 0);
+			this.btnHistoryForward.Size = this.btnHistoryBack.Size;
+			this.btnHistoryForward.Text = "->";
+			this.btnHistoryForward.Click += new System.EventHandler(this.historyForward);
+			this.Controls.Add(this.btnHistoryForward);
 			// 
 			// ViewControl
 			// 
@@ -70,5 +88,8 @@
 		#endregion
 		private System.Windows.Forms.ListView view;
 		private System.Windows.Forms.GroupBox groupbox;
+		private System.Windows.Forms.Button btnHistoryBack;
+		private System.Windows.Forms.Button btnHistoryForward;
+
 	}
 }

@@ -1,42 +1,46 @@
-﻿using System;
+﻿using QuestMaker.Code;
+using QuestMaker.Console.Code;
+using QuestMaker.Data;
+using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using QuestMaker.Data;
-using Qutilities;
-using QuestMaker.Code;
-using System.Collections;
-using System.Linq;
 
-namespace QuestmakerUI.Forms.Controls {
-    public partial class EditorFieldControl : UserControl {
-        public FieldInfo field;
-        private EditorControl parent;
+namespace QuestMaker.UI.Forms.Controls {
+	public partial class EditorFieldControl : UserControl {
+		public FieldInfo field;
+		private EditorControl parent;
 
-        public string name;
+		public Entity entity;
+		public string name;
 		public object value;
 		public Type type;
-		public bool exists;
+		public Type objectType = null;
 
-        public Control control;
+		public Control control;
+		public Label valueLabel;
 
-		public bool canCreate = true;
+		public bool canActivate = true;
+		public bool canDeactivate = true;
 		public bool canUpdate = true;
-		public bool canDestroy = true;
 
 		public EditorFieldControl() {
 			InitializeComponent();
 		}
 
-		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null) {
+		public EditorFieldControl(EditorControl parent, FieldInfo field, PacketSingleEditor singleEditorPacket = null, Type objectType = null) {
 			InitializeComponent();
-			
+
 			this.field = field;
 			this.parent = parent;
 
 			name = field.Name;
-			value = singleEditorPacket == null ? null : field.GetValue(singleEditorPacket.getEntity());
+			if (singleEditorPacket != null) {
+				entity = singleEditorPacket.getEntity();
+				value = field.GetValue(entity);
+			}
 			type = field.FieldType;
+			this.objectType = objectType;
 
 			label.Text = name;
 
@@ -64,14 +68,16 @@ namespace QuestmakerUI.Forms.Controls {
 					Width = 100,
 					Checked = value?.ToString() == true.ToString()
 				});
-				control.TextChanged += textChanged;
+				control.Click += textChanged;
 				return;
 			}
 
 			if (type == typeof(string)) {
 				if (value == null)
-					if (name == "id" || name == "displayName")
+					if (name == "id")
 						value = "ID";
+					else if (name == "displayName")
+						value = objectType.Name;
 					else
 						value = "";
 
@@ -90,23 +96,42 @@ namespace QuestmakerUI.Forms.Controls {
 				Button button = null;
 				if (Helper.isSubOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
-						Text = "Entity",
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity((Entity)value))
+						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity(field.FieldType, (Entity)value), entity, field),
+						Width = 35
+					});
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
 					});
 				} else if (Helper.isListOf<Entity>(value)) {
 					Controls.Add(control = button = new Button() {
-						Text = "List of entities",
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = new PacketEdit(Packet.byEntity(((IList)value).Cast<Entity>().ToArray()))
+						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity(Helper.asArrayOf<Entity>(value), Helper.getListType(value)), entity, field),
+						Width = 35
 					});
-				} /*else if (Helper.isList(value)) {
-                    Controls.Add(control = button = new Button() {
-						Text = "List of dummies",
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
+					});
+				} else if (Helper.isList(value)) {
+					string[] data = Helper.asArrayOf<string>(value);
+					Type type = Helper.getListType(value);
+					Packet packet = Packet.byString(type, data);
+
+					Controls.Add(control = button = new Button() {
+						Text = "Edit",
 						Location = new Point(75, 0),
-						Enabled = false
+						Tag = ( entity == null ) ? null : new PacketEdit(packet, entity, field),
+						Width = 35
 					});
-				}*/
+					Controls.Add(valueLabel = new Label() {
+						Text = Helper.toDisplayString(value),
+						Location = new Point(110, 4),
+					});
+				}
 				button.Click += click;
 			} else
 				Controls.Add(new Label() {
@@ -117,62 +142,63 @@ namespace QuestmakerUI.Forms.Controls {
 			return;
 		}
 
-        private void click(object sender, EventArgs e) {
-            var button = sender as Button;
-            var tag = (PacketEdit)button.Tag;
+		private void click(object sender, EventArgs e) {
+			var button = sender as Button;
+			var packetEdit = (PacketEdit)button.Tag;
 
-			parent.clickReference(sender as Button, tag);
-        }
+			parent.clickReference(this, packetEdit);
+		}
 
 		/// <summary>
 		/// This is an event, just because it can be called by KeyUp. 
 		/// The EventArgs aren't used, but the event handler expects it.
 		/// </summary>
 		public void textChanged(object sender, EventArgs e) {
-			if (sender is TextBox) {
+			if (sender is TextBox) { //tag !== null ier schrihve,
 				TextBox textBox = sender as TextBox;
 				string tag = textBox.Tag.ToString();
 				string text = textBox.Text;
 
 				if (text == "") {
-					canCreate = false;
+					canActivate = false;
+					canDeactivate = false;
 					canUpdate = false;
-					canDestroy = false;
 				} else if (tag != "") {
-					if (parent.packet == null) {
-						canCreate = true;
+					//TODO extra care here for clearing with new history impl.
+					if (parent.packetHistory.currentItem() == null) {
+						canActivate = true;
+						canDeactivate = false;
 						canUpdate = false;
-						canDestroy = false;
 						textBox.ForeColor = Color.Black;
 					} else {
-						bool existingIDFromText = EntityCollection.isExistingID(text);
-						bool currentID = parent.packet.getEntity().id == text;
+						bool existsID = EntityCollection.isExistingID(text);
+						bool currentID = parent.packetHistory.currentItem().getEntity().id == text;
 
-						if (existingIDFromText && currentID) {
-							canCreate = false;
+						if (existsID && currentID) {
+							canActivate = false;
+							canDeactivate = true;
 							canUpdate = true;
-							canDestroy = true;
 							textBox.ForeColor = Color.Green;
-						} else if (existingIDFromText && !currentID) {
-							canCreate = false;
+						} else if (existsID && !currentID) {
+							canActivate = false;
+							canDeactivate = false;
 							canUpdate = false;
-							canDestroy = false;
 							textBox.ForeColor = Color.Red;
-						} else if (!existingIDFromText && !currentID) {
-							canCreate = true;
+						} else if (!existsID && !currentID) {
+							canActivate = true;
+							canDeactivate = false;
 							canUpdate = true;
-							canDestroy = false;
 							textBox.ForeColor = Color.Black;
-						} else if (!existingIDFromText && currentID) {
-							throw new Exception("Case should never be fired");
+						} else if (!existsID && currentID) {
+							//throw new Exception("Case should never be fired");
 						}
 					}
 				}
 			}
 
-            if (sender is NumericUpDown) value = (sender as NumericUpDown).Value;
-            if (sender is TextBox) value = (sender as TextBox).Text;
-            if (sender is CheckBox) value = (sender as CheckBox).Checked;
+			if (sender is NumericUpDown) value = ( sender as NumericUpDown ).Value;
+			if (sender is TextBox) value = ( sender as TextBox ).Text;
+			if (sender is CheckBox) value = ( sender as CheckBox ).Checked;
 
 			parent.validate();
 		}

@@ -1,0 +1,105 @@
+Test: btnClear zorgt ervoor dat alle velden in de editor de standaard waarden krijgen
+	EN de editor zijn pakket verwijst naar een nieuwe of geen bestaande entitieit
+
+Editorknoppen
+*************
+
+Lijst van entitieten:
+	als het NULL is, mag er geen tekst NULL staan maar moet een knop beschikbaar zijn
+	er moet kunnen worden aangeduid om de lijst niet of wel duplicaten kan bevatten (nieuwe attribuut?)
+	er moet in de knop zijn tekst staan hoeveel entiteiten er in de lijst zitten, zodat de gebruiker kan zien dat de aanpassingen opgeslagen zijn in de editor.
+Entiteit:
+	in de form is dubbelklikken voldoende om de nieuwe entititen aan te duiden
+
+
+Issues GitHub
+*************
+
+BUG: Possibility for null values and empty lists #12 
+
+Values that are not should not be displayed as a label with
+the text "NULL", but should have also an "Edit" button that just 
+has a label with the text "NULL" next to it.
+To solve this issue, there should be a possibility for lists to be empty
+and for entities to be null.
+
+Note: implement PacketNull for no entity and 
+a PacketArray with 0 entities for empty lists
+=============================================================
+FEATURE: List with the possibilty the enable duplicates #14 
+
+Lists need to be able to have duplicates. A new attribute 
+"DuplicateListAttribute" will be made that marks duplicatable lists.
+=============================================================
+FEATURE: List should be able to be ordered #2 
+
+You should be able to move items of a list up and down.
+An extra would be to sort them alphabettically!
+=============================================================
+FEATURE: History for both the viewer & editor #18
+
+It'd be nice to go back (and forth) to previous sent packets. 
+Like when you accidentally click on the tree and it switches.
+=============================================================
+BUG: Clearing and the creating twice gives an error about creating an existing ID #16 
+
+The "Create" button of the editor should be disabled when
+you cannot create the entity.
+=============================================================
+FEATURE: Built-in Script Writer #17 
+
+Next to the 'entity' editor, there will be also an editor for scripts.
+Details about how this will be implemented are not clear yet, but the
+general idea is that 3 types of scripts: 
+
+1. Project-wide scripts (like (un)loading a project in the 'game').
+	Alternative names: One-Time Scripts
+2. Static scripts (not like static-still, but static-within-c#, thus one for every entity)
+	Alternative names: Type Script ;)
+3. Regular scripts (script executed with the properties of each entity of that type)
+	Alternative names: Entity Script
+=============================================================
+FEATURE: History for both the viewer & editor #18 
+
+A back button for going to previous packets.
+When misclicking, you are redirected in the viewer to another packet. With the addition of this button, you can go back to what you previously saw in the viewer.
+
+Additional:
+also a forth button
+also in the editor
+=============================================================
+FEATURE: Version control for QuestMaker projects #19 
+
+The database is made into a git repository,
+and automatically (based on timer, or actions, ...) commits their changes.
+I don't know see yet how branches could be implented, and is probably too 
+far fetched. So it's probably going to be one single main (or master) branch
+=============================================================
+FEATURE: Localization #21
+
+Support for multiple languages: primarily EN & NL
+
+=============================================================
+FEATURE: File Scripts with the same file path must be possible #22
+
+Currently, when two scripts use the same file path, an exception will be thrown.
+It'd be nice if you could order scripts (with the same path) and that the FileAttribute handles
+the order of the scripts; the next script's output will be appended to the previous' output.
+==============================================================
+FEATURE: Rename Create/Delete to activate/deactivate #23
+
+With the addition of history (going back to previous entities in the editor), a deleted entity
+is no longer really deleted. Once you can go back in history to the packet that references 
+that entity, it is technically not deleted. Hence the verb deactivate; a deactivated entity 
+can still be accessed but will not be used in the editor or other parts.
+After the entity is no longer in the history, it can be finally be destroyed by the GC.
+==============================================================
+BUG: When activating an entity, a new history tab is created with the same entity #24
+
+The history should not act that way, because consecutive history tabs should not have the
+same entity.
+==============================================================
+BUG: When clearing an entity after clicking on one, you can still deactivate it #26
+
+When you select an entity in the editor, and you clear it. And then type the ID of the entity
+in the ID field, you can deactivate the entity without it being selected.

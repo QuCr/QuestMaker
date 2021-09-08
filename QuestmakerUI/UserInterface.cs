@@ -1,19 +1,25 @@
-﻿using System;
-using System.Collections;
-using System.Windows.Forms;
-using QuestMaker.Code;
+﻿using QuestMaker.Code;
+using QuestMaker.Console;
 using QuestMaker.Data;
-using QuestMakerConsole;
+using System;
+using System.Windows.Forms;
 
-namespace QuestmakerUI {
+namespace QuestMaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {
+			Translation.Culture = new System.Globalization.CultureInfo("nl-BE");
+
 			Program.Main("default");
 
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
+
+			MainForm mainform = new MainForm();
+
+			mainform.handle(mainform.Tree, new PacketType(typeof(Waypoint)));
+
+			Application.Run(mainform);
 		}
 	}
 }

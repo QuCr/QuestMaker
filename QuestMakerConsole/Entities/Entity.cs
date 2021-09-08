@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QuestMaker.Code.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Newtonsoft.Json;
-using QuestMaker.Code.Attributes;
 
 namespace QuestMaker.Data {
 	public class Entity {
@@ -22,37 +22,36 @@ namespace QuestMaker.Data {
 
 		public Entity(string id, bool activate = true) {
 			if (id == null || id.Length < 1)
-				throw new ArgumentNullException("id is null");
+				throw new ArgumentNullException("id is null or empty");
 
 			this.id = id;
 			displayName = id;
 
-			if (!activate)
-				return;
-
-			this.activate();
+			if (activate) //only false for dummy objects
+				this.activate();
 		}
 
 		public string ToMasterString() => displayName;
 		public string ToDetailedString() => displayName;
 
 		public override string ToString() {
-			return $"Entity<{GetType().Name}>[{id}]";
+			return id;
 		}
 
-        public static Entity createType(Type type = null, bool activate = true) {
-			if (type == null) 
+		public static Entity createType(Type type = null, bool activate = true) {
+			if (type == null)
 				type = MethodBase.GetCurrentMethod().DeclaringType;
-			
-			var entity =  Activator.CreateInstance(type, false) as Entity;
-			
-			if (activate) 
+
+			var entity = Activator.CreateInstance(type, false) as Entity;
+
+			if (activate)
 				entity.activate();
-			
+
 			return entity;
 		}
-    }
+	}
 
+	/// <summary> Used for showing values in lists, cannot be real entities</summary>
 	[DataViewer(mock = true)]
 	public class Dummy : Entity {
 		public object value;
@@ -124,7 +123,7 @@ namespace QuestMaker.Data {
 		public Route(string id, bool activate = true) : base(id, activate) { }
 		public Route() : base() { }
 
-		[File("data/questmaker/functions/routes/start_hard/{id}", "mcfunction")]
+		[File("data/questmaker/functions/routes/start_hard/{id}.mcfunction")]
 		public string start_hard() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -155,7 +154,7 @@ namespace QuestMaker.Data {
 			return text;
 		}
 
-		[File("data/questmaker/functions/routes/start_soft/{id}", "mcfunction")]
+		[File("data/questmaker/functions/routes/start_soft/{id}.mcfunction")]
 		public string start_soft() {
 			string text = $"";
 			if (announceWhenStarted)
@@ -176,11 +175,9 @@ namespace QuestMaker.Data {
 						 "}\n";
 			}
 			return text;
-
-
 		}
 
-		[File("data/questmaker/functions/routes/tick/{id}", "mcfunction")]
+		[File("data/questmaker/functions/routes/tick/{id}.mcfunction")]
 		public string tick() {
 			string text = $"";
 			if (announceWhenExecuting)
@@ -190,19 +187,18 @@ namespace QuestMaker.Data {
 					$"execute if entity @e[tag=TARGET_{id},limit=1] as @e[tag=ACTOR_{id},limit=1] at @s run tp ^ ^ ^" + person.speed.ToString().Replace(',', '.') + "\n\n" +
 					$"execute if entity @e[tag=TARGET_{id}] run schedule function questmaker:routes/{id}/tick 1t\n\n" +
 					$"execute unless entity @e[tag=TARGET_{id},distance=..1] at @e[tag=ACTOR_{id},limit=1] run kill @e[tag=TARGET_{id},distance=..1]";
-
 			text += $"\nschedule function questmaker:routes/tick/{id} 1t\n";
 			return text;
 		}
 
-		[File("data/questmaker/functions/routes/stop/{id}", "mcfunction")]
+		[File("data/questmaker/functions/routes/stop/{id}.mcfunction")]
 		public string stop() {
 			//string text = $"tellraw @a \"[Function Stopped - {displayName}]\"\n";
 			string text = $"";
 			if (announceWhenStopped)
 				text += $"tellraw @a \"[Function Stopped - {displayName}]\"\n";
 
-			//Only works in 1.15, will not be cleared with prior MC versions 
+			//Only works in/after 1.15, will not be cleared with prior MC versions 
 			text += $"\nschedule clear questmaker:routes/tick/{id}\n";
 			return text;
 		}
@@ -215,12 +211,12 @@ namespace QuestMaker.Data {
 		public Dialog(string id, bool activate = true) : base(id, activate) { }
 		public Dialog() : base() { }
 
-		[File("data/questmaker/functions/dialogs/{id}", "mcfunction")]
+		[File("data/questmaker/functions/dialogs/{id}.mcfunction")]
 		public string sentence() {
 			int currentTime = 0;
 			string data = "";
 
-			for (int i = 0;i < sentences.Count;i++) {
+			for (int i = 0; i < sentences.Count; i++) {
 				currentTime += sentences[i].time;
 				data += $"schedule function questmaker:sentences/{sentences[i].id} {currentTime}t\n";
 			}
@@ -238,14 +234,13 @@ namespace QuestMaker.Data {
 		public Sentence(string id, bool activate = true) : base(id, activate) { }
 		public Sentence() : base() { }
 
-		[File("data/questmaker/functions/sentences/{id}", "mcfunction")]
+		[File("data/questmaker/functions/sentences/{id}.mcfunction")]
 		public string sentence() {
 			string data = $"tellraw @a \"[{person.displayName}] {text[0]}\"\n";
-			for (int i = 1;i < text.Count;i++) {
+			for (int i = 1; i < text.Count; i++) {
 				data += $"tellraw @a \"{text[i]}\"\n";
 			}
 			return data;
 		}
-
 	}
 }

@@ -1,153 +1,164 @@
-﻿using System;
-using System.Drawing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using QuestMaker.UI;
 using QuestMaker.Code;
+using QuestMaker.Console;
 using QuestMaker.Data;
-using QuestMakerConsole;
-using QuestmakerUI;
+using System.Drawing;
 
-namespace QuestMakerTests {
-    [TestClass]
-    public class EditorTest {
+namespace QuestMaker.Tests {
+	[TestClass]
+	public class EditorTest {
+		MainForm mainform;
 
-        MainForm mainform;
+		ViewControl viewer;
+		EditorControl editor;
+		TreeControl tree;
 
-        ViewControl viewer;
-        EditorControl editor;
-        TreeControl tree;
+		void setText(string id, int i = 0) { editor.list[i].control.Text = id; }
 
-        void setText(string id, int i = 0) { editor.list[i].control.Text = id; }
+		[ClassInitialize]
+		public static void classInitialize(TestContext _) {
+			Program.Main("default");
+		}
 
-        [ClassInitialize]
-        public static void classInitialize(TestContext _) {
-            Program.Main("default");
-        }
+		[TestInitialize]
+		public void testInitialize() {
+			mainform = new MainForm();
 
-        [TestInitialize]
-        public void testInitialize() {
-            mainform = new MainForm();
+			viewer = mainform.Viewer;
+			editor = mainform.Editor;
+			tree = mainform.Tree;
+		}
 
-            viewer = mainform.Viewer;
-            editor = mainform.Editor;
-            tree = mainform.Tree;
-        }
+		[TestMethod]
+		public void EditorTest_LoadEntity() {
+			Entity entity = EntityCollection.byID(typeof(Person), "bert");
 
-        [TestMethod]
-        public void EditorTest_LoadEntity() {
-            Entity entity = EntityCollection.byID(typeof(Person), "bert");
+			Assert.IsNotNull(entity, "queried entity");
 
-            Assert.IsNotNull(entity, "queried entity");
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
 
-            mainform.handle(tree, new PacketType(typeof(Person)));
-            mainform.handle(mainform.Viewer, new PacketSingleEditor(entity));
+			Assert.AreEqual("bert", editor.list[0].value, "ID in editor");
+			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
+			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
+		}
 
-            Assert.AreEqual("bert", editor.list[0].value, "ID in editor");
-            Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
-            Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
-        }
+		[TestMethod]
+		public void EditorTest_CreateEntity() {
+			Entity entity = EntityCollection.byID(typeof(Person), "bert");
 
-        [TestMethod]
-        public void EditorTest_CreateEntity() {
-            Entity entity = EntityCollection.byID(typeof(Person), "bert");
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(viewer, new PacketSingleEditor(entity));
 
-            mainform.handle(tree, new PacketType(typeof(Person)));
-            mainform.handle(viewer, new PacketSingleEditor(entity));
+			setText("dave", 0); //ID
+			setText("Dave", 1); //displayName
 
-            setText("dave", 0); //ID
-            setText("Dave", 1); //displayName
+			Assert.AreEqual("dave", editor.list[0].value, "ID in editor");
+			Assert.AreEqual("Dave", editor.list[1].value, "displayName in editor");
 
-            Assert.AreEqual("dave", editor.list[0].value, "ID in editor");
-            Assert.AreEqual("Dave", editor.list[1].value, "displayName in editor");
+			editor.activate(editor.btnClear, null);
 
-            editor.create(editor.btnClear, null);
+			Assert.IsNotNull(EntityCollection.byID(typeof(Person), "bert"), "created entity");
+			System.Console.WriteLine($"There are now {EntityCollection.entityCollection["Person"].Count} people");
 
-            Assert.IsNotNull(EntityCollection.byID(typeof(Person), "bert"), "created entity");
-            Console.WriteLine($"There are now {EntityCollection.entityCollection["Person"].Count} people");
+			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
+			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
+		}
 
-            Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
-            Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
-        }
+		[TestMethod]
+		public void EditorTest_UpdateEntity() {
+			Entity entity = EntityCollection.byID(typeof(Person), "albert");
 
-        [TestMethod]
-        public void EditorTest_UpdateEntity() {
-            Entity entity = EntityCollection.byID(typeof(Person), "albert");
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(viewer, new PacketSingleEditor(entity));
 
-            mainform.handle(tree, new PacketType(typeof(Person)));
-            mainform.handle(viewer, new PacketSingleEditor(entity));
+			setText("alberto", 0); //ID
+			setText("Alberto", 1); //displayName
 
-            setText("alberto", 0); //ID
-            setText("Alberto", 1); //displayName
+			Assert.AreEqual("alberto", editor.list[0].value, "ID in editor");
+			Assert.AreEqual("Alberto", editor.list[1].value, "displayName in editor");
 
-            Assert.AreEqual("alberto", editor.list[0].value, "ID in editor");
-            Assert.AreEqual("Alberto", editor.list[1].value, "displayName in editor");
+			editor.update(editor.btnUpdate, null);
 
-            editor.update(editor.btnUpdate, null);
+			Assert.AreEqual("alberto", entity.id);
+			Assert.AreEqual("Alberto", entity.displayName);
 
-            Assert.AreEqual("alberto", entity.id);
-            Assert.AreEqual("Alberto", entity.displayName);
+			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
+			Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
+			Assert.IsTrue(editor.btnDeactivate.Enabled, "btnDeactivate");
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
+		}
 
-            Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
-            Assert.IsTrue(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsTrue(editor.btnDestroy.Enabled, "btnDestroy");
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
-        }
+		[TestMethod]
+		public void EditorTest_DeleteEntity() {
+			Entity entity = EntityCollection.byID(typeof(Person), "cyk");
 
-        [TestMethod]
-        public void EditorTest_DeleteEntity() {
-            Entity entity = EntityCollection.byID(typeof(Person), "cyk");
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(viewer, new PacketSingleEditor(entity));
 
-            mainform.handle(tree, new PacketType(typeof(Person)));
-            mainform.handle(viewer, new PacketSingleEditor(entity));
+			Assert.IsTrue(EntityCollection.isExistingID(entity.id));
+			editor.deactivate(editor.btnDeactivate, null);
+			Assert.IsFalse(EntityCollection.isExistingID(entity.id));
 
-            Assert.IsTrue(EntityCollection.isExistingID(entity.id));
-            editor.destroy(editor.btnDestroy, null);
-            Assert.IsFalse(EntityCollection.isExistingID(entity.id));
+			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+			Assert.IsTrue(editor.btnActivate.Enabled, "btnActivate");
+			Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
+			Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
+		}
 
-            Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsTrue(editor.btnCreate.Enabled, "btnCreate");
-            Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
-        }
-
-        [TestMethod]
-        public void EditorTest_EmptyTextID() {
+		/*[TestMethod]
+        public void EditorTest_ClearEntity() {
             Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");
             mainform.handle(tree, new PacketType(typeof(Person)));
             mainform.handle(viewer, new PacketSingleEditor(point1));
 
             setText("");
             Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
-            Assert.IsFalse(editor.btnCreate.Enabled, "btnCreate");
+            Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
             Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
-            Assert.IsFalse(editor.btnDestroy.Enabled, "btnDestroy");
-        }
+            Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
+        }*/
 
-        [TestMethod]
-        public void EditorTest_TextColorID() {
-            Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");
-            Entity point2 = EntityCollection.byID(typeof(Waypoint), "point2");
-            Entity pointX = EntityCollection.byID(typeof(Waypoint), "pointX");
+		[TestMethod]
+		public void EditorTest_EmptyTextID() {
+			Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(viewer, new PacketSingleEditor(point1));
 
-            Assert.IsNull(pointX);
+			setText("");
+			Assert.IsTrue(editor.btnClear.Enabled, "btnClear");
+			Assert.IsFalse(editor.btnActivate.Enabled, "btnActivate");
+			Assert.IsFalse(editor.btnUpdate.Enabled, "btnUpdate");
+			Assert.IsFalse(editor.btnDeactivate.Enabled, "btnDeactivate");
+		}
 
-            mainform.handle(tree, new PacketType(typeof(Person)));
-            mainform.handle(viewer, new PacketSingleEditor(point1));
+		[TestMethod]
+		public void EditorTest_TextColorID() {
+			Entity point1 = EntityCollection.byID(typeof(Waypoint), "point1");
+			Entity point2 = EntityCollection.byID(typeof(Waypoint), "point2");
+			Entity pointX = EntityCollection.byID(typeof(Waypoint), "pointX");
 
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
-            setText(point2.id);
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Red, "color of text from ID");
-            setText("pointX");
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
-            setText(point1.id);
-            Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
-        }
-    }
+			Assert.IsNull(pointX);
+
+			mainform.handle(tree, new PacketType(typeof(Person)));
+			mainform.handle(viewer, new PacketSingleEditor(point1));
+
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
+			setText(point2.id);
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Red, "color of text from ID");
+			setText("pointX");
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Black, "color of text from ID");
+			setText(point1.id);
+			Assert.IsTrue(editor.list[0].control.ForeColor == Color.Green, "color of text from ID");
+		}
+	}
 }
