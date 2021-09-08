@@ -45,7 +45,7 @@ namespace QuestMaker.UI {
 		}
 
 		public void historyForward(object sender, EventArgs e) {
-			packetHistory.forward();;
+			packetHistory.forward();
 		}
 
 		private void generateViewer(Packet packet) {
