@@ -22,12 +22,12 @@ namespace QuestMaker.UI.Forms.Controls {
 			this.parent = parent;
 
 			Button btnSave = new Button() {
-				Text = "Save",
+				Text = Translation.Save,
 				Location = new Point(10, 10),
 				Width = 50
 			};
 			Button btnCancel = new Button() {
-				Text = "Cancel",
+				Text = Translation.Cancel,
 				Location = new Point(60, 10),
 				Width = 50
 			};

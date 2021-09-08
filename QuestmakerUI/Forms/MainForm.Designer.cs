@@ -55,13 +55,13 @@
             );
             this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
             this.projectToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
-            this.projectToolStripMenuItem.Text = "Project";
+            this.projectToolStripMenuItem.Text = Translation.Project;
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
             this.updateToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.updateToolStripMenuItem.Text = "Export project to file";
+            this.updateToolStripMenuItem.Text =Translation.Export_project_to_file;
             this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
             // viewer
@@ -101,7 +101,7 @@
             // 
             this.generateProjectToolStripMenuItem.Name = "generateProjectToolStripMenuItem";
             this.generateProjectToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.generateProjectToolStripMenuItem.Text = "Write scripts";
+            this.generateProjectToolStripMenuItem.Text = Translation.Write_scripts;
             this.generateProjectToolStripMenuItem.Click += new System.EventHandler(this.generateProjectToolStripMenuItem_Click);
             // 
             // MainForm

@@ -8,6 +8,7 @@ namespace QuestMaker.UI {
 	public static class UserInterface {
 		[STAThread]
 		static void Main() {
+			Translation.Culture = new System.Globalization.CultureInfo("nl-BE");
 
 			Program.Main("default");
 

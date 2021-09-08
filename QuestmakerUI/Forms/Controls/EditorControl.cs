@@ -83,28 +83,28 @@ namespace QuestMaker.UI {
 			groupbox.Controls.Clear();
 
 			btnClear = new Button() {
-				Text = "Clear",
+				Text = Translation.Clear,
 				Location = new Point(X_OFFSET_START + 0, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = type
 			};
 
 			btnActivate = new Button() {
-				Text = "Activate",
+				Text = Translation.Activate,
 				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = type
 			};
 
 			btnDeactivate = new Button() {
-				Text = "Deactivate",
+				Text = Translation.Deactivate,
 				Location = new Point(X_OFFSET_START + 66, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = packet
 			};
 
 			btnUpdate = new Button() {
-				Text = "Update",
+				Text = Translation.Update,
 				Location = new Point(X_OFFSET_START + 132, Y_OFFSET_START + 0),
 				Width = 66,
 				Tag = packet
