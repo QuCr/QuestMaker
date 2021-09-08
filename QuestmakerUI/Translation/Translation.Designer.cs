@@ -79,6 +79,15 @@ namespace QuestMaker.UI {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All types.
+        /// </summary>
+        internal static string All_types {
+            get {
+                return ResourceManager.GetString("All types", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {

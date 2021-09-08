@@ -24,12 +24,12 @@ namespace QuestMaker.UI.Forms.Controls {
 			Button btnSave = new Button() {
 				Text = Translation.Save,
 				Location = new Point(10, 10),
-				Width = 50
+				Width = 100
 			};
 			Button btnCancel = new Button() {
 				Text = Translation.Cancel,
-				Location = new Point(60, 10),
-				Width = 50
+				Location = new Point(110, 10),
+				Width = 100
 			};
 			btnSave.Click += (_1, _2) => save();
 			btnCancel.Click += (_1, _2) => cancel();

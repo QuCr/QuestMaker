@@ -98,7 +98,7 @@ namespace QuestMaker.UI.Forms.Controls {
 					Controls.Add(control = button = new Button() {
 						Text = "Edit",
 						Location = new Point(75, 0),
-						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity((Entity)value), entity, field),
+						Tag = ( entity == null ) ? null : new PacketEdit(Packet.byEntity(field.FieldType, (Entity)value), entity, field),
 						Width = 35
 					});
 					Controls.Add(valueLabel = new Label() {

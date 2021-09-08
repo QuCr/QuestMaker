@@ -143,11 +143,14 @@
     <EmbeddedResource Include="Forms\Controls\ViewerControl.resx">
       <DependentUpon>ViewerControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Translation\Translation.nl-BE.resx" />
+    <EmbeddedResource Include="Translation\Translation.nl-BE.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Translation\Translation.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Translation.Designer.cs</LastGenOutput>
       <CustomToolNamespace>QuestMaker.UI</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="packages.config" />
